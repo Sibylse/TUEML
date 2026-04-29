@@ -781,7 +781,7 @@ X_{\cdot s} = \frac{1}{|\mathcal{C}_s|} \sum_{i \in \mathcal{C}_s} D_{i\cdot}^\t
 <section id="the-k-means-objective-as-mf">
 <h3>The k-means objective as MF<a class="headerlink" href="#the-k-means-objective-as-mf" title="Permalink to this headline">#</a></h3>
 <div class="proof theorem admonition" id="theorem-0">
-<p class="admonition-title"><span class="caption-number">Theorem 34 </span> (<span class="math notranslate nohighlight">\(k\)</span>-means MF objective)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 35 </span> (<span class="math notranslate nohighlight">\(k\)</span>-means MF objective)</p>
 <section class="theorem-content" id="proof-content">
 <p>The <span class="math notranslate nohighlight">\(k\)</span>- means objective in Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means">(68)</a> is equivalent to</p>
 <div class="amsmath math notranslate nohighlight">
@@ -824,7 +824,7 @@ X_{\cdot s} = \frac{1}{|\mathcal{C}_s|} \sum_{i \in \mathcal{C}_s} D_{i\cdot}^\t
 </div>
 </div>
 <div class="proof theorem admonition" id="theorem-1">
-<p class="admonition-title"><span class="caption-number">Theorem 35 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 36 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>The k-means objective is nonconvex.</p>
 </section>
@@ -896,7 +896,7 @@ kmeans.fit(M)
 <h2>Convergence Analysis<a class="headerlink" href="#convergence-analysis" title="Permalink to this headline">#</a></h2>
 <p>Ok, so <span class="math notranslate nohighlight">\(k\)</span>-means is an instance of the rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization problem. Can we also characterize the global minimizers of <span class="math notranslate nohighlight">\(k\)</span>-means like we did it for the rank-r matrix factorization problem with truncated SVD? Unfortunately not. However, we can characterize the global minimizers of the objective when we fix one of the factor matrices.</p>
 <div class="proof theorem admonition" id="theorem-3">
-<p class="admonition-title"><span class="caption-number">Theorem 36 </span> (Centroids as minimizers)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 37 </span> (Centroids as minimizers)</p>
 <section class="theorem-content" id="proof-content">
 <p>Given <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{1}^{n\times r}\)</span>, the minimizer of the optimization problem</p>
 <div class="amsmath math notranslate nohighlight" id="equation-6088dc30-728e-479a-aa51-3e82f733a935">
@@ -916,7 +916,7 @@ kmeans.fit(M)
 </div>
 </div>
 <div class="proof theorem admonition" id="theorem-4">
-<p class="admonition-title"><span class="caption-number">Theorem 37 </span> (Nearest centroid assignments as minimizers)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 38 </span> (Nearest centroid assignments as minimizers)</p>
 <section class="theorem-content" id="proof-content">
 <p>Given <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> and <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{d\times r}\)</span>, the minimizer of the optimization problem</p>
 <div class="amsmath math notranslate nohighlight" id="equation-2f0252d7-18b2-47db-afa9-4eeb9d67eddb">
@@ -955,7 +955,7 @@ kmeans.fit(M)
 \[RSS(X_0,Y_0)&gt;RSS(X_1,Y_1)&gt;RSS(X_2,Y_2)&gt;\ldots \geq 0 .\]</div>
 </p>
 <div class="proof theorem admonition" id="theorem-6">
-<p class="admonition-title"><span class="caption-number">Theorem 38 </span> (Equivalent <span class="math notranslate nohighlight">\(k\)</span>-means objectives)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 39 </span> (Equivalent <span class="math notranslate nohighlight">\(k\)</span>-means objectives)</p>
 <section class="theorem-content" id="proof-content">
 <p>The following objectives are equivalent</p>
 <div class="amsmath math notranslate nohighlight" id="equation-11347565-709b-43b6-afde-bdd930cd676d">

@@ -30594,7 +30594,7 @@ RMAEQRCEVCICJgiCIKQSETBBEAQhlYiACYIgCKnk/we3r9fYhGXiswAAAABJRU5ErkJggg==\
 <h2>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">#</a></h2>
 <p>We approach the optimization challenge of the PCA task as it is described: one principal component at a time.</p>
 <div class="proof theorem admonition" id="first_pca">
-<p class="admonition-title"><span class="caption-number">Theorem 30 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 31 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(C\in\mathbb{R}^{n\times d}\)</span> be a matrix, the solution of the objective</p>
 <div class="amsmath math notranslate nohighlight">
@@ -30618,9 +30618,9 @@ Since <span class="math notranslate nohighlight">\(V\)</span> is an orthogonal m
 <p>Since <span class="math notranslate nohighlight">\(\sigma_1\)</span> is the largest singular value, the objective above is maximized if <span class="math notranslate nohighlight">\(z_1=1\)</span> and all other coordinates being equal to zero, such that we satisfy the unit norm constraint. The solution vector <span class="math notranslate nohighlight">\(Z_{\cdot 1}\)</span> of the original problem is then given by <span class="math notranslate nohighlight">\(Z_{\cdot 1}=V_{\cdot 1}\)</span>, because <span class="math notranslate nohighlight">\(V^\top V_{\cdot 1}=(1,0,\ldots,0)\)</span>.</p>
 </div>
 </div>
-<p>According to <a class="reference internal" href="#pca_obj_prod">Lemma 10</a>, the first principal component is given by the objective stated in <a class="reference internal" href="#first_pca">Theorem 30</a>. As a result, the first principal component is given by the first right singular vector of the centered data matrix.</p>
+<p>According to <a class="reference internal" href="#pca_obj_prod">Lemma 10</a>, the first principal component is given by the objective stated in <a class="reference internal" href="#first_pca">Theorem 31</a>. As a result, the first principal component is given by the first right singular vector of the centered data matrix.</p>
 <div class="proof theorem admonition" id="other_pcs">
-<p class="admonition-title"><span class="caption-number">Theorem 31 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 32 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(C\in\mathbb{R}^{n\times d}\)</span> be a matrix with SVD <span class="math notranslate nohighlight">\(C=U\Sigma V^\top\)</span>. The solution of the objective</p>
 <div class="amsmath math notranslate nohighlight">
@@ -30631,7 +30631,7 @@ Since <span class="math notranslate nohighlight">\(V\)</span> is an orthogonal m
 </section>
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
-<p>Proof. We follow the same steps as in the proof of <a class="reference internal" href="#first_pca">Theorem 30</a> and define <span class="math notranslate nohighlight">\(\vvec{z}=V^\top Z_{\cdot s}\)</span>. Since we have <span class="math notranslate nohighlight">\(Z_{\cdot s}^\top V_{\cdot q}=0\)</span> for <span class="math notranslate nohighlight">\(1\leq q &lt; s\)</span>, the vector <span class="math notranslate nohighlight">\(\vvec{z}\)</span> has a specific structure:
+<p>Proof. We follow the same steps as in the proof of <a class="reference internal" href="#first_pca">Theorem 31</a> and define <span class="math notranslate nohighlight">\(\vvec{z}=V^\top Z_{\cdot s}\)</span>. Since we have <span class="math notranslate nohighlight">\(Z_{\cdot s}^\top V_{\cdot q}=0\)</span> for <span class="math notranslate nohighlight">\(1\leq q &lt; s\)</span>, the vector <span class="math notranslate nohighlight">\(\vvec{z}\)</span> has a specific structure:
 <div class="math notranslate nohighlight">
 \[\vvec{z}=V^\top Z_{\cdot s} = (\underbrace{0,\ldots,0}_{s-1},Z_{\cdot s}^\top V_{\cdot s},\ldots ,Z_{\cdot s}^\top V_{\cdot d} ). \]</div>
 
@@ -30672,7 +30672,7 @@ We rewrite the objective now using vector <span class="math notranslate nohighli
 <h3>PCA as Trace Optimization<a class="headerlink" href="#pca-as-trace-optimization" title="Permalink to this headline">#</a></h3>
 <p>If we are not so much interested in finding the exactly ordered principal components, but more in the overall subspace that spans the low-dimensional representation of the data, we can apply the trace objective.</p>
 <div class="proof theorem admonition" id="theorem-6">
-<p class="admonition-title"><span class="caption-number">Theorem 32 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 33 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>The matrix <span class="math notranslate nohighlight">\(Z\)</span> that solves the objective below spans the low-dimensional subspace that is also spanned by the first <span class="math notranslate nohighlight">\(r\)</span> principal components.</p>
 <div class="amsmath math notranslate nohighlight" id="equation-892686ac-596c-4eb8-a9d8-7fe356fab1a1">

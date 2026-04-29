@@ -327,7 +327,7 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="neuralnets_sgd.html">
-     SGD
+     Training
     </a>
    </li>
    <li class="toctree-l2">
@@ -336,8 +336,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="neuralnets_architecture.html">
-     Architecture
+    <a class="reference internal" href="neuralnets_pooling.html">
+     Pooling
     </a>
    </li>
   </ul>
@@ -355,11 +355,6 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="dim_reduction_mf.html">
      Low Rank Matrix Factorization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="dim_reduction_matrix_completion.html">
-     Matrix Completion
     </a>
    </li>
    <li class="toctree-l2">
@@ -699,7 +694,7 @@ title="Print to PDF"
 <span id="class-evaluation"></span><h2>Bias Variance Tradeoff<a class="headerlink" href="#bias-variance-tradeoff" title="Permalink to this headline">#</a></h2>
 <p>Similar to the Bias-Variance Tradeoff in Regression, we can formulate the bias-variance tradeoff for classification.</p>
 <div class="proof theorem admonition" id="theorem-0">
-<p class="admonition-title"><span class="caption-number">Theorem 25 </span> (bias-variance tradeoff for classification)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 26 </span> (bias-variance tradeoff for classification)</p>
 <section class="theorem-content" id="proof-content">
 <p>The EPE for any observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>, having the label <span class="math notranslate nohighlight">\(y\)</span> and prediction <span class="math notranslate nohighlight">\(\hat{y}_\mathcal{D}\)</span> (depending on the training data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>) and most frequent prediction <span class="math notranslate nohighlight">\(\mathrm{mode}(\hat{y}_\mathcal{D})\)</span> can be deconstructed into three parts:</p>
 <div class="amsmath math notranslate nohighlight">

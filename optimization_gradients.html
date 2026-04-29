@@ -583,12 +583,51 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivatives-for-real-valued-functions">
+   Derivatives for Real Valued Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivatives-for-vector-valued-functions-from-real-values">
+   Derivatives for Vector Valued Functions (from Real Values)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivatives-for-functions-mapping-from-a-vector-space-to-a-vector-space">
+   Derivatives for Functions Mapping from a Vector Space to a Vector Space
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-and-jacobian-computation-rules">
+   Gradient and Jacobian Computation Rules
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -600,6 +639,34 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivatives-for-real-valued-functions">
+   Derivatives for Real Valued Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivatives-for-vector-valued-functions-from-real-values">
+   Derivatives for Vector Valued Functions (from Real Values)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#derivatives-for-functions-mapping-from-a-vector-space-to-a-vector-space">
+   Derivatives for Functions Mapping from a Vector Space to a Vector Space
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-and-jacobian-computation-rules">
+   Gradient and Jacobian Computation Rules
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -631,6 +698,8 @@ title="Print to PDF"
 \[\nabla_\vvec{x} \vvec{f}(\vvec{x}) = \left(\frac{\partial \vvec{f}(\vvec{x})}{\partial\vvec{x}}\right)^\top\]</div>
 
 Be aware that the notation above is not used by all authors. Some authors define the Jacobian as we define the gradient here. To remember what is what, consider the gradient descent update rule, where we subtract the scaled gradient from the iterates. For functions mapping to real values (such as loss or objective functions), the gradient must have the same dimensionality as the function’s arguments; otherwise, subtraction would not be possible.</p>
+<section id="derivatives-for-real-valued-functions">
+<h2>Derivatives for Real Valued Functions<a class="headerlink" href="#derivatives-for-real-valued-functions" title="Permalink to this headline">#</a></h2>
 <p>From the definition of matrix derivatives, we can also infer the definition of a vector derivative for a function <span class="math notranslate nohighlight">\(f:\mathbb{R}^d\rightarrow \mathbb{R}\)</span>:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -643,7 +712,10 @@ Be aware that the notation above is not used by all authors. Some authors define
     \frac{\partial f(\vvec{x})}{\partial x_1} \\ \vdots \\ \frac{\partial f(\vvec{x})}{\partial x_d}
     \end{pmatrix}\in\mathbb{R}^{d} &amp;\text{(Gradient)}
 \end{align*}\]</div>
-<p>If we have a function that maps to a vector space, then we can compute the partial derivatives for each coordimate of the function value. For example, if we have a function mapping from real values to the <span class="math notranslate nohighlight">\(c\)</span>-dimensional real-valued vector space <div class="math notranslate nohighlight">
+</section>
+<section id="derivatives-for-vector-valued-functions-from-real-values">
+<h2>Derivatives for Vector Valued Functions (from Real Values)<a class="headerlink" href="#derivatives-for-vector-valued-functions-from-real-values" title="Permalink to this headline">#</a></h2>
+<p>If we have a function that maps to a vector space, then we can compute the partial derivatives for each coordinate of the function value. For example, if we have a function mapping from real values to the <span class="math notranslate nohighlight">\(c\)</span>-dimensional real-valued vector space <div class="math notranslate nohighlight">
 \[\begin{split}\vvec{f}:\mathbb{R}\rightarrow \mathbb{R}^{c},\ \vvec{f}(x)=\begin{pmatrix}f_1(x)\\\vdots\\f_c(x)\end{pmatrix},\end{split}\]</div>
  then the Jacobian and gradient are defined as</p>
 <div class="amsmath math notranslate nohighlight">
@@ -657,7 +729,11 @@ Be aware that the notation above is not used by all authors. Some authors define
     \frac{\partial f_1(x)}{\partial x} &amp; \ldots &amp; \frac{\partial f_c(x)}{\partial x}
     \end{pmatrix} \in\mathbb{R}^{1\times c} &amp;\text{(Gradient)}
 \end{align*}\]</div>
-<p>Note that the Jacobian preserves now the dimensionality of the output of the function: function vales are in <span class="math notranslate nohighlight">\(\mathbb{R}^c\)</span> and so is the Jacobian. Likewise, we can define the derivatives for a function <span class="math notranslate nohighlight">\(\vvec{f}:\mathbb{R}^d\rightarrow \mathbb{R}^{c}\)</span> from a vector space to a vector space:</p>
+<p>Note that the Jacobian preserves now the dimensionality of the output of the function: function vales are in <span class="math notranslate nohighlight">\(\mathbb{R}^c\)</span> and so is the Jacobian.</p>
+</section>
+<section id="derivatives-for-functions-mapping-from-a-vector-space-to-a-vector-space">
+<h2>Derivatives for Functions Mapping from a Vector Space to a Vector Space<a class="headerlink" href="#derivatives-for-functions-mapping-from-a-vector-space-to-a-vector-space" title="Permalink to this headline">#</a></h2>
+<p>We can define the derivatives for a function <span class="math notranslate nohighlight">\(\vvec{f}:\mathbb{R}^d\rightarrow \mathbb{R}^{c}\)</span> from a vector space to a vector space:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
     \frac{\partial \vvec{f}(\vvec{x})}{\partial \vvec{x}} &amp;=
@@ -675,6 +751,9 @@ Be aware that the notation above is not used by all authors. Some authors define
 \end{align*}\]</div>
 <p>Of course we could now consider more cases, like a function mapping a matrix to a matrix. Unfortunately, from this point on, it gets really complicated. There are multiple ways to define such derivatives - as tensors or as specifically structured matrices. We’re going to keep it comparatively simple and circumvent these cases in this course.<br />
 We can now concatenate these derivatives according to linearity and the chain rule for matrix derivatives.</p>
+</section>
+<section id="gradient-and-jacobian-computation-rules">
+<h2>Gradient and Jacobian Computation Rules<a class="headerlink" href="#gradient-and-jacobian-computation-rules" title="Permalink to this headline">#</a></h2>
 <div class="proof theorem admonition" id="theorem-0">
 <p class="admonition-title"><span class="caption-number">Theorem 10 </span> (The Jacobian is linear)</p>
 <section class="theorem-content" id="proof-content">
@@ -704,7 +783,19 @@ We can now concatenate these derivatives according to linearity and the chain ru
         &amp;= \underbrace{\frac{\partial \vvec{f}(\vvec{g}(\vvec{x}))}{\partial \vvec{g}(\vvec{x})}}_{p\times c}\underbrace{\frac{\partial \vvec{g}(\vvec{x})}{\partial \vvec{x}}}_{c\times d} 
     \end{align*}\]</div>
 </section>
-</div><div class="proof example admonition" id="example-2">
+</div><div class="proof theorem admonition" id="jacob_element_wise_func">
+<p class="admonition-title"><span class="caption-number">Theorem 12 </span> (Jacobian of Element-wise Functions)</p>
+<section class="theorem-content" id="proof-content">
+<p>The gradient and the Jacobian of any element-wise defined function
+<div class="math notranslate nohighlight">
+\[f(\vvec{x}) = (f(x_1),f(x_2),\ldots,f(x_d))\]</div>
+
+is the diagonal matrix
+<div class="math notranslate nohighlight">
+\[\nabla f(\vvec{x}) = \frac{\partial f(\vvec{x})}{\partial \vvec{x}}=\diag(f'(x_1),\ldots, f'(x_d)).\]</div>
+</p>
+</section>
+</div><div class="proof example admonition" id="example-3">
 <p class="admonition-title"><span class="caption-number">Example 9 </span></p>
 <section class="example-content" id="proof-content">
 <p>Consider the exponential function applied element-wise to a vector
@@ -717,6 +808,7 @@ The gradient of this function is the diagonal matrix
 </p>
 </section>
 </div></section>
+</section>
 
     <script type="text/x-thebe-config">
     {
