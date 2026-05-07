@@ -606,6 +606,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation-on-a-synthetic-dataset">
+   Evaluation on a Synthetic Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#evaluation-with-a-test-set-the-practice">
    Evaluation with a Test Set: the Practice
   </a>
@@ -652,6 +657,11 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluation-on-a-synthetic-dataset">
+   Evaluation on a Synthetic Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#evaluation-with-a-test-set-the-practice">
    Evaluation with a Test Set: the Practice
   </a>
@@ -691,7 +701,23 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="the-bias-variance-tradeoff">
 <h1>The Bias-Variance Tradeoff<a class="headerlink" href="#the-bias-variance-tradeoff" title="Permalink to this headline">#</a></h1>
 <p>In the previous subsection we have seen that the regression objective of minimizing the RSS has some reallly nice properties: we can determine the global optimum in an analytic way (by means of a formula). However, the initial goal of regression was to find the true feature-target relationship from the data. We want to find the <em>true</em> regression function. The question is now how we can evaluate our regression model towards our goal, when we don’t know what the true regression function is.</p>
-<p>Let us take a step back and create an example where we do know the true regression function. To do so, we generate  a synthetic dataset from the function <span class="math notranslate nohighlight">\(f^*(x) = \cos(1.5\pi x)\)</span> (which we define as our true regression function) and some noise. We plot first our true regression function:</p>
+<p>The regression task has some very well understood trade-off between bias and variance of a model. Bias and variance are here terms that are applied to a statistic estimator. To make these concepts more concrete, we have a look at a simple analogy.</p>
+<p>Imagine repeatedly throwing darts at a dartboard, where the center of the board represents the true regression function <span class="math notranslate nohighlight">\(f^*(x)\)</span>. Each throw corresponds to the prediction of a model <span class="math notranslate nohighlight">\(f_\mathcal{D}\)</span> trained on dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>.</p>
+<p>In this setting:</p>
+<ul class="simple">
+<li><p>the average location of the darts corresponds to the expected prediction <span class="math notranslate nohighlight">\(\mathbb{E}_\mathcal{D}[f_\mathcal{D}(x)]\)</span>,</p></li>
+<li><p>the distance of this average from the center represents the bias, and</p></li>
+<li><p>the spread of the darts around their average represents the variance.</p></li>
+</ul>
+<p>This analogy allows us to visualize the effects of a bias, showing up as a consistent offset from the center, whereas variance shows up as a high, random fluctuations around their average location.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="_images/regression_bias_var_1_0.png" src="_images/regression_bias_var_1_0.png" />
+</div>
+</div>
+<section id="evaluation-on-a-synthetic-dataset">
+<h2>Evaluation on a Synthetic Dataset<a class="headerlink" href="#evaluation-on-a-synthetic-dataset" title="Permalink to this headline">#</a></h2>
+<p>With this analogy in mind, we get started with the evaluation of the bias and variance of regression models by creating an example where we do know the true regression function. To do so, we generate  a synthetic dataset from the function <span class="math notranslate nohighlight">\(f^*(x) = \cos(1.5\pi x)\)</span> (which we define as our true regression function) and some noise. We plot first our true regression function:</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -705,7 +731,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_1_0.png" src="_images/regression_bias_var_1_0.png" />
+<img alt="_images/regression_bias_var_3_0.png" src="_images/regression_bias_var_3_0.png" />
 </div>
 </div>
 <p>To create the synthetic dataset, we sample some data points from the interval <span class="math notranslate nohighlight">\([0,1]\)</span> and add some noise on the target values <span class="math notranslate nohighlight">\(y= f^*(x)+\epsilon\)</span>. We sample the noise from a Gaussian normal distribution <span class="math notranslate nohighlight">\(\epsilon\sim\mathcal{N}(0,\sigma)\)</span>.</p>
@@ -724,7 +750,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_3_0.png" src="_images/regression_bias_var_3_0.png" />
+<img alt="_images/regression_bias_var_5_0.png" src="_images/regression_bias_var_5_0.png" />
 </div>
 </div>
 <p>Now we have a synthetic dataset, given by the data matrix <code class="docutils literal notranslate"><span class="pre">D</span></code> and target vector <code class="docutils literal notranslate"><span class="pre">y</span></code>. We fit to this dataset  polynomial functions of varying degrees <span class="math notranslate nohighlight">\(k\in\{1,4,16\}\)</span>:</p>
@@ -748,10 +774,11 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_5_0.png" src="_images/regression_bias_var_5_0.png" />
+<img alt="_images/regression_bias_var_7_0.png" src="_images/regression_bias_var_7_0.png" />
 </div>
 </div>
-<p>We can see that the found regression function is quite sensitive to the degree of the polynomial. Choosing <span class="math notranslate nohighlight">\(k=1\)</span> results in a too simple model, choosing <span class="math notranslate nohighlight">\(k=4\)</span> results in a regression function which is close to the true regression function and choosing <span class="math notranslate nohighlight">\(k=14\)</span> adapts very well to the data, but the difference to <span class="math notranslate nohighlight">\(f^*\)</span> is quite big, especcially in those areas where we have only few observations (<span class="math notranslate nohighlight">\(x\geq 0.6\)</span>). But how can we determine the correct degree <span class="math notranslate nohighlight">\(k\)</span> in practice, when we can’t compare with the true regression function?</p>
+<p>We can see that the found regression function is quite sensitive to the degree of the polynomial. Choosing <span class="math notranslate nohighlight">\(k=1\)</span> results in a too simple model, choosing <span class="math notranslate nohighlight">\(k=4\)</span> results in a regression function which is close to the true regression function and choosing <span class="math notranslate nohighlight">\(k=16\)</span> adapts very well to the data, but the difference to <span class="math notranslate nohighlight">\(f^*\)</span> is quite big, especially in those areas where we have only few observations (<span class="math notranslate nohighlight">\(x\geq 0.6\)</span>). But how can we determine the correct degree <span class="math notranslate nohighlight">\(k\)</span> in practice, when we can’t compare with the true regression function?</p>
+</section>
 <section id="evaluation-with-a-test-set-the-practice">
 <h2>Evaluation with a Test Set: the Practice<a class="headerlink" href="#evaluation-with-a-test-set-the-practice" title="Permalink to this headline">#</a></h2>
 <p>Since we don’t know the true regression function in practical applications, we resort to test the models ability to generalize.
@@ -761,6 +788,7 @@ The idea is that a model which is close to the true regression function, should 
 <div class="math notranslate nohighlight">
 \[ MSE(\bm{\beta}, \mathcal{T})= \frac{1}{\lvert \mathcal{T}\rvert}\sum_{(\vvec{x},y)\in\mathcal{T}}(y-\bm{\phi}(\vvec{x})^\top \bm{\beta})^2\]</div>
 </p>
+<p>We apply a split to our synthetic dataset and evaluate then the MSE on the test data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -775,6 +803,7 @@ The idea is that a model which is close to the true regression function, should 
 </div>
 </div>
 </div>
+<p>In the plot below, we show the training data in blue, the test data in orange and the learned regression functions in pink. The true regression function is again in blue. The title of each plot indicates the polynomial degree <span class="math notranslate nohighlight">\(k\)</span> and the MSE on the test set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mse</span><span class="p">(</span><span class="n">y_1</span><span class="p">,</span><span class="n">y_2</span><span class="p">):</span>
@@ -798,21 +827,21 @@ The idea is that a model which is close to the true regression function, should 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_9_0.png" src="_images/regression_bias_var_9_0.png" />
+<img alt="_images/regression_bias_var_12_0.png" src="_images/regression_bias_var_12_0.png" />
 </div>
 </div>
-<p>The example shows a case where the test MSE fails to identify the suitable model choice (<span class="math notranslate nohighlight">\(k=4\)</span>). The model with <span class="math notranslate nohighlight">\(k=16\)</span> obtains here the lowest MSE. Although this is not always the case (in fact, the MSE results are quite sensitive to the <code class="docutils literal notranslate"><span class="pre">random_state</span></code> of the train and test split), it may happen. The question is if there are maybe some theoretical insights into MSE, which help us estimate which components influence the test-MSE and how we can make the test-process more reliable.</p>
+<p>In the example above, the test MSE fails to identify the suitable model choice (<span class="math notranslate nohighlight">\(k=4\)</span>). The model with <span class="math notranslate nohighlight">\(k=16\)</span> obtains here the lowest MSE. Although this is not always the case (in fact, the MSE results are quite sensitive to the <code class="docutils literal notranslate"><span class="pre">random_state</span></code> of the train and test split), it may happen. This raises the question of how we can evaluate models in a more reliable and principled way. To address this, we view the construction of training and test datasets as a statistical process. This perspective allows us to reason about the expected performance of a model, rather than relying on a single split. In particular, it leads to a decomposition of the expected MSE into bias and variance, which helps us understand the fundamental sources of prediction error in practice.</p>
 </section>
 <section id="evaluation-with-a-test-set-the-theory">
 <h2>Evaluation with a Test Set: the Theory<a class="headerlink" href="#evaluation-with-a-test-set-the-theory" title="Permalink to this headline">#</a></h2>
 <p>In theory, the test-MSE results from the following process:</p>
 <ol class="simple">
-<li><p>sample the (finite) training data <span class="math notranslate nohighlight">\(\mathcal{D}_j\subset\mathbb{R}^{1\times d}\times \mathbb{R}\)</span></p></li>
+<li><p>sample the (finite) training data <span class="math notranslate nohighlight">\(\mathcal{D}_j\subset\mathbb{R}^{n_j\times d}\times \mathbb{R}\)</span></p></li>
 <li><p>learn a model <span class="math notranslate nohighlight">\(f_{\mathcal{D}_j}(\mathbf{x})=\bm{\phi}(\mathbf{x})^\top \bm{\beta}_j\)</span> based on the training data,</p></li>
-<li><p>sample a (finite) test set <span class="math notranslate nohighlight">\(\mathcal{T}_j\subset\mathbb{R}^{1\times d}\times \mathbb{R}\)</span></p></li>
+<li><p>sample a (finite) test set <span class="math notranslate nohighlight">\(\mathcal{T}_j\subset\mathbb{R}^{m_j\times d}\times \mathbb{R}\)</span></p></li>
 <li><p>compute <span class="math notranslate nohighlight">\(MSE_j\)</span></p></li>
 </ol>
-<p>If we repeat this sampling process <span class="math notranslate nohighlight">\(k\)</span> times, obtaining scores <span class="math notranslate nohighlight">\(MSE_1,\ldots,MSE_k\)</span>, we could approximate the <strong>Expected squared Prediction Error</strong> (EPE). The expected squared prediction error returns the squared error of a model <span class="math notranslate nohighlight">\(f(x)\)</span> and target <span class="math notranslate nohighlight">\(y\)</span>, where <span class="math notranslate nohighlight">\(f\)</span> is derived from training data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>.</p>
+<p>If we repeat this sampling process <span class="math notranslate nohighlight">\(t\)</span> times, obtaining scores <span class="math notranslate nohighlight">\(MSE_1,\ldots,MSE_t\)</span>, we could approximate the <strong>Expected squared Prediction Error</strong> (EPE). The expected squared prediction error returns the squared error of a model <span class="math notranslate nohighlight">\(f(x)\)</span> and target <span class="math notranslate nohighlight">\(y\)</span>, where <span class="math notranslate nohighlight">\(f\)</span> is derived from training data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>.</p>
 <div class="proof definition admonition" id="definition-0">
 <p class="admonition-title"><span class="caption-number">Definition 25 </span> (EPE)</p>
 <section class="definition-content" id="proof-content">
@@ -829,8 +858,11 @@ over three random variables:</p>
 </section>
 </div><p>We can approximate the EPE with our sample MSEs:</p>
 <div class="math notranslate nohighlight" id="equation-eq-mse-approx">
-<span class="eqno">(14)<a class="headerlink" href="#equation-eq-mse-approx" title="Permalink to this equation">#</a></span>\[\frac1k\sum_{j=1}^k MSE_j=\frac1k\sum_{j=1}^k\frac{1}{\lvert\mathcal{T}_j\rvert}\sum_{(\mathbf{x},y)\in\mathcal{T}_j}(y-f_j(\mathbf{x}))^2\approx\mathbb{E}_{\mathbf{x},y,\mathcal{D}}[(y-f_\mathcal{D}(\mathbf{x}))^2].\]</div>
-<p>The EPE is a theoretical construct. In practice, we have only on dataset. For the approximation of EPE, we would need multiple independently drawn datasets. Still, it makes sense to analyze the EPE to identify the characteristics that define theoretically guaranteed well performing models. We consider then how we can anlayze said properties in the real world.</p>
+<span class="eqno">(14)<a class="headerlink" href="#equation-eq-mse-approx" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{align*}
+\frac1k\sum_{j=1}^k MSE_j&amp;=\frac1k\sum_{j=1}^k\frac{1}{\lvert\mathcal{T}_j\rvert}\sum_{(\mathbf{x},y)\in\mathcal{T}_j}(y-f_j(\mathbf{x}))^2\\
+&amp;\approx\mathbb{E}_{\mathbf{x},y,\mathcal{D}}[(y-f_\mathcal{D}(\mathbf{x}))^2].
+\end{align*}\end{split}\]</div>
+<p>The EPE is a theoretical construct. In practice, we have only one dataset. For the approximation of EPE, we would need multiple independently drawn datasets. Still, it makes sense to analyze the EPE to identify the characteristics that define theoretically guaranteed well performing models. We consider then how we can analyze said properties in the real world.</p>
 <section id="regression-targets-as-random-variables">
 <h3>Regression Targets as Random Variables<a class="headerlink" href="#regression-targets-as-random-variables" title="Permalink to this headline">#</a></h3>
 <p>The target values <span class="math notranslate nohighlight">\(y\)</span> are not assumed to yield the true regression values per se. We can assume that the targets exhibit a natural amount of variance, reflecting random processes that influence the target. For example, target values such as the outside temperature fluctuate, even when it is measured every year at the same spot and the same time. Likewise, house prices are dependent on personal impressions on how much a house is worth, that can not reasonably be modeled in an observable feature space.</p>
@@ -872,7 +904,7 @@ The plot below indicates samples generated by the following procedure:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_11_0.png" src="_images/regression_bias_var_11_0.png" />
+<img alt="_images/regression_bias_var_14_0.png" src="_images/regression_bias_var_14_0.png" />
 </div>
 </div>
 <p>The plot on the left is generated with a low variance (<span class="math notranslate nohighlight">\(\sigma=0.1\)</span>) and the plot on the right is generated with a larger variance (<span class="math notranslate nohighlight">\(\sigma=0.4\)</span>). Correspondingly, the target values with a low variance are closer to the true regression function than those with a bigger variance. It seems as if the true regression function is more easy to observe from the data in the left plot. Does that mean that it’s easier to approximate the true regression function if the variance is low? Surprisingly, that is not the case, as we will observe via the bias-variance trade-off.</p>
@@ -880,14 +912,15 @@ The plot below indicates samples generated by the following procedure:</p>
 </section>
 <section id="id1">
 <h2>The Bias-Variance Tradeoff<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
-<p>The Bias-Variance Tradeoff describes the fit of a regression model to the true regression model by means of its bias and variance.
+<p>The Bias-Variance Tradeoff describes the fit of a regression model to the true regression model by means of its bias and variance. It decomposes the EPE
 <div class="math notranslate nohighlight">
 \[ \mathbb{E}_{\mathbf{x},y,\mathcal{D}}[(y-f_\mathcal{D}(\mathbf{x}))^2]=\mathbb{E}_\mathbf{x}[\mathbb{E}_{y,\mathcal{D}}[(y-f_\mathcal{D}(\mathbf{x}))^2\vert \mathbf{x}]]\]</div>
-</p>
+
+for a fixed observation <span class="math notranslate nohighlight">\(\mathbf{x}=\mathbf{x}_0\)</span>. Hence, the bias-variance tradeoff analyzes the EPE point-wise.</p>
 <div class="proof theorem admonition" id="theorem-2">
-<p class="admonition-title"><span class="caption-number">Theorem 15 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 15 </span> (Bias-Variance Tradeoff)</p>
 <section class="theorem-content" id="proof-content">
-<p>Assuming that <a class="reference internal" href="#prop:target_distr">Property 1</a> holds, the EPE for any observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> can be deconstructed into three parts:</p>
+<p>Given an observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>, whose target <span class="math notranslate nohighlight">\(y\)</span> is generated according to <a class="reference internal" href="#prop:target_distr">Property 1</a>. Further, let <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> denote the random variable that reflects the training set of regression model <span class="math notranslate nohighlight">\(f_{\mathcal{D}}\)</span>. Then, the EPE for observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> can be deconstructed into three parts:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
     \mathbb{E}_{y,\mathcal{D}}[(y-f_\mathcal{D}(\mathbf{x}_0))^2]  
@@ -912,7 +945,7 @@ The plot below indicates samples generated by the following procedure:</p>
 \mathbb{E}_{y,\mathcal{D}}[(y-f^*(x_0))^2] = \mathbb{E}_{y}[(y-f^*(x_0))^2] = \sigma^2.
 \end{align*}\]</div>
 <p>The first equality holds here because the term in the expectation doesn’t depend on <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>, and the last equality follows from <a class="reference internal" href="#prop:target_distr">Property 1</a>.
-The second term is equal to zero, since the random variable <span class="math notranslate nohighlight">\(y\)</span> is independently drawn, and hence we can apply the expected value on each product term, giving</p>
+The second term in Eq. <a class="reference internal" href="#equation-eq-bias-var1">(15)</a> is equal to zero, since the random variable <span class="math notranslate nohighlight">\(y\)</span>, reflecting the raget of observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> is independent from the training dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>, and hence we can apply the expected value on each product term, giving</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 2\mathbb{E}_{y,\mathcal{D}}[(y-f^*(x_0))(f^*(x_0)-f_\mathcal{D}(x_0))] = 2\mathbb{E}_{y}[(y-f^*(x_0))]\mathbb{E}_{\mathcal{D}}[(f^*(x_0)-f_\mathcal{D}(x_0))] = 0.
@@ -922,9 +955,9 @@ The second term is equal to zero, since the random variable <span class="math no
 \[\begin{align*}
 \mathbb{E}_{y,\mathcal{D}}&amp;[(f^*(x_0)-f_\mathcal{D}(x_0))^2] \\
 =&amp; \mathbb{E}_{\mathcal{D}}[(f^*(x_0)-\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)]+\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)]-f_\mathcal{D}(x_0))^2]\\
-=&amp; \mathbb{E}_{\mathcal{D}}[(f^*(x_0)-\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)])^2] +2\mathbb{E}_{\mathcal{D}}[(f_{\mathcal{D}}(x_0)-\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)])(\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)]-f_\mathcal{D}(x_0))] + \mathbb{E}_{\mathcal{D}}[(\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)]-f_\mathcal{D}(x_0))^2]
+=&amp; \mathbb{E}_{\mathcal{D}}[(f^*(x_0)-\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)])^2] +2\mathbb{E}_{\mathcal{D}}[(f^*(x_0)-\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)])(\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)]-f_\mathcal{D}(x_0))] + \mathbb{E}_{\mathcal{D}}[(\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)]-f_\mathcal{D}(x_0))^2]
 \end{align*}\]</div>
-<p>The term on the left is the squared bias, the outer expected value operator doesn’t do anything, because the argument is not dependent on a random variable anymore, and can be omitted. The rightmost term is the variance of the model. The middle term is again zero, because the left product term is a constant and can be multiplied outside of the expected value operator, yielding</p>
+<p>The term on the left is the squared bias. The outer expected value operator doesn’t do anything, because the argument is not dependent on a random variable anymore, and can be omitted. The rightmost term is the variance of the model. The middle term is again zero, because the left product term is a constant and can be multiplied outside of the expected value operator, yielding</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 2\mathbb{E}_{\mathcal{D}}&amp;[(f^*(x_0)-\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)])(\mathbb{E}_{\mathcal{D}}[f_{\mathcal{D}}(x_0)]-f_\mathcal{D}(x_0))]\\ 
@@ -957,7 +990,7 @@ The second term is equal to zero, since the random variable <span class="math no
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_14_0.png" src="_images/regression_bias_var_14_0.png" />
+<img alt="_images/regression_bias_var_17_0.png" src="_images/regression_bias_var_17_0.png" />
 </div>
 </div>
 <p>We observe that the functions on the left are too simple - affine functions can’t model the curvature of the true regression function. The affine functions show a low variance, they all go roughly from the top left to the bottom right. The functions in the middle (<span class="math notranslate nohighlight">\(k=4\)</span>) are all similar (low variance) and fit well to the true regression function (low bias). The functions on the right (<span class="math notranslate nohighlight">\(k=16\)</span>) follow the shape of the true regression function (low bias) but some of the lines differ a lot from the others (high variance). The bias of the higher degree models is not easy to see here, so we provide an additional visualization below. We recall that the bias represents the distance of the mean function value <span class="math notranslate nohighlight">\(\mathbb{E}_\mathcal{D}[f_\mathcal{D}(\mathbf{x}_0)]\)</span> and the true regression function. We illustrate the bias by plotting the mean of 500 regression models below in orange. Hence, the orange line approximates the mean function value <span class="math notranslate nohighlight">\(\mathbb{E}_\mathcal{D}[f_\mathcal{D}(\mathbf{x}_0)]\)</span>.</p>
@@ -987,7 +1020,7 @@ The second term is equal to zero, since the random variable <span class="math no
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_16_0.png" src="_images/regression_bias_var_16_0.png" />
+<img alt="_images/regression_bias_var_19_0.png" src="_images/regression_bias_var_19_0.png" />
 </div>
 </div>
 <p>We can see that the polynomials of a degree <span class="math notranslate nohighlight">\(k\geq 4\)</span> approximate the true regression function well <strong>in average</strong>. This indicates a small bias. For <span class="math notranslate nohighlight">\(k=16\)</span> we see stark differences to the true regression function at the ends of the interval <span class="math notranslate nohighlight">\([-0.1,1.1]\)</span> in which we sample our data points, but this effect will diminish if the number of trained models goes to infinity. Especially at the interval ends, data might be sparse and the model is unguided, resulting in graphs that diverge quickly from the data distribution. Only the underfitting model using <span class="math notranslate nohighlight">\(k=1\)</span> is not able to reflect the true regression curve. We observe the approximated bias as the distance between the orange and the blue curve for each value on the horizontal axis.</p>
@@ -1038,7 +1071,7 @@ train:[ 0  2  3  6  8  9 10 11 12 14 16 17 18 19]  	test:[ 1  4  5  7 13 15]
 </div>
 </div>
 </div>
-<p>Now, we compute the cross-validated MSE.</p>
+<p>Now, we compute the cross-validated MSE. The plots below show the split into training (blue) and test data (orange ) for each of the three folds. The fitted regression is plotted in pink. On the title you see the MSE for each of the folds, that are then averaged to compute the cross-validated MSE.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span><span class="o">=</span><span class="mi">1</span>
@@ -1064,10 +1097,10 @@ train:[ 0  2  3  6  8  9 10 11 12 14 16 17 18 19]  	test:[ 1  4  5  7 13 15]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/regression_bias_var_21_0.png" src="_images/regression_bias_var_21_0.png" />
+<img alt="_images/regression_bias_var_24_0.png" src="_images/regression_bias_var_24_0.png" />
 </div>
 </div>
-<p>The 3-fold CV-MSE is then given as the mean of the MSE values:</p>
+<p>We observe that the thrid fold has a split into train and test data which does not really show that the polynomial is overfitting. However, in average, the 3-fold CV-MSE is large, in particular due to the very high MSE of the second fold.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mse_array</span><span class="p">)</span>
