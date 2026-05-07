@@ -844,7 +844,7 @@ to do so, we have a look into the SVD of <span class="math notranslate nohighlig
 \[\begin{align*}
     X^\top X = V\Sigma^\top \underbrace{U^\top U}_{=I} \Sigma V^\top = V\Sigma^\top \Sigma V^\top.
 \end{align*}\]</div>
-<p>Given the singular value decomposition of <span class="math notranslate nohighlight">\(X\)</span>, we can try to solve Eq. <a class="reference internal" href="#equation-eq-minimizers">(9)</a> for <span class="math notranslate nohighlight">\(\bm\beta\)</span>:</p>
+<p>Given the singular value decomposition of <span class="math notranslate nohighlight">\(X\)</span>, we can try to solve Eq. <a class="reference internal" href="regression_linear.html#equation-eq-minimizers">()</a> for <span class="math notranslate nohighlight">\(\bm\beta\)</span>:</p>
 <div class="amsmath math notranslate nohighlight" id="equation-8a653034-d59b-4014-8e5e-45217a5aaec3">
 <span class="eqno">(10)<a class="headerlink" href="#equation-8a653034-d59b-4014-8e5e-45217a5aaec3" title="Permalink to this equation">#</a></span>\[\begin{align}
    X^\top X\bm{\beta} &amp;= X^\top \vvec{y} \quad 
@@ -856,7 +856,7 @@ to do so, we have a look into the SVD of <span class="math notranslate nohighlig
 <div class="proof observation admonition" id="observation-2">
 <p class="admonition-title"><span class="caption-number">Observation 1 </span> (Characterization of Regression solvers by SVD)</p>
 <section class="observation-content" id="proof-content">
-<p>The global minimizers <span class="math notranslate nohighlight">\(\bm{\beta}\)</span> to the <a class="reference internal" href="#regr-task"><span class="std std-ref">Linear Regression</span></a> task with design matrix <span class="math notranslate nohighlight">\(X\)</span>, having the SVD <span class="math notranslate nohighlight">\(X=U\Sigma V^\top\)</span>, are given by
+<p>The global minimizers <span class="math notranslate nohighlight">\(\bm{\beta}\)</span> to the <a class="reference internal" href="regression_linear.html#regr-task"><span class="std std-ref">Linear Regression</span></a> task with design matrix <span class="math notranslate nohighlight">\(X\)</span>, having the SVD <span class="math notranslate nohighlight">\(X=U\Sigma V^\top\)</span>, are given by
 <div class="math notranslate nohighlight">
 \[\{\bm{\beta}\in\mathbb{R}^p\mid \Sigma^\top\Sigma V^\top \bm{\beta}= \Sigma^\top U^\top\vvec{y} \}.\]</div>
 </p>
@@ -891,7 +891,7 @@ to do so, we have a look into the SVD of <span class="math notranslate nohighlig
 <div class="proof theorem admonition" id="theorem-4">
 <p class="admonition-title"><span class="caption-number">Theorem 14 </span> (Set of all regression solvers)</p>
 <section class="theorem-content" id="proof-content">
-<p>Let <span class="math notranslate nohighlight">\(X=U\Sigma V^\top\in\mathbb{R}^{n\times p}\)</span> be the SVD of the design matrix of the <a class="reference internal" href="#regr-task"><span class="std std-ref">Linear Regression</span></a> task. If only <span class="math notranslate nohighlight">\(r&lt;p\)</span> singular values of <span class="math notranslate nohighlight">\(X\)</span> are nonzero (<span class="math notranslate nohighlight">\(X\)</span> has a rank of <span class="math notranslate nohighlight">\(r\)</span>), then the set of global minimizers <span class="math notranslate nohighlight">\(\bm{\beta}\)</span> is given by
+<p>Let <span class="math notranslate nohighlight">\(X=U\Sigma V^\top\in\mathbb{R}^{n\times p}\)</span> be the SVD of the design matrix of the <a class="reference internal" href="regression_linear.html#regr-task"><span class="std std-ref">Linear Regression</span></a> task. If only <span class="math notranslate nohighlight">\(r&lt;p\)</span> singular values of <span class="math notranslate nohighlight">\(X\)</span> are nonzero (<span class="math notranslate nohighlight">\(X\)</span> has a rank of <span class="math notranslate nohighlight">\(r\)</span>), then the set of global minimizers <span class="math notranslate nohighlight">\(\bm{\beta}\)</span> is given by
 <div class="math notranslate nohighlight">
 \[\begin{split}\left\{\bm{\beta}= V\begin{pmatrix}\Sigma_r^{-1} U_r^\top\vvec{y}\\z\end{pmatrix}\mid z\in\mathbb{R}^{p-r} \right\}.\end{split}\]</div>
 

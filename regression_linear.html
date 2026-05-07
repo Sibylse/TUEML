@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Regression Objective &#8212; Data Mining and Machine Learning Jupyter Book</title>
+    <title>Linear Regression &#8212; Data Mining and Machine Learning Jupyter Book</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -56,7 +56,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Regression Functions" href="regression_functions.html" />
-    <link rel="prev" title="Regression" href="regression.html" />
+    <link rel="prev" title="Regression Objective" href="regression_objective.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -201,9 +201,14 @@ const thebe_selector_output = ".output, .cell_output"
    </i>
   </label>
   <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="regression_objective.html">
+     Regression Objective
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Regression Objective
+     Linear Regression
     </a>
    </li>
    <li class="toctree-l2">
@@ -501,7 +506,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://sibylse.github.io/TUEML/intro.html/issues/new?title=Issue%20on%20page%20%2Fregression_objective.html&body=Your%20issue%20content%20here."
+        <a href="https://sibylse.github.io/TUEML/intro.html/issues/new?title=Issue%20on%20page%20%2Fregression_linear.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -518,7 +523,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/TUEML/intro.html/edit/master/regression_objective.ipynb"
+        <a href="https://github.com/TUEML/intro.html/edit/master/regression_linear.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -546,7 +551,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/regression_objective.ipynb"
+        <a href="_sources/regression_linear.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -606,8 +611,13 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#abstract-formalization-of-the-regression-task">
-   Abstract Formalization of the Regression Task
+  <a class="reference internal nav-link" href="#convexity-of-the-rss">
+   Convexity of the RSS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#minimizers-of-the-rss">
+   Minimizers of the RSS
   </a>
  </li>
 </ul>
@@ -619,7 +629,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Regression Objective</h1>
+                <h1>Linear Regression</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -630,8 +640,13 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#abstract-formalization-of-the-regression-task">
-   Abstract Formalization of the Regression Task
+  <a class="reference internal nav-link" href="#convexity-of-the-rss">
+   Convexity of the RSS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#minimizers-of-the-rss">
+   Minimizers of the RSS
   </a>
  </li>
 </ul>
@@ -644,239 +659,89 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="regression-objective">
-<h1>Regression Objective<a class="headerlink" href="#regression-objective" title="Permalink to this headline">#</a></h1>
-<figure class="align-center" id="houses">
-<a class="reference internal image-reference" href="_images/houses.jpg"><img alt="_images/houses.jpg" src="_images/houses.jpg" style="height: 300px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Example for Regression: Prediction of House Prices</span><a class="headerlink" href="#houses" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>Regression is a fundamental task in data mining and machine learning that aims to predict a continuous target variable from input features. A typical applications is the prediction of prices, which we explore by means of the  California Housing Price Dataset. This dataset contains housing data from California districts in the 1990s and is commonly used to predict house prices based on features like median income, location, and average number of rooms. Our goal is to build a model that can accurately predict house prices based on these features. We can easily load this dataset using sklearn.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_california_housing</span>
-<span class="n">california</span> <span class="o">=</span> <span class="n">fetch_california_housing</span><span class="p">()</span>
-</pre></div>
+  <section class="tex2jax_ignore mathjax_ignore" id="linear-regression">
+<h1>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">#</a></h1>
+<p>In order to make the regression task For that reason, we need to define an objective function that is small if the model <span class="math notranslate nohighlight">\(f(\vvec{x})\)</span> is suitable. Since our goal is to approximate the target values, we can simly measure the distance of our prediction <span class="math notranslate nohighlight">\(f(\vvec{x})\)</span> and the target value <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<div class="figure" style="text-align: center"><p><img  src="_images/tikz-f8e2dfeda1c9373040248c745503458ec4568ad0.svg" alt="Figure made with TikZ" /></p>
+</div><p>The plot above shows a set of datapoints that are approximated by an affine model (blue). The distance to the target <span class="math notranslate nohighlight">\(y\)</span>, plotted on the vertical axis, is indicated by the red bars. The distance indicated by the red bars reflect the absolute values <span class="math notranslate nohighlight">\(\lvert y_i - f(\vvec{x}_i)\rvert\)</span>. However, the absolute value is not so easy to optimize, since it is non-differentiable at value zero. Instead, we can minimize the squared distances, which gives us a smooth objective function.</p>
+<p>The squared approximation error of a function <span class="math notranslate nohighlight">\(f\)</span> to the target values <span class="math notranslate nohighlight">\(y\)</span> can be compactly written as follows for a linear model <span class="math notranslate nohighlight">\(f(\vvec{x})=\bm\phi(\vvec{x})^\top\bm\beta\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    RSS(\bm{\beta}) &amp;= \sum_{i=1}^n(y_i-f(\vvec{x}_i))^2\\
+    &amp;= \sum_{i=1}^n(y_i-\bm{\phi}(\vvec{x}_i)^\top\bm{\beta})^2\\
+    &amp;= \sum_{i=1}^n(y_i-X_{i\cdot}\bm{\beta})^2\\
+    &amp;=\lVert \vvec{y}-X\bm{\beta}\rVert^2.
+\end{align*}\]</div>
+<p>The function <span class="math notranslate nohighlight">\(RSS(\bm{\beta})\)</span> is called the <strong>Residual Sum of Squares</strong>. We have defined above the matrix <span class="math notranslate nohighlight">\(X\)</span>, that gathers the transformed feature vectors <span class="math notranslate nohighlight">\(\bm{\phi}(\vvec{x}_i)^\top = X_{i\cdot}\)</span> over its rows.
+The matrix <span class="math notranslate nohighlight">\(X\)</span> is called the <strong>design matrix</strong>. Likewise, we can gather the target values in the vector <span class="math notranslate nohighlight">\(\vvec{y}\)</span>.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    X&amp;= 
+    \begin{pmatrix}
+    -- &amp; \bm{\phi}(\vvec{x}_1)^\top &amp;--\\
+    &amp;\vdots&amp;\\
+    --&amp; \bm{\phi}(\vvec{x}_n)^\top &amp;--
+    \end{pmatrix}
+    \in\mathbb{R}^{n\times p},&amp;
+    \vvec{y}&amp;=
+    \begin{pmatrix}
+    y_1\\ \vdots\\ y_n
+    \end{pmatrix}
+    \in\mathbb{R}^n
+\end{align*}\]</div>
+<p>We can now specify the linear regression task, using linear regression models and the squared Euclidean distance to measure the fit of the model.</p>
+<div class="tip admonition" id="regr-task">
+<p class="admonition-title">Task (Linear Regression with Basis Functions)</p>
+<p><strong>Given</strong> a dataset of <span class="math notranslate nohighlight">\(n\)</span> observations</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}\mathcal{D}=\left\{(\vvec{x}_i,y_i)\vert \vvec{x}_i\in\mathbb{R}^{d}, y_i\in\mathbb{R}, 1\leq i \leq n\right\}\end{equation*}\]</div>
+<p><strong>Choose</strong> a basis function <span class="math notranslate nohighlight">\(\bm\phi:\mathbb{R}^d\rightarrow \mathbb{R}^p\)</span>, and create the design matrix <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{n\times p}\)</span>, where <span class="math notranslate nohighlight">\(X_{i\cdot}=\bm\phi(\vvec{x}_i)^\top\)</span><br />
+<strong>Find</strong> the regression vector <span class="math notranslate nohighlight">\(\bm\beta\)</span>, solving the following objective</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    \min_{\bm\beta} \ RSS(\bm\beta) = \lVert \vvec{y}-X\bm\beta\rVert^2 &amp;\ 
+    \text{s.t. } \bm\beta\in\mathbb{R}^p.
+\end{align*}\]</div>
+<p><strong>Return</strong> the predictor function <span class="math notranslate nohighlight">\(f:\mathbb{R}^d\rightarrow\mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(f(\vvec{x})=\bm\phi(\vvec{x})^\top\bm\beta\)</span>.</p>
 </div>
+<section id="convexity-of-the-rss">
+<h2>Convexity of the RSS<a class="headerlink" href="#convexity-of-the-rss" title="Permalink to this headline">#</a></h2>
+<p>The RSS is a convex optimization objective as it is a composition of an affine function and a convex function (the squared <span class="math notranslate nohighlight">\(L_2\)</span>-norm), which is again convex.</p>
+<div class="proof theorem admonition" id="theorem-0">
+<p class="admonition-title"><span class="caption-number">Theorem 13 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>The function <span class="math notranslate nohighlight">\(RSS(\bm\beta)=\lVert \vvec{y}-X\bm{\beta}\rVert^2\)</span> is convex.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. The squared <span class="math notranslate nohighlight">\(L_2\)</span>-norm <span class="math notranslate nohighlight">\(\lVert\cdot\rVert^2\)</span> is a convex function.</p>
+<p>The composition of the affine function <span class="math notranslate nohighlight">\(g(\bm{\beta})=\vvec{y}-X\bm{\beta}\)</span> with the convex function <span class="math notranslate nohighlight">\(\Vert\cdot\rVert^2\)</span>, given by the <span class="math notranslate nohighlight">\(RSS(\bm{\beta})=\lVert g(\bm{\beta})\rVert^2\)</span> is then also convex.</p>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">california</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.. _california_housing_dataset:
-
-California Housing dataset
---------------------------
-
-**Data Set Characteristics:**
-
-    :Number of Instances: 20640
-
-    :Number of Attributes: 8 numeric, predictive attributes and the target
-
-    :Attribute Information:
-        - MedInc        median income in block group
-        - HouseAge      median house age in block group
-        - AveRooms      average number of rooms per household
-        - AveBedrms     average number of bedrooms per household
-        - Population    block group population
-        - AveOccup      average number of household members
-        - Latitude      block group latitude
-        - Longitude     block group longitude
-
-    :Missing Attribute Values: None
-
-This dataset was obtained from the StatLib repository.
-https://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html
-
-The target variable is the median house value for California districts,
-expressed in hundreds of thousands of dollars ($100,000).
-
-This dataset was derived from the 1990 U.S. census, using one row per census
-block group. A block group is the smallest geographical unit for which the U.S.
-Census Bureau publishes sample data (a block group typically has a population
-of 600 to 3,000 people).
-
-A household is a group of people residing within a home. Since the average
-number of rooms and bedrooms in this dataset are provided per household, these
-columns may take surprisingly large values for block groups with few households
-and many empty houses, such as vacation resorts.
-
-It can be downloaded/loaded using the
-:func:`sklearn.datasets.fetch_california_housing` function.
-
-.. topic:: References
-
-    - Pace, R. Kelley and Ronald Barry, Sparse Spatial Autoregressions,
-      Statistics and Probability Letters, 33 (1997) 291-297
-</pre></div>
-</div>
-</div>
-</div>
-<p>We load the dataset as the data matrix <span class="math notranslate nohighlight">\(D\)</span> and the target vector <span class="math notranslate nohighlight">\(\vvec{y}\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">california</span><span class="o">.</span><span class="n">data</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">california</span><span class="o">.</span><span class="n">target</span>
-<span class="n">n</span><span class="p">,</span><span class="n">d</span> <span class="o">=</span> <span class="n">D</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>A snapshot of this dataset is given below.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">D</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">california</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>MedInc</th>
-      <th>HouseAge</th>
-      <th>AveRooms</th>
-      <th>AveBedrms</th>
-      <th>Population</th>
-      <th>AveOccup</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>8.3252</td>
-      <td>41.0</td>
-      <td>6.984127</td>
-      <td>1.023810</td>
-      <td>322.0</td>
-      <td>2.555556</td>
-      <td>37.88</td>
-      <td>-122.23</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>8.3014</td>
-      <td>21.0</td>
-      <td>6.238137</td>
-      <td>0.971880</td>
-      <td>2401.0</td>
-      <td>2.109842</td>
-      <td>37.86</td>
-      <td>-122.22</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>7.2574</td>
-      <td>52.0</td>
-      <td>8.288136</td>
-      <td>1.073446</td>
-      <td>496.0</td>
-      <td>2.802260</td>
-      <td>37.85</td>
-      <td>-122.24</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>5.6431</td>
-      <td>52.0</td>
-      <td>5.817352</td>
-      <td>1.073059</td>
-      <td>558.0</td>
-      <td>2.547945</td>
-      <td>37.85</td>
-      <td>-122.25</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>3.8462</td>
-      <td>52.0</td>
-      <td>6.281853</td>
-      <td>1.081081</td>
-      <td>565.0</td>
-      <td>2.181467</td>
-      <td>37.85</td>
-      <td>-122.25</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<p>The target vector is continuous:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([4.526, 3.585, 3.521, ..., 0.923, 0.847, 0.894])
-</pre></div>
-</div>
-</div>
-</div>
-<p>The goal is to predict the <strong>target</strong> <span class="math notranslate nohighlight">\(y\)</span> given a <strong>feature vector</strong> <span class="math notranslate nohighlight">\(\vvec{x}\)</span> by means of a regression function
-<span class="math notranslate nohighlight">\(f(\vvec{x})\approx y\)</span>. In our example, the function should map from an eight dimensional vector space to the real values.</p>
-<p>We consider a subproblem first. How can we model the house price depending on the Median income feature? Below you see the plot of the first 500 data points using the feature MedInc and the target. What kind of function could describe this relationshhip?</p>
-<div class="cell tag_hide-input docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">k</span><span class="o">=</span><span class="mi">0</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="n">k</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">500</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">california</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&quot;House prices in $100k&quot;&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/regression_objective_13_0.png" src="_images/regression_objective_13_0.png" />
-</div>
-</div>
-<p>The data is scattered in a noisy cloud, but there is a visible trend. We are looking for a predictive function that captures the trend while ignoring the noise. We can formalize this idea in an informal manner.</p>
-<section id="abstract-formalization-of-the-regression-task">
-<h2>Abstract Formalization of the Regression Task<a class="headerlink" href="#abstract-formalization-of-the-regression-task" title="Permalink to this headline">#</a></h2>
-<p>We assume that there is some underlying function that relates the features to the price, but the observations are noisy. The underlying function is also called the <em>true</em> regression model function <span class="math notranslate nohighlight">\(f^*\)</span>, generating every observation <span class="math notranslate nohighlight">\((\vvec{x}_i,y_i)\)</span> in the data with a random variable <span class="math notranslate nohighlight">\(\epsilon_i\)</span> that models the noise:
+<p>As a corollary, the linear regression optimization objective</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    \min_{\bm{\beta}}&amp;\ RSS(\bm{\beta})&amp; \text{s.t. }\bm{\beta}\in\mathbb{R}^p
+\end{align*}\]</div>
+<p>is convex, since the feasible set is the vector space of <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>, which is convex.
+So, we have an unconstrained convex optimization problem with a smooth objective function. That means that all stationary points must be minimizers. Let’s try to find all stationary points.</p>
+</section>
+<section id="minimizers-of-the-rss">
+<h2>Minimizers of the RSS<a class="headerlink" href="#minimizers-of-the-rss" title="Permalink to this headline">#</a></h2>
+<p>We compute the stationary points by setting the gradient to zero. The gradient of the <span class="math notranslate nohighlight">\(RSS(\bm{\beta}) = \lVert \vvec{y}-X\bm{\beta}\rVert^2=f(\vvec{g}(\bm{\beta}))\)</span> is computed by the chain rule, as discussed in <a class="reference internal" href="optimization_exercises.html#opt-exercises-gradients"><span class="std std-ref">Computing the Gradients</span></a>.</p>
+<div class="math notranslate nohighlight" id="equation-eq-minimizers">
+<span class="eqno">(8)<a class="headerlink" href="#equation-eq-minimizers" title="Permalink to this equation">#</a></span>\[\begin{align*}
+\nabla_{\bm{\beta}} RSS(\bm{\beta})= -2X^\top(\vvec{y}-X\bm{\beta}) =0 
+\quad \Leftrightarrow \quad
+     X^\top X{\bm{\beta}} = X^\top \vvec{y}
+\end{align*}\]</div>
+<p>According to FONC and convexity of the optimization objective, the global minimizers of the regression problem are given by the set of regression parameter vectors satisfying the equation above
 <div class="math notranslate nohighlight">
-\[y_i=f^*(\vvec{x}_i)+\epsilon_i.\]</div>
-
-The task of regression is to approximate the underlying relationship from noisy observations.
-Since the true regression function is unknown, we cannot measure our error with respect to it directly. Instead, we must define our objective based only on the observed data.
-A natural requirement is that our predictive function should match the observed target values as closely as possible. At the same time, we restrict our search to a family of functions <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.
-The choice of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> determines whether we allow only simple relationships or also more complex ones.</p>
-<div class="tip admonition">
-<p class="admonition-title">Task (Regression)</p>
-<p><strong>Given</strong> a dataset consisting of <span class="math notranslate nohighlight">\(n\)</span> observations
-<div class="math notranslate nohighlight">
-\[\mathcal{D}=\left\{(\vvec{x}_i,y_i)\vert \vvec{x}_{i}\in\mathbb{R}^{d}, y_i\in\mathbb{R}, 1\leq i \leq n\right\}\]</div>
+\[\{\bm{\beta}\in\mathbb{R}^p\mid X^\top X\bm{\beta} =X^\top\vvec{y} \}.\]</div>
 </p>
-<p><strong>Find</strong> a regression function <span class="math notranslate nohighlight">\(f:\mathbb{R}^ d\rightarrow \mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(f\in\mathcal{F}\)</span> that captures the relationship between observations and target, yielding in particular  <span class="math notranslate nohighlight">\(f(\vvec{x}_i)\approx y_i\)</span> for all <span class="math notranslate nohighlight">\(1\leq i \leq n\)</span>.</p>
-</div>
+<p>If the matrix <span class="math notranslate nohighlight">\(X^\top X\)</span> is invertible, then there is only one minimizer. In this case we can solve the equation for <span class="math notranslate nohighlight">\(\bm{\beta}\)</span> by multiplying with <span class="math notranslate nohighlight">\((X^\top X)^{-1}\)</span>
+<div class="math notranslate nohighlight">
+\[\bm{\beta}= (X^\top X)^{-1}X^\top\vvec{y}.\]</div>
+</p>
+<p>However, there also might be <em>infinitely many</em> global minimizers of <span class="math notranslate nohighlight">\(RSS(\bm{\beta})\)</span>.</p>
 </section>
 </section>
 
@@ -907,11 +772,11 @@ The choice of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> 
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="regression.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="regression_objective.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Regression</p>
+            <p class="prev-next-title">Regression Objective</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="regression_functions.html" title="next page">
