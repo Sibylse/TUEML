@@ -610,6 +610,11 @@ title="Print to PDF"
    Abstract Formalization of the Regression Task
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-the-fit-of-a-function">
+   Measuring the Fit of a Function
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -632,6 +637,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#abstract-formalization-of-the-regression-task">
    Abstract Formalization of the Regression Task
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-the-fit-of-a-function">
+   Measuring the Fit of a Function
   </a>
  </li>
 </ul>
@@ -877,6 +887,18 @@ The choice of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> 
 </p>
 <p><strong>Find</strong> a regression function <span class="math notranslate nohighlight">\(f:\mathbb{R}^ d\rightarrow \mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(f\in\mathcal{F}\)</span> that captures the relationship between observations and target, yielding in particular  <span class="math notranslate nohighlight">\(f(\vvec{x}_i)\approx y_i\)</span> for all <span class="math notranslate nohighlight">\(1\leq i \leq n\)</span>.</p>
 </div>
+</section>
+<section id="measuring-the-fit-of-a-function">
+<h2>Measuring the Fit of a Function<a class="headerlink" href="#measuring-the-fit-of-a-function" title="Permalink to this headline">#</a></h2>
+<p>To make our abstract regression task concrete, we need to define the fit of a model to the data. That is, we need to define an objective function that is small if the model <span class="math notranslate nohighlight">\(f(\vvec{x})\)</span> is suitable. Since our goal is to approximate the target values, we can simly measure the distance of our prediction <span class="math notranslate nohighlight">\(f(\vvec{x})\)</span> and the target value <span class="math notranslate nohighlight">\(y\)</span>. The plot below indicates the distances of the predicted target (the line) to the actual data as red bars.</p>
+<div class="figure" style="text-align: center"><p><img  src="_images/tikz-f8e2dfeda1c9373040248c745503458ec4568ad0.svg" alt="Figure made with TikZ" /></p>
+</div><p>The distance indicated by the red bars reflect the absolute values <span class="math notranslate nohighlight">\(\lvert y_i - f(\vvec{x}_i)\rvert\)</span>. However, the absolute value is not so easy to optimize, since it is non-differentiable at value zero. Instead, we can minimize the squared distances, which gives us a smooth objective function. Additionally, using squared distances has another side effect that might be useful: large errors are penalized more strongly, which discourages functions to deviate significantly from the data.</p>
+<p>The squared approximation error of a function <span class="math notranslate nohighlight">\(f\)</span> to the target values <span class="math notranslate nohighlight">\(y\)</span> can be compactly written as follows for a regression function <span class="math notranslate nohighlight">\(f(\vvec{x})\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    RSS(\bm{\beta}) &amp;= \sum_{i=1}^n(y_i-f(\vvec{x}_i))^2
+\end{align*}\]</div>
+<p>The function <span class="math notranslate nohighlight">\(RSS(\bm{\beta})\)</span> is called the <strong>Residual Sum of Squares</strong>. As the name suggests, this objective function is a sum of squared values, and is therefore convex in the residuals <span class="math notranslate nohighlight">\(y_i-f(\vvec{x}_i)\)</span>. Now, it would be great if this objective function would also be convex in <span class="math notranslate nohighlight">\(f\)</span>, because then we have only one globally optimal model. As you might recall from the optimization lecture, this is the case if <span class="math notranslate nohighlight">\(f(x)\)</span> is an affine function, because convex functions composed with affine functions remain convex. Hence, we have in the next section a look at the functions that can be expressed as a linear (hence affine) function.</p>
 </section>
 </section>
 
