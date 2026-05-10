@@ -656,7 +656,8 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="lasso">
 <h1>Lasso<a class="headerlink" href="#lasso" title="Permalink to this headline">#</a></h1>
-<p>Lasso Regression is the name of the regression task employing an <span class="math notranslate nohighlight">\(L_1\)</span>-regularization term.</p>
+<p>Lasso Regression is the name of the regression task employing an <span class="math notranslate nohighlight">\(L_1\)</span>-regularization term. Among the <span class="math notranslate nohighlight">\(L_p\)</span> norms, the <span class="math notranslate nohighlight">\(L_1\)</span> norm is the closest convex alternative to <span class="math notranslate nohighlight">\(L_0\)</span>. In contrast to the <span class="math notranslate nohighlight">\(L_2\)</span> norm, which penalizes larger values more strongly due to its quadratic growth, the <span class="math notranslate nohighlight">\(L_1\)</span> norm grows linearly and thus resembles the counting behavior of <span class="math notranslate nohighlight">\(L_0\)</span> more closely.
+At the same time, the <span class="math notranslate nohighlight">\(L_1\)</span> norm is not as well-behaved from an optimization perspective as the squared <span class="math notranslate nohighlight">\(L_2\)</span> norm. While it is convex and continuous, it is not differentiable at zero, which makes optimization more involved than in the <span class="math notranslate nohighlight">\(L_2\)</span> case.</p>
 <div class="tip admonition">
 <p class="admonition-title">Task (Lasso Regression)</p>
 <p><strong>Given</strong> a dataset of <span class="math notranslate nohighlight">\(n\)</span> observations</p>
@@ -671,8 +672,8 @@ title="Print to PDF"
 <p><strong>Return</strong> the predictor function <span class="math notranslate nohighlight">\(f:\mathbb{R}^d\rightarrow\mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(f(\vvec{x})=\bm\phi(\vvec{x})^\top\bm\beta\)</span>.</p>
 </div>
 <p>The drawback of using a <span class="math notranslate nohighlight">\(L_1\)</span>-regularization term is that the resulting objective function in Eq. <a class="reference internal" href="#equation-eq-lasso-obj">(25)</a> is not differentiable if any value of <span class="math notranslate nohighlight">\(\beta\)</span> is zero. However, we can generalize from the concept of a gradient to a subgradient, and the subgradient of the <span class="math notranslate nohighlight">\(L_1\)</span>-norm is given as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7cbb7144-3f83-4731-9787-9d88f6add581">
-<span class="eqno">(26)<a class="headerlink" href="#equation-7cbb7144-3f83-4731-9787-9d88f6add581" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a3a4d73c-96db-49f5-81af-162fc1794950">
+<span class="eqno">(26)<a class="headerlink" href="#equation-a3a4d73c-96db-49f5-81af-162fc1794950" title="Permalink to this equation">#</a></span>\[\begin{align}
     \frac{\partial\lvert\bm\beta\rvert}{\partial \beta_k} \in 
     \begin{cases}
         \{1\},&amp; \text{if } \beta_k&gt;0\\
@@ -693,8 +694,8 @@ Minimizers of objective functions which have a subgradient satisfy <span class="
 \[\beta_k^* = \argmin_{\beta_k\in\mathbb{R}} \lVert\vvec{y}-X\bm\beta\rVert^2+\lambda\lvert\bm\beta\rvert\]</div>
 
 is given for <span class="math notranslate nohighlight">\(c_k =  X_{\cdot k}^\top \vvec{y}- \sum_{i\neq k}X_{\cdot k}^\top X_{\cdot i}\beta_i\)</span> by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e2bac911-8de8-4d1a-bbe9-d7eed8ec5c1d">
-<span class="eqno">(27)<a class="headerlink" href="#equation-e2bac911-8de8-4d1a-bbe9-d7eed8ec5c1d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-24bc74d0-5d15-4d18-9738-4a38b8028dde">
+<span class="eqno">(27)<a class="headerlink" href="#equation-24bc74d0-5d15-4d18-9738-4a38b8028dde" title="Permalink to this equation">#</a></span>\[\begin{align}
 \beta_k^*&amp;= \begin{cases}
 \frac{1}{\lVert X_{\cdot k}\rVert^2}(c_k -\frac \lambda 2) &amp; \text{if } c_k&gt;\frac \lambda 2\\
 \frac{1}{\lVert X_{\cdot k}\rVert^2}(c_k +\frac \lambda 2) &amp; \text{if } c_k&lt;-\frac \lambda 2\\
@@ -794,16 +795,19 @@ If <span class="math notranslate nohighlight">\(\beta_k&lt;0\)</span>, then the 
 </div>
 </div>
 </div>
-<p>We implement the Lasso method for a given design matrix <span class="math notranslate nohighlight">\(X\)</span>, target vector <span class="math notranslate nohighlight">\(\vvec{y}\)</span>, regularization weight <span class="math notranslate nohighlight">\(\lambda\)</span> and a fixed number of coordinate descent steps <span class="math notranslate nohighlight">\(t_{max}\)</span>.</p>
+<p>We implement the Lasso method for a given design matrix <span class="math notranslate nohighlight">\(X\)</span>, target vector <span class="math notranslate nohighlight">\(\vvec{y}\)</span>, regularization weight <span class="math notranslate nohighlight">\(\lambda\)</span> and a fixed number of coordinate descent steps <span class="math notranslate nohighlight">\(t_{max}\)</span>. As discussed in the context of Ridge Regression, we also do not apply the penalization for the intercept in the Lasso optimization scheme.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">β_lasso</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">λ</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">β_lasso</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">λ</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">intercept_id</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="n">p</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">β</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">t_max</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
             <span class="n">c_k</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">@</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">X</span><span class="nd">@β</span> <span class="o">+</span><span class="n">X</span><span class="p">[:,</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">β</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
-            <span class="n">β</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">c_k</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">c_k</span><span class="p">)</span><span class="o">-</span><span class="n">λ</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">k</span><span class="o">==</span> <span class="n">intercept_id</span><span class="p">:</span>
+                <span class="n">β</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_k</span>
+            <span class="k">else</span><span class="p">:</span> 
+                <span class="n">β</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">c_k</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">c_k</span><span class="p">)</span><span class="o">-</span><span class="n">λ</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">β</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">β</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="n">k</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
     <span class="k">return</span> <span class="n">β</span>
 </pre></div>
@@ -815,17 +819,14 @@ If <span class="math notranslate nohighlight">\(\beta_k&lt;0\)</span>, then the 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="k">def</span> <span class="nf">ϕ</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">row_stack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">))</span> <span class="c1">#exclude the bias term from the design matrix</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">row_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">X</span><span class="o">=</span><span class="n">ϕ</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-
-<span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="n">y_centered</span> <span class="o">=</span> <span class="n">y</span><span class="o">-</span> <span class="n">b</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">λ</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]:</span>
-    <span class="n">β</span> <span class="o">=</span> <span class="n">β_lasso</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_centered</span><span class="p">,</span> <span class="n">λ</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">3000</span><span class="p">)</span>
-    <span class="n">f_x</span> <span class="o">=</span> <span class="n">ϕ</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@β</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">β_lasso</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">λ</span><span class="p">,</span> <span class="n">t_max</span><span class="o">=</span><span class="mi">3000</span><span class="p">)</span>
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">ϕ</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@β</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f_x</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;f_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">λ</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
@@ -846,22 +847,22 @@ If <span class="math notranslate nohighlight">\(\beta_k&lt;0\)</span>, then the 
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">λ</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]:</span>
-    <span class="n">β</span> <span class="o">=</span> <span class="n">β_lasso</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_centered</span><span class="p">,</span> <span class="n">λ</span><span class="p">)</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">β_lasso</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">λ</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">λ</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">β</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.001 	 [-0.5892  0.8054 -0.1479]
-1 	 [-0.      0.4504 -0.1002]
-10 	 [ 0.      0.0334 -0.014 ]
-100 	 [ 0.     -0.     -0.0044]
-1000 	 [-0. -0. -0.]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.001 	 [-2.4148  7.3947 -2.1491  0.1694]
+1 	 [ 2.7887  0.0825  0.5133 -0.1116]
+10 	 [ 4.0311  0.      0.     -0.0137]
+100 	 [ 3.7627  0.     -0.     -0.0084]
+1000 	 [ 3.3333 -0.     -0.     -0.    ]
 </pre></div>
 </div>
 </div>
 </div>
-<p>Already for <span class="math notranslate nohighlight">\(\lambda=1\)</span> the first feature of the design matrix is deemed irrelevant for the Lasso regression task. For <span class="math notranslate nohighlight">\(\lambda=100\)</span> only one of the three features (the bias term is here excluded) are still used and for <span class="math notranslate nohighlight">\(\lambda=1000\)</span> we obtain a constant regression function.</p>
+<p>Already for <span class="math notranslate nohighlight">\(\lambda=1\)</span> the first feature of the design matrix is deemed irrelevant for the Lasso regression task. For <span class="math notranslate nohighlight">\(\lambda=100\)</span> only one of the three features and the intercept are still used and for <span class="math notranslate nohighlight">\(\lambda=1000\)</span> we obtain a constant regression function.</p>
 </section>
 </section>
 

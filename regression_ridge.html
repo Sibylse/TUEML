@@ -621,8 +621,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#why-we-shouldn-t-penalize-the-bias-term">
-   Why we shouldn’t penalize the bias term
+  <a class="reference internal nav-link" href="#why-we-shouldn-t-penalize-the-intercept">
+   Why we shouldn’t penalize the intercept
   </a>
  </li>
 </ul>
@@ -660,8 +660,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#why-we-shouldn-t-penalize-the-bias-term">
-   Why we shouldn’t penalize the bias term
+  <a class="reference internal nav-link" href="#why-we-shouldn-t-penalize-the-intercept">
+   Why we shouldn’t penalize the intercept
   </a>
  </li>
 </ul>
@@ -684,8 +684,8 @@ title="Print to PDF"
 \[\begin{equation*}\mathcal{D}=\left\{(\vvec{x}_i,y_i)\vert \vvec{x}_i\in\mathbb{R}^{d}, y_i\in\mathbb{R}, 1\leq i \leq n\right\},\end{equation*}\]</div>
 <p>the design matrix <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{n\times p}\)</span>, where <span class="math notranslate nohighlight">\(X_{i\cdot}=\bm\phi(\vvec{x}_i)^\top\)</span> and a regularization weight <span class="math notranslate nohighlight">\(\lambda&gt;0\)</span>.<br />
 <strong>Find</strong> the regression vector <span class="math notranslate nohighlight">\(\bm\beta\)</span>, solving the following objective</p>
-<div class="amsmath math notranslate nohighlight" id="equation-89dd6678-c036-4dcb-bfc5-fac4cec9c441">
-<span class="eqno">(22)<a class="headerlink" href="#equation-89dd6678-c036-4dcb-bfc5-fac4cec9c441" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f408d15a-13cd-4836-81d8-a609606f8603">
+<span class="eqno">(22)<a class="headerlink" href="#equation-f408d15a-13cd-4836-81d8-a609606f8603" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_{\bm\beta\in\mathbb{R}^p} RSS_{L_2}(\bm{\beta})&amp;= \lVert \vvec{y}-X\bm\beta\rVert^2 +\lambda \lVert\bm{\beta}\rVert^2. 
 \end{align}\]</div>
 <p><strong>Return</strong> the predictor function <span class="math notranslate nohighlight">\(f:\mathbb{R}^d\rightarrow\mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(f(\vvec{x})=\bm\phi(\vvec{x})^\top\bm\beta\)</span></p>
@@ -710,8 +710,8 @@ title="Print to PDF"
 </section>
 </div><div class="proof admonition" id="proof">
 <p>Proof. Let <span class="math notranslate nohighlight">\(X=U\Sigma V^\top\)</span> be the singular value decomposition of <span class="math notranslate nohighlight">\(X\)</span>, then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c24f5bf4-264c-4160-a963-1da5301688c9">
-<span class="eqno">(24)<a class="headerlink" href="#equation-c24f5bf4-264c-4160-a963-1da5301688c9" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7972d35d-aec4-4a02-89c4-66f575f8add0">
+<span class="eqno">(24)<a class="headerlink" href="#equation-7972d35d-aec4-4a02-89c4-66f575f8add0" title="Permalink to this equation">#</a></span>\[\begin{align}
     X^\top X+\lambda I 
     &amp;= V(\Sigma^\top\Sigma +\lambda I )V^\top
 \end{align}\]</div>
@@ -886,26 +886,35 @@ For <span class="math notranslate nohighlight">\(\lambda\rightarrow 0\)</span>, 
 </div>
 <p>We see that the functions become with increasing penalization weight more “flat”. This is of course what we would have expected. With increasing penalization weight <span class="math notranslate nohighlight">\(\lambda\)</span>, the minimization of the norm <span class="math notranslate nohighlight">\(\lVert\beta\rVert^2\)</span> becomes more important than the fit to the data expressed by the <span class="math notranslate nohighlight">\(RSS\)</span>. But is this plot really showing you what you expected in terms of a simple function fitting to the data? After all, the idea of Ridge Regression is to regularize the learned function by putting a dampener on the coefficients of the basis functions. That is, we wanted to make the regression function more simple while still having a good fit to the data. But the regression function with high penalization weight <span class="math notranslate nohighlight">\(\lambda=100\)</span> is not fitting the data very well and neither does it look simple (it is curving to weirdly, basically inversely to the curvature of the data points).</p>
 </section>
-<section id="why-we-shouldn-t-penalize-the-bias-term">
-<h2>Why we shouldn’t penalize the bias term<a class="headerlink" href="#why-we-shouldn-t-penalize-the-bias-term" title="Permalink to this headline">#</a></h2>
-<p>The example shows (and it should be clear from the objective) that we obtain for a very high value of <span class="math notranslate nohighlight">\(\lambda\)</span> in the ridge regression objective a ridge regression vector <span class="math notranslate nohighlight">\(\beta_{L_2}\)</span> close to zero. That means that the resulting regression function <span class="math notranslate nohighlight">\(f(x)=\phi(x)^\top \beta\)</span> approximates the constant zero function when <span class="math notranslate nohighlight">\(\lambda\rightarrow \infty\)</span>. However, whether we have an affine basis function <span class="math notranslate nohighlight">\(f(\mathbf{x})=\beta_d x_d+\ldots \beta_1 x_1 + \beta_0\)</span> or polynomial ones <span class="math notranslate nohighlight">\(f(x)=\beta_2x^2+ \beta_2 x + \beta_0\)</span>, it doesn’t make much sense to penalize nonzero values of the bias term <span class="math notranslate nohighlight">\(\beta_0\)</span>. That is because the centering of the target vector can then make a big difference in the outcome of the found regression term. Let us consider the previous example, but now we center <span class="math notranslate nohighlight">\(y\)</span>.</p>
-<p>That is, we use now a polynomial regression function <span class="math notranslate nohighlight">\(f(x)=\beta_2x^2 + \beta_1 x + b\)</span>, where <span class="math notranslate nohighlight">\(b\)</span> is the mean target value of <span class="math notranslate nohighlight">\(y\)</span>. We fit the regression function on the centered target values and then translate the regression function such that it approximates the original targets.</p>
+<section id="why-we-shouldn-t-penalize-the-intercept">
+<h2>Why we shouldn’t penalize the intercept<a class="headerlink" href="#why-we-shouldn-t-penalize-the-intercept" title="Permalink to this headline">#</a></h2>
+<p>The example shows (and it should be clear from the objective) that we obtain for a very high value of <span class="math notranslate nohighlight">\(\lambda\)</span> in the ridge regression objective a ridge regression vector <span class="math notranslate nohighlight">\(\beta_{L_2}\)</span> close to zero. That means that the resulting regression function <span class="math notranslate nohighlight">\(f(x)=\phi(x)^\top \beta\)</span> approximates the constant zero function when <span class="math notranslate nohighlight">\(\lambda\rightarrow \infty\)</span>. However, whether we have an affine basis function <span class="math notranslate nohighlight">\(f(\mathbf{x})=\beta_d x_d+\ldots \beta_1 x_1 + \beta_0\)</span> or polynomial ones <span class="math notranslate nohighlight">\(f(x)=\beta_2x^2+ \beta_2 x + \beta_0\)</span>, it doesn’t make much sense to penalize nonzero values of the intercept <span class="math notranslate nohighlight">\(\beta_0\)</span>. If we penalize the intercept, then the mean of the target vector can significantly influence the resulting model. That is because a target mean that is far away from zero requires typically a higher value of the intercept to fit the regression function well to the targets. This is not desirable.</p>
+<p>To avoid this issue, we typically exclude the intercept from regularization. In practice, this can be achieved by modifying the penalty term so that it only applies to the coefficients corresponding to the features, for example by using a diagonal matrix with a zero in the first entry (if zero is the index of the intercept):
+<div class="math notranslate nohighlight">
+\[
+\lVert \beta_{2,\ldots, p}\rVert^2 = \beta^\top \operatorname{diag}(0,1,\ldots,1) \beta.
+\]</div>
+
+The ridge solution vector <span class="math notranslate nohighlight">\(\beta_{L_2}\)</span>, where the intercept is not penalized is then given as
+<div class="math notranslate nohighlight">
+\[\bm\beta_{L_2} = (X^\top X+\lambda \operatorname{diag}(0,1,\ldots,1))^{-1}X^\top \vvec{y}.\]</div>
+</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="k">def</span> <span class="nf">ϕ</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">row_stack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="p">))</span> <span class="c1">#we exclude the bias term from the design matrix</span>
-<span class="n">X</span><span class="o">=</span><span class="n">ϕ</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
-<span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="n">y_centered</span> <span class="o">=</span> <span class="n">y</span><span class="o">-</span> <span class="n">b</span>
+<span class="k">def</span> <span class="nf">β_ridge_intercept</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">λ</span><span class="p">,</span> <span class="n">intercept_id</span><span class="p">):</span>
+    <span class="n">p</span><span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">I</span><span class="p">[</span><span class="n">intercept_id</span><span class="p">,</span><span class="n">intercept_id</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="nd">@X</span> <span class="o">+</span> <span class="n">λ</span><span class="o">*</span><span class="n">I</span><span class="p">)</span><span class="nd">@X</span><span class="o">.</span><span class="n">T</span><span class="nd">@y</span>
 
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">λ</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]:</span>
-    <span class="n">β</span> <span class="o">=</span> <span class="n">β_ridge</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_centered</span><span class="p">,</span> <span class="n">λ</span><span class="p">)</span>
-    <span class="n">f_x</span> <span class="o">=</span> <span class="n">ϕ</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@β</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">β_ridge_intercept</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">λ</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">ϕ</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@β</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f_x</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;f_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">λ</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
@@ -927,17 +936,17 @@ We indicate the ridge regression parameters in numbers for varying regularizatio
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">λ</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]:</span>
-    <span class="n">β</span> <span class="o">=</span> <span class="n">β_ridge</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_centered</span><span class="p">,</span> <span class="n">λ</span><span class="p">)</span>
+    <span class="n">β</span> <span class="o">=</span> <span class="n">β_ridge_intercept</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">λ</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">λ</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">β</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.001 	 [-1.411  1.295 -0.213]
-1 	 [-0.074  0.499 -0.107]
-10 	 [ 0.101  0.243 -0.062]
-100 	 [ 0.027  0.052 -0.019]
-1000 	 [ 0.003  0.005 -0.008]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.001 	 [ 2.24   0.258  0.644 -0.141]
+1 	 [ 2.504  0.22   0.55  -0.122]
+10 	 [ 3.386  0.095  0.237 -0.061]
+100 	 [ 3.953  0.014  0.033 -0.021]
+1000 	 [ 3.978e+00  1.000e-03  2.000e-03 -1.300e-02]
 </pre></div>
 </div>
 </div>
