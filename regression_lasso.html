@@ -672,8 +672,8 @@ At the same time, the <span class="math notranslate nohighlight">\(L_1\)</span> 
 <p><strong>Return</strong> the predictor function <span class="math notranslate nohighlight">\(f:\mathbb{R}^d\rightarrow\mathbb{R}\)</span>, <span class="math notranslate nohighlight">\(f(\vvec{x})=\bm\phi(\vvec{x})^\top\bm\beta\)</span>.</p>
 </div>
 <p>The drawback of using a <span class="math notranslate nohighlight">\(L_1\)</span>-regularization term is that the resulting objective function in Eq. <a class="reference internal" href="#equation-eq-lasso-obj">(25)</a> is not differentiable if any value of <span class="math notranslate nohighlight">\(\beta\)</span> is zero. However, we can generalize from the concept of a gradient to a subgradient, and the subgradient of the <span class="math notranslate nohighlight">\(L_1\)</span>-norm is given as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a3a4d73c-96db-49f5-81af-162fc1794950">
-<span class="eqno">(26)<a class="headerlink" href="#equation-a3a4d73c-96db-49f5-81af-162fc1794950" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e0fd6f98-0d1c-4845-9b12-a465b3edf184">
+<span class="eqno">(26)<a class="headerlink" href="#equation-e0fd6f98-0d1c-4845-9b12-a465b3edf184" title="Permalink to this equation">#</a></span>\[\begin{align}
     \frac{\partial\lvert\bm\beta\rvert}{\partial \beta_k} \in 
     \begin{cases}
         \{1\},&amp; \text{if } \beta_k&gt;0\\
@@ -694,8 +694,8 @@ Minimizers of objective functions which have a subgradient satisfy <span class="
 \[\beta_k^* = \argmin_{\beta_k\in\mathbb{R}} \lVert\vvec{y}-X\bm\beta\rVert^2+\lambda\lvert\bm\beta\rvert\]</div>
 
 is given for <span class="math notranslate nohighlight">\(c_k =  X_{\cdot k}^\top \vvec{y}- \sum_{i\neq k}X_{\cdot k}^\top X_{\cdot i}\beta_i\)</span> by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-24bc74d0-5d15-4d18-9738-4a38b8028dde">
-<span class="eqno">(27)<a class="headerlink" href="#equation-24bc74d0-5d15-4d18-9738-4a38b8028dde" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c79e3b7a-8ef5-43a4-93d9-2bca55751654">
+<span class="eqno">(27)<a class="headerlink" href="#equation-c79e3b7a-8ef5-43a4-93d9-2bca55751654" title="Permalink to this equation">#</a></span>\[\begin{align}
 \beta_k^*&amp;= \begin{cases}
 \frac{1}{\lVert X_{\cdot k}\rVert^2}(c_k -\frac \lambda 2) &amp; \text{if } c_k&gt;\frac \lambda 2\\
 \frac{1}{\lVert X_{\cdot k}\rVert^2}(c_k +\frac \lambda 2) &amp; \text{if } c_k&lt;-\frac \lambda 2\\
@@ -747,7 +747,7 @@ We follow the same steps as above. If <span class="math notranslate nohighlight"
 \end{align*}\]</div>
 <p>As a result, <span class="math notranslate nohighlight">\(\beta_k = \frac{1}{\lVert X_{\cdot k}\rVert^2}\left(c_k + \frac \lambda 2\right)\)</span> if <span class="math notranslate nohighlight">\(c_k&lt;-\frac \lambda 2\)</span>.<br />
 <em>case 3: <span class="math notranslate nohighlight">\(\beta_k=0\)</span></em><br />
-If <span class="math notranslate nohighlight">\(\beta_k&lt;0\)</span>, then the partial derivative is in the interval <span class="math notranslate nohighlight">\(\frac{\partial\lvert\beta\rvert}{\partial \beta_k}\in [-1,1]\)</span>. Let’s say we have a parameter <span class="math notranslate nohighlight">\(\alpha\in[-1,1]\)</span>, then</p>
+If <span class="math notranslate nohighlight">\(\beta_k=0\)</span>, then the partial derivative is in the interval <span class="math notranslate nohighlight">\(\frac{\partial\lvert\beta\rvert}{\partial \beta_k}\in [-1,1]\)</span>. Let’s say we have a parameter <span class="math notranslate nohighlight">\(\alpha\in[-1,1]\)</span>, then</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 0&amp;=\beta_k = \frac{1}{\lVert X_{\cdot k}\rVert^2}\left(c_k - \frac \lambda 2\cdot \alpha\right)\\
@@ -853,8 +853,8 @@ If <span class="math notranslate nohighlight">\(\beta_k&lt;0\)</span>, then the 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.001 	 [-2.4148  7.3947 -2.1491  0.1694]
-1 	 [ 2.7887  0.0825  0.5133 -0.1116]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.001 	 [ 0.0619  3.5971 -0.6631  0.0042]
+1 	 [ 2.5952  0.3791  0.3972 -0.0987]
 10 	 [ 4.0311  0.      0.     -0.0137]
 100 	 [ 3.7627  0.     -0.     -0.0084]
 1000 	 [ 3.3333 -0.     -0.     -0.    ]
