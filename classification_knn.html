@@ -611,19 +611,24 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#implementation-practice">
-     Implementation Practice
+    <a class="reference internal nav-link" href="#choosing-a-distance-function">
+     Choosing a Distance Function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choosing-kappa">
+     Choosing
+     <span class="math notranslate nohighlight">
+      \(\kappa\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computing-the-nearest-neighbors">
+     Computing the Nearest Neighbors
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#choosing-kappa">
-   Choosing
-   <span class="math notranslate nohighlight">
-    \(\kappa\)
-   </span>
-  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bayes-consistency">
@@ -655,19 +660,24 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#implementation-practice">
-     Implementation Practice
+    <a class="reference internal nav-link" href="#choosing-a-distance-function">
+     Choosing a Distance Function
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choosing-kappa">
+     Choosing
+     <span class="math notranslate nohighlight">
+      \(\kappa\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computing-the-nearest-neighbors">
+     Computing the Nearest Neighbors
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#choosing-kappa">
-   Choosing
-   <span class="math notranslate nohighlight">
-    \(\kappa\)
-   </span>
-  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bayes-consistency">
@@ -684,7 +694,7 @@ title="Print to PDF"
                 
               <div>
                 
-  <section id="k-nearest-neighbor">
+  <section class="tex2jax_ignore mathjax_ignore" id="k-nearest-neighbor">
 <h1>K-Nearest Neighbor<a class="headerlink" href="#k-nearest-neighbor" title="Permalink to this headline">#</a></h1>
 <p>The k-Nearest Neighbors (<span class="math notranslate nohighlight">\(\kappa\)</span>NN) classifier is probably the most simple classifier. Yet, it is a good baseline, since it is easy to understand, it can be analyzed in tems of Bayes-optimality and it performs also quite well. The <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier makes predictions based on the majority class among the nearest training examples. It is non-parametric and instance-based, meaning that it does not use a parametrized function class from which the classifier is determined by learning the parameters. Instead, it directly computes the prediction from the training data.</p>
 <section id="inference">
@@ -692,7 +702,8 @@ title="Print to PDF"
 <p>Given a (training) dataset <span class="math notranslate nohighlight">\(\mathcal{D}=\{(\vvec{x}_1,y_1),\ldots, (\vvec{x}_n,y_n)\}\)</span> and a distance metric <span class="math notranslate nohighlight">\(dist(\vvec{x}_i,\vvec{x}_j)\in\mathbb{R}_+\)</span> returning the nonnegative distance between two vectors <span class="math notranslate nohighlight">\(\vvec{x}_i,\vvec{x}_j\in\mathbb{R}^d\)</span>. We define the function <span class="math notranslate nohighlight">\(\kappa NN(\vvec{x})=\{i_1,\ldots, i_k\}\)</span> returning the indices of the <span class="math notranslate nohighlight">\(\kappa\)</span> closest neighbors of <span class="math notranslate nohighlight">\(\vvec{x}\)</span> in <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>. That is, we have
 <div class="math notranslate nohighlight">
 \[dist(x,x_{i_j})\leq dist(x,x_i) \text{ for all } i \notin \kappa NN(\vvec{x}).\]</div>
-</p>
+
+The kNN classifier uses the training data to predict for a given data point the class that occurs the most frequently among the <span class="math notranslate nohighlight">\(\kappa\)</span> nearest neighbors.</p>
 <div class="proof definition admonition" id="definition-0">
 <p class="admonition-title"><span class="caption-number">Definition 30 </span> (kNN classifier)</p>
 <section class="definition-content" id="proof-content">
@@ -708,7 +719,16 @@ f_{knn}(\vvec{x})_l = \frac{1}{\kappa} \lvert\{i\in \kappa NN(x)\mid y_i=l\}\rve
 &amp;= \argmax_l \lvert\{i\in \kappa NN(x)\mid y_i=l\}\rvert 
 \end{align*}\]</div>
 </section>
-</div><p>As a distance function we can use basically anything. Standard norm-induced distances are possible for continuous features
+</div><p>The principle of the kNN classifier is very simple. Below you see an illustration about the prediction process. The classifier relies on storing the whole dataset, depicted in the image top left. If a new data point comes in (top right), the <span class="math notranslate nohighlight">\(\kappa\)</span>-nearest neighbors are computed (bottom left). The prediction follows then a simple majority vote of the neighbors (bottom right).</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="_images/classification_knn_1_0.png" src="_images/classification_knn_1_0.png" />
+</div>
+</div>
+<p>The performance of <span class="math notranslate nohighlight">\(\kappa\)</span>NN relies on the choice of the distance function and the number of neighbors <span class="math notranslate nohighlight">\(\kappa\)</span>. In addition, the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier can be computationally very inefficient for big datasets, if it’s implemented in a naive way. Hence, we discuss what we need to consider when appling <span class="math notranslate nohighlight">\(\kappa\)</span>NN in practice.</p>
+<section id="choosing-a-distance-function">
+<h3>Choosing a Distance Function<a class="headerlink" href="#choosing-a-distance-function" title="Permalink to this headline">#</a></h3>
+<p>As a distance function we can use basically anything. Standard norm-induced distances are possible for continuous features
 <div class="math notranslate nohighlight">
 \[dist(\vvec{x}_i,\vvec{x}_j)=\lVert \vvec{x}_i - \vvec{x}_j\rVert,\]</div>
 
@@ -717,17 +737,11 @@ but we can also integrate distance functions for discrete features, such as the 
 \[\begin{split}dist(x_i,x_j) = \begin{cases}1 &amp; \text{ if }x_i\neq x_j\\0 &amp; \text{ otherwise}\end{cases}\end{split}\]</div>
 </p>
 <p>However, combining the distance functions over various kinds of features can be tricky and vastly influence the performance, as some distances may be weighted disproportionally to others.</p>
-<section id="implementation-practice">
-<h3>Implementation Practice<a class="headerlink" href="#implementation-practice" title="Permalink to this headline">#</a></h3>
-<p>Computing a prediction of the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier requires in principle the computation of distances to all datapoints, hence one prediction costs <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span>. This is quite costly and for bigger training datasets this quickly becomes too expensive. However, there are some common strategies that are applied in machine learning when we need to access local neighborhoods in an efficient manner. Two popular approaches to do so are kd-trees and locality-sensitive hashing.</p>
-<p>A k-dimensional tree (kd-tree) partitions the feature space recursively, allowing for faster nearest-neighbor queries in low-dimensional spaces (<span class="math notranslate nohighlight">\(d&lt;20\)</span>). The search complexity is approximately <span class="math notranslate nohighlight">\(\mathcal{O}(\log ⁡n)\)</span> in the average case.</p>
-<p>Locality-Sensitive Hashing (LSH) maps similar points to the same hash buckets. The proximity between points is reflected by their physical storage places. To find the nearest neighbors of a data point, we compute the hash key of this data point and access neighbors by looking into the hash buckets close to the hash bucket of the data point.</p>
-</section>
 </section>
 <section id="choosing-kappa">
-<h2>Choosing <span class="math notranslate nohighlight">\(\kappa\)</span><a class="headerlink" href="#choosing-kappa" title="Permalink to this headline">#</a></h2>
+<h3>Choosing <span class="math notranslate nohighlight">\(\kappa\)</span><a class="headerlink" href="#choosing-kappa" title="Permalink to this headline">#</a></h3>
 <p>The <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier has one hyperparameter: the number of neighbors <span class="math notranslate nohighlight">\(\kappa\)</span>. If <span class="math notranslate nohighlight">\(\kappa\)</span> is very small, then the classifier tends to overfit and is sensitive to noise or outliers in the data. If <span class="math notranslate nohighlight">\(\kappa\)</span> is too large, then the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier tends to underfit.</p>
-<p>The plot below shows the decision boundary of the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier for three values of <span class="math notranslate nohighlight">\(k\)</span> on the two moons synthetic dataset. The points reflect the training data set. For <span class="math notranslate nohighlight">\(\kappa=1\)</span> we observe that the decision boundary is very fractured. We can imagine that a this decision boundary is very dependent on the data and hence the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier with <span class="math notranslate nohighlight">\(\kappa=1\)</span> has a high variance. The second value <span class="math notranslate nohighlight">\(\kappa=10\)</span> is suitable to reflect the decision boundary of the two moons. It generalizes, since we observe that some of the red training data points in the area of the blue class do not influence the decision boundary. For <span class="math notranslate nohighlight">\(\kappa=50\)</span> the model underfits. The shape of the two moons is not reflected by the decision boundary and the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier resembles a linear classifier.</p>
+<p>The plot below shows the decision boundary of the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier for three values of <span class="math notranslate nohighlight">\(\kappa\)</span> on the two moons synthetic dataset. The points reflect the training data set. For <span class="math notranslate nohighlight">\(\kappa=1\)</span> we observe that the decision boundary is very fractured. We can imagine that a this decision boundary is very dependent on the data and hence the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier with <span class="math notranslate nohighlight">\(\kappa=1\)</span> has a high variance. The second value <span class="math notranslate nohighlight">\(\kappa=10\)</span> is suitable to reflect the decision boundary of the two moons. It generalizes, since we observe that some of the red training data points in the area of the blue class do not influence the decision boundary. For <span class="math notranslate nohighlight">\(\kappa=50\)</span> the model underfits. The shape of the two moons is not reflected by the decision boundary and the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier resembles a linear classifier.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -770,7 +784,7 @@ but we can also integrate distance functions for discrete features, such as the 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/classification_knn_1_0.png" src="_images/classification_knn_1_0.png" />
+<img alt="_images/classification_knn_3_0.png" src="_images/classification_knn_3_0.png" />
 </div>
 </div>
 <p>In practice, we can determine <span class="math notranslate nohighlight">\(\kappa\)</span> by cross-validation or by means of the validation set.</p>
@@ -779,13 +793,20 @@ but we can also integrate distance functions for discrete features, such as the 
 <p>For binary classification, it is important to employ an odd number of <span class="math notranslate nohighlight">\( \kappa \)</span> nearest neighbors to prevent a voting tie between the two classes.</p>
 </div>
 </section>
+<section id="computing-the-nearest-neighbors">
+<h3>Computing the Nearest Neighbors<a class="headerlink" href="#computing-the-nearest-neighbors" title="Permalink to this headline">#</a></h3>
+<p>Computing a prediction of the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier requires in principle the computation of distances to all datapoints, hence one prediction costs <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span>. This is quite costly and for bigger training datasets this quickly becomes too expensive. However, there are some common strategies that are applied in machine learning when we need to access local neighborhoods in an efficient manner. Two popular approaches to do so are kd-trees and locality-sensitive hashing.</p>
+<p>A k-dimensional tree (kd-tree) partitions the feature space recursively, allowing for faster nearest-neighbor queries in low-dimensional spaces (<span class="math notranslate nohighlight">\(d&lt;20\)</span>). The search complexity is approximately <span class="math notranslate nohighlight">\(\mathcal{O}(\log ⁡n)\)</span> in the average case.</p>
+<p>Locality-Sensitive Hashing (LSH) maps similar points to the same hash buckets. The proximity between points is reflected by their physical storage places. To find the nearest neighbors of a data point, we compute the hash key of this data point and access neighbors by looking into the hash buckets close to the hash bucket of the data point.</p>
+</section>
+</section>
 <section id="bayes-consistency">
 <h2>Bayes consistency<a class="headerlink" href="#bayes-consistency" title="Permalink to this headline">#</a></h2>
 <p>Although the <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier is very simple, it is theoretically sound in the sense that we can show that it converges to the Bayes-optimal classifier in theory.</p>
 <div class="proof theorem admonition" id="theorem-1">
 <p class="admonition-title"><span class="caption-number">Theorem 18 </span></p>
 <section class="theorem-content" id="proof-content">
-<p>The kNN classifier converges to the Bayes classifier for <span class="math notranslate nohighlight">\(n\rightarrow \infty\)</span> when choosing <span class="math notranslate nohighlight">\(\kappa\)</span> such that</p>
+<p>The <span class="math notranslate nohighlight">\(\kappa\)</span>NN classifier converges to the Bayes classifier for <span class="math notranslate nohighlight">\(n\rightarrow \infty\)</span> when choosing <span class="math notranslate nohighlight">\(\kappa\)</span> such that</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\kappa\rightarrow \infty\)</span> and</p></li>
 <li><p><span class="math notranslate nohighlight">\(\frac{\kappa}{n}\rightarrow 0\)</span>.</p></li>

@@ -753,9 +753,9 @@ We define the MAP estimator by
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.64232277, 0.88440461],
-       [0.64988677, 0.56686284],
-       [0.21225523, 0.01046098]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.70595375, 0.03304551],
+       [0.55835323, 0.31938245],
+       [0.20113325, 0.83756416]])
 </pre></div>
 </div>
 </div>
@@ -768,9 +768,9 @@ We define the MAP estimator by
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.68564948, 0.17992533],
-       [0.88078922, 0.9280058 ],
-       [0.2625701 , 0.473823  ]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.54646682, 0.22017842],
+       [0.0494042 , 0.40116801],
+       [0.79848477, 0.95003651]])
 </pre></div>
 </div>
 </div>
@@ -782,9 +782,9 @@ We define the MAP estimator by
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.44040827, 0.1591268 ],
-       [0.57241326, 0.52605201],
-       [0.05573188, 0.00495665]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.38578031, 0.00727591],
+       [0.02758499, 0.12812602],
+       [0.16060184, 0.79571653]])
 </pre></div>
 </div>
 </div>
@@ -796,9 +796,9 @@ We define the MAP estimator by
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[3.4282474 , 0.89962667],
-       [4.40394612, 4.64002902],
-       [1.31285048, 2.369115  ]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[2.73233412, 1.10089211],
+       [0.247021  , 2.00584005],
+       [3.99242384, 4.75018257]])
 </pre></div>
 </div>
 </div>
@@ -810,9 +810,9 @@ We define the MAP estimator by
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.59953507, 1.38648359, 0.587706  ],
-       [0.54758751, 1.09846527, 0.43923348],
-       [0.14741488, 0.19665997, 0.06068853]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.39305621, 0.04813388, 0.59508776],
+       [0.37544264, 0.15571102, 0.74926154],
+       [0.2943262 , 0.34594077, 0.95631837]])
 </pre></div>
 </div>
 </div>
@@ -948,6 +948,81 @@ p(y\mid X,\beta)=\prod_{i=1}^n p(y_i\mid x_i,\beta)
 <li><p>A, B</p></li>
 <li><p>C</p></li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="o">*</span><span class="p">(</span><span class="n">X</span><span class="o">&gt;</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="o">!=</span><span class="mi">0</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="mf">0.0001</span>
+<span class="p">(</span><span class="n">X</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">freq</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.95669609, -0.95669609, -0.44603712, -0.22301856, -0.73367753])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">X</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ True,  True,  True],
+       [ True,  True,  True],
+       [False,  True,  True],
+       [False, False,  True],
+       [ True,  True, False]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.85479511, 0.62390597, 0.44216939],
+       [0.85319148, 0.2140276 , 0.25351847],
+       [0.        , 0.97364734, 0.47750146],
+       [0.        , 0.        , 0.96549912],
+       [0.93114009, 0.98116362, 0.        ]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/homebrew/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py:1416: FutureWarning: The default value of `n_init` will change from 10 to &#39;auto&#39; in 1.4. Set the value of `n_init` explicitly to suppress the warning
+  super()._check_params_vs_input(X, default_n_init=10)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.        , 0.97364734, 0.47750146],
+       [0.        , 0.        , 0.96549912],
+       [0.87970889, 0.60636573, 0.23189595]])
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
