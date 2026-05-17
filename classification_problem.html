@@ -623,8 +623,8 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#classifier-definition">
-   Classifier definition
+  <a class="reference internal nav-link" href="#classifier-goal">
+   Classifier Goal
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -674,8 +674,8 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#classifier-definition">
-   Classifier definition
+  <a class="reference internal nav-link" href="#classifier-goal">
+   Classifier Goal
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -816,32 +816,57 @@ Name: target, dtype: float64
 <p>While the Iris dataset only contains continuous numerical features, many real-world classification problems involve discrete or categorical features, which introduce their own set of challenges.
 In many datasets, features can be discrete — meaning they take on a finite set of values, such as:</p>
 <ul class="simple">
-<li><p>Categorical/Nominal: e.g., “color” = red, green, blue”</p></li>
-<li><p>Ordinal: e.g., “education level” = high school &lt; college &lt; graduate”</p></li>
-<li><p>Binary: e.g., “has_credit_card” = yes/no”</p></li>
+<li><p>Categorical/Nominal: e.g., <code class="docutils literal notranslate"><span class="pre">color</span></code> <span class="math notranslate nohighlight">\(\in\{\)</span> red, green, blue <span class="math notranslate nohighlight">\(\}\)</span></p></li>
+<li><p>Ordinal: e.g., <code class="docutils literal notranslate"><span class="pre">education_level</span></code> <span class="math notranslate nohighlight">\(\in\{\)</span> high school, college, graduate <span class="math notranslate nohighlight">\(\}\)</span></p></li>
+<li><p>Binary: e.g., <code class="docutils literal notranslate"><span class="pre">has_credit_card</span></code> <span class="math notranslate nohighlight">\(\in\{\)</span> yes, no<span class="math notranslate nohighlight">\(\}\)</span></p></li>
 </ul>
 <p>Categorical and binary data has no meaningful <span class="math notranslate nohighlight">\(\leq\)</span> operation and this requires special treatment. For example, simple statistics such as computing the mean and variance don’t have a meaning for categorical data. Not all classifiers can handle all feature types, hence it’s important to match the classifier to the feature types in the data.</p>
 </section>
 </section>
-<section id="classifier-definition">
-<h2>Classifier definition<a class="headerlink" href="#classifier-definition" title="Permalink to this headline">#</a></h2>
-<div class="tip admonition">
-<p class="admonition-title">Task (Classification)</p>
+<section id="classifier-goal">
+<h2>Classifier Goal<a class="headerlink" href="#classifier-goal" title="Permalink to this headline">#</a></h2>
+<div class="seealso admonition">
+<p class="admonition-title">Goal (Classification)</p>
 <p><strong>Given</strong> a dataset consisting of <span class="math notranslate nohighlight">\(n\)</span> observations <span class="math notranslate nohighlight">\(\vvec{x}_i\)</span> and their corresponding labels <span class="math notranslate nohighlight">\(y_i\)</span> indicating one of <span class="math notranslate nohighlight">\(c\)</span> classes
 <div class="math notranslate nohighlight">
 \[\mathcal{D}=\left\{(\vvec{x}_{i},y_i)\vert \vvec{x}_{i}\in\mathbb{R}^{d},y_i\in\{1,\ldots, c\}, 1\leq i \leq n\right\}\]</div>
 </p>
-<p><strong>Find</strong> a classifier <span class="math notranslate nohighlight">\(f:\mathbb{R}^ d\rightarrow \mathbb{R}^c\)</span>, that captures the relationship between observations and their class. The classifier predicts the label with the maximum value:<br />
+<p><strong>Find</strong> a classifier <span class="math notranslate nohighlight">\(\hat{y}:\mathbb{R}^ d\rightarrow \{1,\ldots,c\}\)</span>, that reliably predicts the class of a new observation
 <div class="math notranslate nohighlight">
-\[\hat{y}_i = \argmax_{l\in\{1,\ldots,c\}}f(\vvec{x}_{i})_l.\]</div>
-
-The goal is to find a classifier that predicts the correct labels <span class="math notranslate nohighlight">\(\hat{y}_i = y_i\)</span>.</p>
+\[\hat{y}(\mathbf{x})= y\]</div>
+</p>
 </div>
-<p>Classifiers, similar to regression models, are defined by their inference and their training. Inference describes how the model performs prediction of (unseen) data points. The training or learning describes how the model is generated, given the training data.</p>
+<p>A classifier is often written as a function</p>
+<div class="math notranslate nohighlight">
+\[
+f:\mathbb{R}^d \rightarrow \mathbb{R}^c,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(\vvec{x})_l\)</span> denotes a score assigned to class <span class="math notranslate nohighlight">\(l\)</span>. That is, the output contains one value for each class. The predicted class label is then obtained by selecting the class with the largest score:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat y
+=
+\argmax_{l\in\{1,\dots,c\}}
+f(\vvec{x})_l.
+\]</div>
+<p>For example, in a three-class classification problem,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f(\vvec{x})
+=
+\begin{pmatrix}
+0.1\\
+2.3\\
+1.7
+\end{pmatrix},
+\end{split}\]</div>
+<p>the classifier assigns the highest score to the second class and therefore predicts class <span class="math notranslate nohighlight">\(\hat{y}(\vvec{x})=2\)</span>.</p>
+<p>In the following, we will indicate classifiers as functions <span class="math notranslate nohighlight">\(f:\mathbb{R}^d \rightarrow \mathbb{R}^c\)</span> or <span class="math notranslate nohighlight">\(\hat y:\mathbb{R}^d \rightarrow \{1,\dots,c\}\)</span>. While <span class="math notranslate nohighlight">\(\hat{y}\)</span> gives us the predictions straight away, <span class="math notranslate nohighlight">\(f\)</span> often represents the underlying model. The scores of <span class="math notranslate nohighlight">\(f\)</span> have an interpretation as a confidence of the model in the prediction.</p>
+<p>Classifiers, similar to regression models, are defined by their <strong>inference</strong> and their <strong>training</strong>. Inference describes how the model performs prediction of (unseen) data points. The training or learning describes how the model is generated, given the training data.</p>
 </section>
 <section id="evaluation">
 <h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">#</a></h2>
-<p>We quickly define the most straightforward classification evaluation metrics: the <span class="math notranslate nohighlight">\(L_{01}\)</span>-loss and the accuracy. Both put into relation how many errors/correct predictions a classifier makes in a dataset.</p>
+<p>We quickly define the most straightforward classification evaluation metrics: the <span class="math notranslate nohighlight">\(L_{01}\)</span>-loss and the accuracy. Both metrics quantify the quality of predictions.</p>
 <div class="proof definition admonition" id="definition-0">
 <p class="admonition-title"><span class="caption-number">Definition 26 </span> (0-1 Loss)</p>
 <section class="definition-content" id="proof-content">
@@ -857,7 +882,7 @@ The goal is to find a classifier that predicts the correct labels <span class="m
 <div class="proof definition admonition" id="definition-1">
 <p class="admonition-title"><span class="caption-number">Definition 27 </span> (Accuracy)</p>
 <section class="definition-content" id="proof-content">
-<p>Given a classifier <span class="math notranslate nohighlight">\(\hat{y}(\vvec{x})\)</span>returning the predicted label. the accuracy of the classifier on dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> containing <span class="math notranslate nohighlight">\(n\)</span> data points is given as</p>
+<p>Given a classifier <span class="math notranslate nohighlight">\(\hat{y}(\vvec{x})\)</span> returning the predicted label. the accuracy of the classifier on dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> containing <span class="math notranslate nohighlight">\(n\)</span> data points is given as</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \mathrm{Acc}(\hat{y},\mathcal{D}) &amp;= \frac{\text{Correct predictions}}{\text{Total predictions}}\\
@@ -868,22 +893,22 @@ The goal is to find a classifier that predicts the correct labels <span class="m
 </div></section>
 <section id="theoretically-optimal-classifiers">
 <h2>Theoretically Optimal Classifiers<a class="headerlink" href="#theoretically-optimal-classifiers" title="Permalink to this headline">#</a></h2>
-<p>Similarly to the regression data sampling process according to a true regression function plus some noise, we also have some assumptions about how our classification data is sampled and what the ground truth classifier is that we want to recover.</p>
+<p>To allow for a theoretical analysis of classifiers, we need to state some assumptions about the ground truth that we want to recover. In classification, the ground truth is defined by a joint probability function <span class="math notranslate nohighlight">\( p^{\ast}({\bf x}, y) \)</span> that assigns each combination of observation <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and label <span class="math notranslate nohighlight">\(y\)</span> a probability.</p>
 <div class="proof property admonition" id="property-2">
 <p class="admonition-title"><span class="caption-number">Property 2 </span> (i.i.d. Class Distribution)</p>
 <section class="property-content" id="proof-content">
 <p>Under the i.i.d. class distribution assumption, we assume that the dataset samples are <em>identically</em> distributed and <em>independently</em> drawn from an <em>unknown</em> probability distribution <span class="math notranslate nohighlight">\( p^{\ast}({\bf x}, y) \)</span>, i.e.</p>
 <div class="math notranslate nohighlight" id="equation-iid-assumption">
-<span class="eqno">(30)<a class="headerlink" href="#equation-iid-assumption" title="Permalink to this equation">#</a></span>\[{\bf x}_{i}, y_{i} \sim  p^{\ast}({\bf x}, y), \forall i \in \lbrace 1, \ldots, n \rbrace.\]</div>
+<span class="eqno">(30)<a class="headerlink" href="#equation-iid-assumption" title="Permalink to this equation">#</a></span>\[{\bf x}_{i}, y_{i} \sim  p^*({\bf x}, y), \forall i \in \lbrace 1, \ldots, n \rbrace.\]</div>
 </section>
-</div><p>Likewise, we can define the expected prediction error for a classification problem.</p>
+</div><p>Considering observations <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, labels <span class="math notranslate nohighlight">\(y\)</span> and the training dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> as random variables, we  can define the expected prediction error for a classification problem.</p>
 <div class="proof definition admonition" id="true_classifier_error">
 <p class="admonition-title"><span class="caption-number">Definition 28 </span> (Classifier EPE)</p>
 <section class="definition-content" id="proof-content">
-<p>Given a classifier <span class="math notranslate nohighlight">\(f_\mathcal{D}:\mathbb{R}^d\rightarrow \mathbb{R}^c\)</span> that has been trained on dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>.
-the Expected Prediction Error (EPE) of classifiers is the expected error</p>
+<p>Given a classifier <span class="math notranslate nohighlight">\(\hat{y}_\mathcal{D}\)</span> that has been trained on dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>.
+The Expected Prediction Error (EPE) of <span class="math notranslate nohighlight">\(\hat{y}_\mathcal{D}\)</span> is given as</p>
 <div class="math notranslate nohighlight" id="equation-true-classification-error">
-<span class="eqno">(31)<a class="headerlink" href="#equation-true-classification-error" title="Permalink to this equation">#</a></span>\[p( y \neq \argmax_{l} f(\vvec{x})_l ) = \mathbb{E}_{\vvec{x},y,\mathcal{D}} [L_{01} (y, \argmax_l f_\mathcal{D}(\vvec{x}) )_l] ,\]</div>
+<span class="eqno">(31)<a class="headerlink" href="#equation-true-classification-error" title="Permalink to this equation">#</a></span>\[p( y \neq \hat{y}(\vvec{x}) ) = \mathbb{E}_{\vvec{x},y,\mathcal{D}} [L_{01} (y, \hat{y}_\mathcal{D}(\vvec{x}) )] ,\]</div>
 <p>over three random variables:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\vvec{x}\)</span> is the random variable of a feature vector in the test set.</p></li>
@@ -891,18 +916,21 @@ the Expected Prediction Error (EPE) of classifiers is the expected error</p>
 <li><p><span class="math notranslate nohighlight">\(\mathcal{D}\)</span> is the random variable of the training data.</p></li>
 </ul>
 </section>
-</div><div class="admonition note">
+</div><p>The EPE is equal to the <em>probability</em> of making an error, because the  <span class="math notranslate nohighlight">\(L_{01}\)</span> loss has a binary outcome, and the expected value of a binary random variable is equal to the probability that it is one.</p>
+<div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The probability of misclassification <span class="math notranslate nohighlight">\( p( y \neq \argmax_l f(\vvec{x})_l) \)</span> is also known as the risk <span class="math notranslate nohighlight">\( R(f) \)</span> of the classifier <span class="math notranslate nohighlight">\( f \)</span>.</p>
+<p>The probability of misclassification <span class="math notranslate nohighlight">\( p( y \neq \hat{y}(\vvec{x})) \)</span> is also known as the risk <span class="math notranslate nohighlight">\( R(\hat{y}) \)</span> of the classifier <span class="math notranslate nohighlight">\( \hat{y} \)</span>.</p>
 </div>
+<p>Theoretically, we can state the classifier that minimizes the prediction error, when we assume that our data is generated according to the i.i.d. class distribution. The idea is simple: predict the class that occurs most probably, given an observation <span class="math notranslate nohighlight">\(\vvec{x}\)</span>.</p>
 <div class="proof definition admonition" id="bayes_optimal_classifier">
 <p class="admonition-title"><span class="caption-number">Definition 29 </span> (Bayes optimal classifier)</p>
 <section class="definition-content" id="proof-content">
-<p>The <strong>Bayes classifier</strong> is the optimal classifier that minimizes the probability of misclassification</p>
+<p>The <strong>Bayes classifier</strong> is the optimal classifier that minimizes the probability of misclassification. Under the i.i.d. data assumption, the Bayes classifier is given as</p>
 <div class="math notranslate nohighlight" id="equation-final-estimator">
-<span class="eqno">(32)<a class="headerlink" href="#equation-final-estimator" title="Permalink to this equation">#</a></span>\[y^\ast(\vvec{x}) = \argmax_{1\leq y\leq c} p^\ast (y\mid \vvec{x})\]</div>
+<span class="eqno">(32)<a class="headerlink" href="#equation-final-estimator" title="Permalink to this equation">#</a></span>\[y^*(\vvec{x}) = \argmax_{1\leq l\leq c}\ p^* (l\mid \vvec{x}) =\argmax_{1\leq l\leq c}\ 
+\frac{p^*(\vvec{x},l)}{p^*(\vvec{x})},\]</div>
 </section>
-</div><p>The Bayes classifier has the lowest EPE possible.</p>
+</div><p>The Bayes classifier has the lowest EPE possible. But, as usual, the problem with these theoretically optimal models is that we do not know the ground truth probability <span class="math notranslate nohighlight">\(p^*\)</span>.</p>
 </section>
 </section>
 
