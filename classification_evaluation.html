@@ -694,7 +694,7 @@ title="Print to PDF"
 <span id="class-evaluation"></span><h2>Bias Variance Tradeoff<a class="headerlink" href="#bias-variance-tradeoff" title="Permalink to this headline">#</a></h2>
 <p>Similar to the Bias-Variance Tradeoff in Regression, we can formulate the bias-variance tradeoff for classification.</p>
 <div class="proof theorem admonition" id="theorem-0">
-<p class="admonition-title"><span class="caption-number">Theorem 26 </span> (bias-variance tradeoff for classification)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 25 </span> (bias-variance tradeoff for classification)</p>
 <section class="theorem-content" id="proof-content">
 <p>The EPE for any observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>, having the label <span class="math notranslate nohighlight">\(y\)</span> and prediction <span class="math notranslate nohighlight">\(\hat{y}_\mathcal{D}\)</span> (depending on the training data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>) and most frequent prediction <span class="math notranslate nohighlight">\(\mathrm{mode}(\hat{y}_\mathcal{D})\)</span> can be deconstructed into three parts:</p>
 <div class="amsmath math notranslate nohighlight">
@@ -739,7 +739,7 @@ we have</p>
 <figure class="align-center" id="bias-variance-tradeoff1b-fig">
 <a class="reference internal image-reference" href="_images/e2.png"><img alt="_images/e2.png" src="_images/e2.png" style="height: 320px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 7 </span><span class="caption-text">The prediction error as a function of model complexity (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id9" title="Trevor Hastie, Robert Tibshirani, and Jerome Friedman. The elements of statistical learning. Cited on, pages 33, 2009.">3</a>]</span>).</span><a class="headerlink" href="#bias-variance-tradeoff1b-fig" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">The prediction error as a function of model complexity (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id9" title="Trevor Hastie, Robert Tibshirani, and Jerome Friedman. The elements of statistical learning. Cited on, pages 33, 2009.">2</a>]</span>).</span><a class="headerlink" href="#bias-variance-tradeoff1b-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Whether a classifier overfits or underfits depends on the model choice and their hyperparameters. For example, a linear classifier is not a good model choice for a nonlinear classification problem, or naive Bayes is not a good model choice if the features correlate. The table below lists the key parameters of our considered classifiers and how they influence over- and underfitting.</p>

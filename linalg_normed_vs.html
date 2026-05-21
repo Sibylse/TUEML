@@ -732,8 +732,8 @@ This is exactly what the squared Euclidean norm is returning.</p>
 <div class="math notranslate nohighlight">
 \[\left\lVert\frac{\mathbf{w}}{\lVert \mathbf{w}\rVert}\right\rVert = \frac{1}{\lVert \mathbf{w}\rVert} \lVert \mathbf{w}\rVert =1.\]</div>
 </p>
-<div class="proof theorem admonition" id="theorem-3">
-<span id="lina-projection"></span><p class="admonition-title"><span class="caption-number">Theorem 2 </span></p>
+<div class="proof theorem admonition" id="lina_projection">
+<p class="admonition-title"><span class="caption-number">Theorem 2 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>The inner product of a vector <span class="math notranslate nohighlight">\(\vvec{v}\)</span> and a normalized vector <span class="math notranslate nohighlight">\(\frac{\vvec{w}}{\lVert\vvec{w}\rVert}\)</span> computes the length of the <strong>projection</strong> <span class="math notranslate nohighlight">\(\vvec{p_v}\)</span> of <span class="math notranslate nohighlight">\(\vvec{v}\)</span> onto <span class="math notranslate nohighlight">\(\vvec{w}\)</span>. Using the notation of vectors from the image below, we have</p>
 <div class="amsmath math notranslate nohighlight">
@@ -925,10 +925,10 @@ Taking square roots yields <span class="math notranslate nohighlight">\(\|X\vvec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.7, -0.1, -0.5, -0.6],
-       [-0.6, -0.5,  0.4,  0.5],
-       [-0.3,  0.5,  0.7, -0.3],
-       [-0.3,  0.6, -0.3,  0.6]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.2,  0.2, -0.2, -1. ],
+       [-0.7, -0.2, -0.7,  0.2],
+       [-0.7, -0.1,  0.7, -0. ],
+       [-0.1,  1. , -0. ,  0.2]])
 </pre></div>
 </div>
 </div>
@@ -941,10 +941,10 @@ Taking square roots yields <span class="math notranslate nohighlight">\(\|X\vvec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 1.0e+00, -1.0e-16, -1.5e-16, -1.3e-16],
-       [-1.0e-16,  1.0e+00, -7.2e-17, -5.0e-17],
-       [-1.5e-16, -7.2e-17,  1.0e+00, -1.5e-16],
-       [-1.3e-16, -5.0e-17, -1.5e-16,  1.0e+00]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 1.0e+00, -2.6e-18,  3.8e-17,  7.0e-17],
+       [-2.6e-18,  1.0e+00, -2.3e-18, -4.6e-17],
+       [ 3.8e-17, -2.3e-18,  1.0e+00,  6.0e-18],
+       [ 7.0e-17, -4.6e-17,  6.0e-18,  1.0e+00]])
 </pre></div>
 </div>
 </div>
@@ -957,8 +957,8 @@ Taking square roots yields <span class="math notranslate nohighlight">\(\|X\vvec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.5, 0. ],
-       [0. , 0.9]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.4, 0. ],
+       [0. , 0.6]])
 </pre></div>
 </div>
 </div>
@@ -972,8 +972,8 @@ Taking square roots yields <span class="math notranslate nohighlight">\(\|X\vvec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.5, 0. ],
-       [0. , 0.9],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.4, 0. ],
+       [0. , 0.6],
        [0. , 0. ],
        [0. , 0. ]])
 </pre></div>
@@ -988,14 +988,14 @@ Taking square roots yields <span class="math notranslate nohighlight">\(\|X\vvec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([[0.5, 0.8],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([[0.1, 0.2],
+        [0.1, 0.9],
         [0.1, 1. ],
-        [0.6, 0.1],
-        [0.7, 0.1]]),
- array([[0.5, 0.8],
+        [0.6, 0.1]]),
+ array([[0.1, 0.2],
+        [0.1, 0.9],
         [0.1, 1. ],
-        [0.6, 0.1],
-        [0.7, 0.1]]))
+        [0.6, 0.1]]))
 </pre></div>
 </div>
 </div>

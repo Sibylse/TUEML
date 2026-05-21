@@ -611,13 +611,13 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inference">
-   Inference
+  <a class="reference internal nav-link" href="#optimization">
+   Optimization
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#optimization">
-   Optimization
+  <a class="reference internal nav-link" href="#inference">
+   Inference
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -650,13 +650,13 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inference">
-   Inference
+  <a class="reference internal nav-link" href="#optimization">
+   Optimization
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#optimization">
-   Optimization
+  <a class="reference internal nav-link" href="#inference">
+   Inference
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -674,7 +674,7 @@ title="Print to PDF"
                 
               <div>
                 
-  <section id="kernel-svm">
+  <section class="tex2jax_ignore mathjax_ignore" id="kernel-svm">
 <h1>Kernel SVM<a class="headerlink" href="#kernel-svm" title="Permalink to this headline">#</a></h1>
 <p>The classical Support Vector Machine (SVM) is a powerful linear classifier that provides a robust definition of a classifying hyperplane with the maximum margin hyperplane. However, in many real-world datasets, the classes are not linearly separable. This limits the applicability of the standard (linear) SVM.</p>
 <p>The typical machine learning way to apply linear models to nonlinear data is to define a feature transformation that makes the nonlinear data appear linear in the transformed feature space. Often, the transformed feature space is higher dimensional than the original feature space. We have seen this for example in regression: applying polynomial basis functions creates a design matrix that is higher dimensional than the data matrix. Applying the linear regression on the design matrix solves the nonlinear regression problem in the original feature space.</p>
@@ -682,7 +682,7 @@ title="Print to PDF"
 <figure class="align-left" id="non-linear-transformation-fig">
 <a class="reference internal image-reference" href="_images/degree2_monomials.png"><img alt="_images/degree2_monomials.png" src="_images/degree2_monomials.png" style="height: 320px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Non-linear transformation <span class="math notranslate nohighlight">\(\phi: \mathbb{R}^2 \rightarrow \mathbb{R}^3 \)</span> mapping feature vectors <span class="math notranslate nohighlight">\( {\bf x}\in\mathbb{R}^2\)</span> to transformed feature vectors <span class="math notranslate nohighlight">\( {\bf z}\in\mathbb{R}^3\)</span> with the transformation <span class="math notranslate nohighlight">\( {\bf z} = \phi({\bf x}) = ( x_1^2 , \sqrt{2} x_1 x_2 , x_2^2 ) \)</span>.  (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id10">5</a>]</span>).</span><a class="headerlink" href="#non-linear-transformation-fig" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Non-linear transformation <span class="math notranslate nohighlight">\(\phi: \mathbb{R}^2 \rightarrow \mathbb{R}^3 \)</span> mapping feature vectors <span class="math notranslate nohighlight">\( {\bf x}\in\mathbb{R}^2\)</span> to transformed feature vectors <span class="math notranslate nohighlight">\( {\bf z}\in\mathbb{R}^3\)</span> with the transformation <span class="math notranslate nohighlight">\( {\bf z} = \phi({\bf x}) = ( x_1^2 , \sqrt{2} x_1 x_2 , x_2^2 ) \)</span>.  (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id10">4</a>]</span>).</span><a class="headerlink" href="#non-linear-transformation-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The challenge of this approach is the high dimensionality that is often required to make classes linearly separable in the transformed feature space. The SVM dual objective enables here the application of the so-called kernel trick, that allows even for the efficient computation of infinite dimensional feature transformations.</p>
@@ -714,58 +714,15 @@ Given a set of vectors <span class="math notranslate nohighlight">\(\vvec{x}_i\)
 </div>
 </div>
 </section>
-<section id="inference">
-<h2>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">#</a></h2>
-<p>We recall from Eq.<a class="reference internal" href="classification_svms.html#equation-primal-optimal">(48)</a> that the optimal parameters of a soft- and hard-margin SVM model <span class="math notranslate nohighlight">\(f_{svm}(\vvec{x})=\vvec{w}^\top\vvec{x} +b\)</span> are given as</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-{\bf w}^{\ast} &amp;= \sum_{i=1}^{n} \lambda_{i}^{\ast} y_{i} {\bf x}_{i}\\
-b^{\ast} &amp;= y_{i} - {{\bf w}^{\ast}}^\top {\bf x}_{i}  \quad\text{ for any }i\text{ such that } \lambda_{i} &gt; 0 ,
-\end{align*}\]</div>
-<p>Hence, the SVM prediction can be computed for a linear kernel <span class="math notranslate nohighlight">\(k\)</span> as</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-f_{svm}(\vvec{x})&amp; =\sum_{i=1}^{n} \lambda_i^* y_i \vvec{x}_i^\top\vvec{x} +b^*\\
-&amp;= \sum_{i=1}^n \lambda_i^* y_i k(\vvec{x}_i,\vvec{x}) +b^*.
-\end{align*}\]</div>
-<p>The bias <span class="math notranslate nohighlight">\(b^*\)</span> can be computed based on the kernel by substituting the optimal <span class="math notranslate nohighlight">\(\vvec{w}^*\)</span> in the definition of the optimal <span class="math notranslate nohighlight">\(b^*\)</span>. Let <span class="math notranslate nohighlight">\(i\)</span> be such that <span class="math notranslate nohighlight">\(\lambda_i&gt;0\)</span>, then we have for a linear kernel <span class="math notranslate nohighlight">\(k\)</span></p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-b^{\ast} &amp;= y_{i} - {{\bf w}^{\ast}}^\top {\bf x}_{i} \\
-&amp;= y_{i} - \sum_{j=1}^{n} \lambda_j^* y_j \vvec{x}_j^\top {\bf x}_{i}\\
-&amp;= y_{i} - \sum_{j=1}^{n} \lambda_j^* y_j k(\vvec{x}_j, {\bf x}_{i})
-\end{align*}\]</div>
-<p>Now, we can replace the linear kernel with any other kernel function and we can perform predictions for a kernel SVM without having to compute the feature transformation that defines the kernel.</p>
-<div class="proof definition admonition" id="definition-1">
-<p class="admonition-title"><span class="caption-number">Definition 41 </span> (kernel SVM)</p>
-<section class="definition-content" id="proof-content">
-<p>An kernel SVM classifier for a binary classification problem (<span class="math notranslate nohighlight">\(y\in\{-1,1\}\)</span>) reflects the distance to the decision boundary in a transformed feature space <span class="math notranslate nohighlight">\(\vvec{w}^\top \phi(\vvec{x})+b=0\)</span>
-<div class="math notranslate nohighlight">
-\[f_{ksvm}(\vvec{x}) = \vvec{w}^\top \phi(\vvec{x})+b.\]</div>
-
-Given a training data set <span class="math notranslate nohighlight">\(\mathcal{D}=\{(\vvec{x}_i,y_i)\mid 1\leq i\leq n\}\)</span> and a kernel function <span class="math notranslate nohighlight">\(k\)</span>, the kernel SVM classifier computes its predictions by</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-f_{svm}(\vvec{x})
-&amp;= \sum_{i=1}^n \lambda_i y_i k(\vvec{x}_i,\vvec{x}) +b\\
-b&amp;= y_{i} - \sum_{j=1}^{n} \lambda_j y_j k(\vvec{x}_j, {\bf x}_{i})
-\end{align*}\]</div>
-<p>for some specified <span class="math notranslate nohighlight">\(\lambda_i\geq 0\)</span>.
-The class predictions are then computed as
-<div class="math notranslate nohighlight">
-\[\hat{y} = \sign(f_{svm}(\vvec{x})).\]</div>
-</p>
-</section>
-</div></section>
 <section id="optimization">
 <h2>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">#</a></h2>
-<p>The quadratic program objective of the SVM (see Eq.<a class="reference internal" href="classification_svms.html#equation-svm-form10">(50)</a>) is perfect for applying a kernel. The data points occur in this objective only over the inner product in the computation of <span class="math notranslate nohighlight">\(DD^\top\)</span>, which computes the linear kernel matrix. We can replace <span class="math notranslate nohighlight">\(DD^\top\)</span> with a kernel matrix and obtain the kernel SVM objective</p>
-<div class="proof definition admonition" id="definition-2">
-<p class="admonition-title"><span class="caption-number">Definition 42 </span> (Quadratic Program Kernel Soft-Margin SVM)</p>
+<p>The quadratic programming objective of the SVM (see Eq.<a class="reference internal" href="classification_svms.html#equation-svm-form10">(45)</a>) is perfect for applying the kernel trick. The data points occur in this objective only over the inner product in the computation of <span class="math notranslate nohighlight">\(DD^\top\)</span>, which computes the linear kernel matrix. We can replace <span class="math notranslate nohighlight">\(DD^\top\)</span> with a kernel matrix and obtain the kernel SVM objective</p>
+<div class="proof definition admonition" id="definition-1">
+<p class="admonition-title"><span class="caption-number">Definition 41 </span> (Quadratic Program Kernel Soft-Margin SVM)</p>
 <section class="definition-content" id="proof-content">
 <p>Given a kernel matrix <span class="math notranslate nohighlight">\(K\in\mathbb{R}^{n\times n}\)</span>. The optimization objective of the kernel soft-margin SVM is given by the following quadratic program</p>
 <div class="math notranslate nohighlight" id="equation-kernel-svm">
-<span class="eqno">(51)<a class="headerlink" href="#equation-kernel-svm" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{align*}
+<span class="eqno">(46)<a class="headerlink" href="#equation-kernel-svm" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{align*}
 \min_{\boldsymbol{\lambda}}  \ &amp; \frac14\bm{\lambda}^\top  \diag(\vvec{y})K\diag(\vvec{y}) \boldsymbol{\lambda} + {\bf 1}^\top \boldsymbol{\lambda} \\
 \text{s.t. } &amp;   \boldsymbol{\lambda}^\top{\bf y}  = 0 \\
 &amp;  0 \leq \lambda_{i} \leq C, \text{ for }1\leq i\leq n,
@@ -774,6 +731,45 @@ The class predictions are then computed as
 </section>
 </div><p>The quadratic program above is still convex and therefore we can compute the global optimum with a convex solver.</p>
 </section>
+<section id="inference">
+<h2>Inference<a class="headerlink" href="#inference" title="Permalink to this headline">#</a></h2>
+<p>When we apply the kernel trick, then we need to replace all operations on observations with operations on kernel similarities, since in general feature transformation <span class="math notranslate nohighlight">\(\phi\)</span> are computationally infeasible. To conduct the SVM inference only via kernel similarities, we recall from Eq.<a class="reference internal" href="classification_svms.html#equation-primal-optimal">(43)</a> that the optimal parameters of a soft- and hard-margin binary SVM model <span class="math notranslate nohighlight">\(\hat{y}_{svm}(\vvec{x})=\sign(\vvec{w}^\top\vvec{x} +b)\)</span> are given as</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+{\bf w}^* &amp;= \sum_{i=1}^{n} \lambda_{i}^{\ast} y_{i} {\bf x}_{i}\\
+b^{\ast} &amp;= y_{i} - {{\bf w}^{\ast}}^\top {\bf x}_{i}  \quad\text{ for any }i\text{ such that } \lambda_{i} &gt; 0 ,
+\end{align*}\]</div>
+<p>The definition of <span class="math notranslate nohighlight">\(\vvec{w}^*\)</span> over a weighted sum of observations helps us to formalize the inner product <span class="math notranslate nohighlight">\(\mathbf{w}^\top \vvec{x}\)</span> as a linear kernel <span class="math notranslate nohighlight">\(k(\vvec{x}_i,\vvec{x}_j)=\vvec{x}_i^\top\vvec{x}_j\)</span> operation</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\sum_{i=1}^{n} \lambda_i^* y_i \vvec{x}_i^\top\vvec{x} +b^*
+&amp;= \sum_{i=1}^n \lambda_i^* y_i k(\vvec{x}_i,\vvec{x}) +b^*.
+\end{align*}\]</div>
+<p>Likewise, we can compute the optimal bias term <span class="math notranslate nohighlight">\(b^*\)</span> via kernel similarities by substituting the optimal <span class="math notranslate nohighlight">\(\vvec{w}^*\)</span> in the definition of the optimal <span class="math notranslate nohighlight">\(b^*\)</span>. Let <span class="math notranslate nohighlight">\(i\)</span> be such that <span class="math notranslate nohighlight">\(\lambda_i&gt;0\)</span>, then we have</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+b^{\ast} &amp;= y_{i} - {{\bf w}^{\ast}}^\top {\bf x}_{i} \\
+&amp;= y_{i} - \sum_{j=1}^{n} \lambda_j^* y_j \vvec{x}_j^\top {\bf x}_{i}\\
+&amp;= y_{i} - \sum_{j=1}^{n} \lambda_j^* y_j k(\vvec{x}_j, {\bf x}_{i})
+\end{align*}\]</div>
+<p>Now, we can replace the linear kernel with any other kernel function and we can perform predictions for a kernel SVM without having to compute the feature transformation that defines the kernel.</p>
+<div class="proof definition admonition" id="definition-2">
+<p class="admonition-title"><span class="caption-number">Definition 42 </span> (kernel SVM)</p>
+<section class="definition-content" id="proof-content">
+<p>A kernel SVM classifier for a binary classification problem (<span class="math notranslate nohighlight">\(y\in\{-1,1\}\)</span>) reflects the distance to the decision boundary in a transformed feature space <span class="math notranslate nohighlight">\(\vvec{w}^\top \phi(\vvec{x})+b=0\)</span>
+<div class="math notranslate nohighlight">
+\[\hat{y}_{ksvm}(\vvec{x}) = \sign(\vvec{w}^\top \phi(\vvec{x})+b).\]</div>
+
+Given a training data set <span class="math notranslate nohighlight">\(\mathcal{D}=\{(\vvec{x}_i,y_i)\mid 1\leq i\leq n\}\)</span> and a kernel function <span class="math notranslate nohighlight">\(k\)</span>, the kernel SVM classifier computes its predictions by</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\hat{y}_{svm}(\vvec{x})
+&amp;= \sign(\sum_{i=1}^n \lambda_i y_i k(\vvec{x}_i,\vvec{x}) +b)\\
+b&amp;= y_{i} - \sum_{j=1}^{n} \lambda_j y_j k(\vvec{x}_j, {\bf x}_{i})
+\end{align*}\]</div>
+<p>for some specified <span class="math notranslate nohighlight">\(\lambda_i\geq 0\)</span>.</p>
+</section>
+</div></section>
 <section id="decision-boundary">
 <h2>Decision Boundary<a class="headerlink" href="#decision-boundary" title="Permalink to this headline">#</a></h2>
 <p>The plots below show the decision boundaries for the kernel SVM, using an RBF and a polynomial kernel. Both kernels are able to find decision boundaries that separate the training and test-data well. However, we also observe some undesired properties of the RBF kernel solution. The decision boundaries suggest that the classifier cuts out an area that is designated to predict the blue class, while the red class is the default class that is predicted otherwise. For the two moons, this does not make sense, since points that are on the top left are on the side of the blue moon and should be assigned to the blue moon. However, the classifier does not know of this intuition and hence we get here a different interpretation of the data by the classifier. When we can plot the data it is easy to see what is potentially problematic with a model, but in higher dimensions this becomes much more difficult.</p>
@@ -841,7 +837,7 @@ The class predictions are then computed as
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/classification_kernel_svm_4_0.png" src="_images/classification_kernel_svm_4_0.png" />
+<img alt="_images/classification_kernel_svm_5_0.png" src="_images/classification_kernel_svm_5_0.png" />
 </div>
 </div>
 </section>

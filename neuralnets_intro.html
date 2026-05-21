@@ -766,10 +766,10 @@ f_{sr}(\vvec{x})_l=p(y = l \mid \mathbf{x},W,\vvec{b}) =\mathrm{softmax}(W\vvec{
 
 are maximized</p>
 <div class="math notranslate nohighlight" id="equation-eq-obj-smr">
-<span class="eqno">(52)<a class="headerlink" href="#equation-eq-obj-smr" title="Permalink to this equation">#</a></span>\[\begin{align*}\max_{\theta}\mathcal{L}(\theta,\mathcal{D}) = \prod_{i=1}^n p(y=y_i\mid \vvec{x}_i,\theta)\end{align*}\]</div>
+<span class="eqno">(47)<a class="headerlink" href="#equation-eq-obj-smr" title="Permalink to this equation">#</a></span>\[\begin{align*}\max_{\theta}\mathcal{L}(\theta,\mathcal{D}) = \prod_{i=1}^n p(y=y_i\mid \vvec{x}_i,\theta)\end{align*}\]</div>
 <p><strong>Return</strong> the classifier defining parameters <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 </div>
-<p>As discussed in the scope of naive Bayes, computing the product of probabilities is generally not a good idea, because we might run into underflow. Hence, we apply again the log-probabilities trick and minimize the log-probabilities instead of the probabilities directly. We divide by the number of samples in the dataset and apply the logarithm to Eq. <a class="reference internal" href="#equation-eq-obj-smr">(52)</a> and obtain the equivalent objective</p>
+<p>As discussed in the scope of naive Bayes, computing the product of probabilities is generally not a good idea, because we might run into underflow. Hence, we apply again the log-probabilities trick and minimize the log-probabilities instead of the probabilities directly. We divide by the number of samples in the dataset and apply the logarithm to Eq. <a class="reference internal" href="#equation-eq-obj-smr">(47)</a> and obtain the equivalent objective</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \max_{\theta} \frac1n \log(\prod_{i=1}^n p(y=y_i\mid \vvec{x}_i,\theta)) =

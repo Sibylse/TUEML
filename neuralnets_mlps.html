@@ -743,14 +743,14 @@ title="Print to PDF"
 <p>Within the output node, we add a bias term and apply the <strong>activation function</strong> <span class="math notranslate nohighlight">\(\phi_a\)</span>. In the beginning, the sigmoid function has been used as an activation function, since it has this nice interpretation as a soft thresholding function that simulates the <em>firing</em> or <em>not firing</em> status of a neuron. However, the sigmoid function suffers from optimization issues, which is why other activations became more popular. We discuss this later.</p>
 <p>In summary, a neuron computes the following function:</p>
 <div class="math notranslate nohighlight" id="equation-neuron-output1">
-<span class="eqno">(53)<a class="headerlink" href="#equation-neuron-output1" title="Permalink to this equation">#</a></span>\[\begin{align*}
+<span class="eqno">(48)<a class="headerlink" href="#equation-neuron-output1" title="Permalink to this equation">#</a></span>\[\begin{align*}
 \phi_a \left( \sum_{k=1}^{d} w_{k} x_{k} + b \right) = \phi(\vvec{w}^\top \vvec{x}+b)
 \end{align*}\]</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Any affine function in <span class="math notranslate nohighlight">\(d\)</span> dimensions can be written as a linear function in <span class="math notranslate nohighlight">\(d+1\)</span> dimensions (as we also did it for the application of linear regression for learning affine functions). That is, we absorb the bias into the weights by specifying <span class="math notranslate nohighlight">\( w_{0} = b \)</span> and creating a new dummy input <span class="math notranslate nohighlight">\( x_{0} = 1 \)</span>. This way we can write an affine function as a linear function.</p>
 <div class="math notranslate nohighlight" id="equation-neuron-output3">
-<span class="eqno">(54)<a class="headerlink" href="#equation-neuron-output3" title="Permalink to this equation">#</a></span>\[\begin{align*}
+<span class="eqno">(49)<a class="headerlink" href="#equation-neuron-output3" title="Permalink to this equation">#</a></span>\[\begin{align*}
 \phi_a \left( \sum_{k=0}^{d} w_{k} x_{k} \right) = \phi(\vvec{w}^\top \vvec{x}).
 \end{align*}\]</div>
 <p>Because of this notational possibility, we speak in machine learning often of a linear function although we technically mean an affine function. This happens in particular in the  neural networks terminology.</p>
@@ -930,7 +930,7 @@ The plots of both activation functions is below:</p>
 <p>One of the foundational theoretical results for neural networks is the <strong>Universal Approximation Theorem</strong>. This theorem formalizes the power of neural networks: a sufficiently large neural network can approximate any reasonable function to arbitrary accuracy.</p>
 <p>The following theorem is a popular variant of a series of universal approximation theorems, stating that a feedforward neural network (MLP) with at least one hidden layer and a suitable activation function (like the sigmoid or ReLU), can approximate any continuous function on a compact subset of <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>, given enough hidden units.</p>
 <div class="proof theorem admonition" id="theorem-0">
-<p class="admonition-title"><span class="caption-number">Theorem 27 </span> (Universal Approximation Theorem)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 26 </span> (Universal Approximation Theorem)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(f: \mathbb{R}^d \to \mathbb{R}\)</span> be a continuous function, and let <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>. Then there exists a neural network (MLP) <span class="math notranslate nohighlight">\(f_\theta\)</span> with a single hidden layer with a ReLU, Leaky ReLU or sigmoid activation and a finite number of neurons such that:</p>
 <div class="amsmath math notranslate nohighlight">
