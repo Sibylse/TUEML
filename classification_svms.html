@@ -892,42 +892,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_imgbc147352e1744364af8418d3fb9395e6">
+  <img id="_anim_imgc364ab1233d744948c9875581996a4cb">
   <div class="anim-controls">
-    <input id="_anim_sliderbc147352e1744364af8418d3fb9395e6" type="range" class="anim-slider"
+    <input id="_anim_sliderc364ab1233d744948c9875581996a4cb" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="animbc147352e1744364af8418d3fb9395e6.set_frame(parseInt(this.value));">
+           oninput="animc364ab1233d744948c9875581996a4cb.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="animbc147352e1744364af8418d3fb9395e6.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animc364ab1233d744948c9875581996a4cb.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="animbc147352e1744364af8418d3fb9395e6.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animc364ab1233d744948c9875581996a4cb.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="animbc147352e1744364af8418d3fb9395e6.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animc364ab1233d744948c9875581996a4cb.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="animbc147352e1744364af8418d3fb9395e6.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animc364ab1233d744948c9875581996a4cb.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="animbc147352e1744364af8418d3fb9395e6.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animc364ab1233d744948c9875581996a4cb.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="animbc147352e1744364af8418d3fb9395e6.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animc364ab1233d744948c9875581996a4cb.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="animbc147352e1744364af8418d3fb9395e6.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animc364ab1233d744948c9875581996a4cb.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="animbc147352e1744364af8418d3fb9395e6.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animc364ab1233d744948c9875581996a4cb.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="animbc147352e1744364af8418d3fb9395e6.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animc364ab1233d744948c9875581996a4cb.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectbc147352e1744364af8418d3fb9395e6"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectc364ab1233d744948c9875581996a4cb"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_bc147352e1744364af8418d3fb9395e6"
+      <input type="radio" name="state" value="once" id="_anim_radio1_c364ab1233d744948c9875581996a4cb"
              >
-      <label for="_anim_radio1_bc147352e1744364af8418d3fb9395e6">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_bc147352e1744364af8418d3fb9395e6"
+      <label for="_anim_radio1_c364ab1233d744948c9875581996a4cb">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_c364ab1233d744948c9875581996a4cb"
              checked>
-      <label for="_anim_radio2_bc147352e1744364af8418d3fb9395e6">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_bc147352e1744364af8418d3fb9395e6"
+      <label for="_anim_radio2_c364ab1233d744948c9875581996a4cb">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_c364ab1233d744948c9875581996a4cb"
              >
-      <label for="_anim_radio3_bc147352e1744364af8418d3fb9395e6">Reflect</label>
+      <label for="_anim_radio3_c364ab1233d744948c9875581996a4cb">Reflect</label>
     </form>
   </div>
 </div>
@@ -937,9 +937,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_imgbc147352e1744364af8418d3fb9395e6";
-    var slider_id = "_anim_sliderbc147352e1744364af8418d3fb9395e6";
-    var loop_select_id = "_anim_loop_selectbc147352e1744364af8418d3fb9395e6";
+    var img_id = "_anim_imgc364ab1233d744948c9875581996a4cb";
+    var slider_id = "_anim_sliderc364ab1233d744948c9875581996a4cb";
+    var loop_select_id = "_anim_loop_selectc364ab1233d744948c9875581996a4cb";
     var frames = new Array(5);
 
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbAAAAEgCAYAAADVKCZpAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -2077,7 +2077,7 @@ AGNzAAAAAElFTkSuQmCC\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        animbc147352e1744364af8418d3fb9395e6 = new Animation(frames, img_id, slider_id, 200.0,
+        animc364ab1233d744948c9875581996a4cb = new Animation(frames, img_id, slider_id, 200.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -2272,42 +2272,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img4757c955fd6e4f928d346058c1b6069a">
+  <img id="_anim_imgfbec91454f564cbe976d34d6c416d0d9">
   <div class="anim-controls">
-    <input id="_anim_slider4757c955fd6e4f928d346058c1b6069a" type="range" class="anim-slider"
+    <input id="_anim_sliderfbec91454f564cbe976d34d6c416d0d9" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anim4757c955fd6e4f928d346058c1b6069a.set_frame(parseInt(this.value));">
+           oninput="animfbec91454f564cbe976d34d6c416d0d9.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim4757c955fd6e4f928d346058c1b6069a.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animfbec91454f564cbe976d34d6c416d0d9.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim4757c955fd6e4f928d346058c1b6069a.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animfbec91454f564cbe976d34d6c416d0d9.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim4757c955fd6e4f928d346058c1b6069a.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animfbec91454f564cbe976d34d6c416d0d9.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim4757c955fd6e4f928d346058c1b6069a.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animfbec91454f564cbe976d34d6c416d0d9.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim4757c955fd6e4f928d346058c1b6069a.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animfbec91454f564cbe976d34d6c416d0d9.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim4757c955fd6e4f928d346058c1b6069a.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animfbec91454f564cbe976d34d6c416d0d9.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim4757c955fd6e4f928d346058c1b6069a.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animfbec91454f564cbe976d34d6c416d0d9.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim4757c955fd6e4f928d346058c1b6069a.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animfbec91454f564cbe976d34d6c416d0d9.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim4757c955fd6e4f928d346058c1b6069a.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animfbec91454f564cbe976d34d6c416d0d9.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select4757c955fd6e4f928d346058c1b6069a"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectfbec91454f564cbe976d34d6c416d0d9"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_4757c955fd6e4f928d346058c1b6069a"
+      <input type="radio" name="state" value="once" id="_anim_radio1_fbec91454f564cbe976d34d6c416d0d9"
              >
-      <label for="_anim_radio1_4757c955fd6e4f928d346058c1b6069a">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_4757c955fd6e4f928d346058c1b6069a"
+      <label for="_anim_radio1_fbec91454f564cbe976d34d6c416d0d9">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_fbec91454f564cbe976d34d6c416d0d9"
              checked>
-      <label for="_anim_radio2_4757c955fd6e4f928d346058c1b6069a">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_4757c955fd6e4f928d346058c1b6069a"
+      <label for="_anim_radio2_fbec91454f564cbe976d34d6c416d0d9">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_fbec91454f564cbe976d34d6c416d0d9"
              >
-      <label for="_anim_radio3_4757c955fd6e4f928d346058c1b6069a">Reflect</label>
+      <label for="_anim_radio3_fbec91454f564cbe976d34d6c416d0d9">Reflect</label>
     </form>
   </div>
 </div>
@@ -2317,9 +2317,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img4757c955fd6e4f928d346058c1b6069a";
-    var slider_id = "_anim_slider4757c955fd6e4f928d346058c1b6069a";
-    var loop_select_id = "_anim_loop_select4757c955fd6e4f928d346058c1b6069a";
+    var img_id = "_anim_imgfbec91454f564cbe976d34d6c416d0d9";
+    var slider_id = "_anim_sliderfbec91454f564cbe976d34d6c416d0d9";
+    var loop_select_id = "_anim_loop_selectfbec91454f564cbe976d34d6c416d0d9";
     var frames = new Array(5);
 
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbAAAAEgCAYAAADVKCZpAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -3925,7 +3925,7 @@ YFPFei+VELoAAAAASUVORK5CYII=\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim4757c955fd6e4f928d346058c1b6069a = new Animation(frames, img_id, slider_id, 200.0,
+        animfbec91454f564cbe976d34d6c416d0d9 = new Animation(frames, img_id, slider_id, 200.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -3968,14 +3968,15 @@ As a result, we say that geometrically, <span class="math notranslate nohighligh
 </section>
 <section id="inference-of-a-linear-svm-for-binary-classification">
 <h2>Inference of a Linear SVM for Binary Classification<a class="headerlink" href="#inference-of-a-linear-svm-for-binary-classification" title="Permalink to this headline">#</a></h2>
-<p>A hyperplane divides a space into two halves. Assuming now that we have only two classes, a binary classification problem. The hyperplane should be positioned such that one class is on one side and the other class is on the other. We can call the sides <em>positive</em> and <em>negative</em>, the positive side is the one the normal vector points to and the negative is the other side.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d0de44b9-ee04-40fa-9545-5c775def76e6">
-<span class="eqno">(38)<a class="headerlink" href="#equation-d0de44b9-ee04-40fa-9545-5c775def76e6" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
-{\bf w}^{T} {\bf x} + b &amp;&lt;&amp; 0\,\, \mbox{(negative side)} \nonumber \\
-{\bf w}^{T} {\bf x} + b &amp;\geq&amp; 0\,\, \mbox{(positive side)}. \nonumber
+<p>A hyperplane divides a space into two halves. We assume from now on that we have only two classes, that we have a binary classification problem with labels in <span class="math notranslate nohighlight">\(y\in\{-1,1\}\)</span>. Each hyperplane has a <em>positive</em> and a <em>negative</em> side: the positive side is the one the normal vector points to and the negative is the other side.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5a00da7e-e84d-4524-9c69-4198a0afaa89">
+<span class="eqno">(38)<a class="headerlink" href="#equation-5a00da7e-e84d-4524-9c69-4198a0afaa89" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+{\bf w}^\top {\bf x} + b &amp;&lt;&amp; 0\,\, \mbox{(negative side)} \nonumber \\
+{\bf w}^\top {\bf x} + b &amp;\geq&amp; 0\,\, \mbox{(positive side)}. \nonumber
 \end{eqnarray}\]</div>
 <div class="figure" style="text-align: center"><p><img  src="_images/tikz-b7674db6f749dd49cedc4a5b782fee44c85b3ecb.svg" alt="Figure made with TikZ" /></p>
-</div><p>This way, we can define the inference of the SVM for the binary classification problem</p>
+</div><p>Correspondingly, we can determine that the SVM predicts the positive class <span class="math notranslate nohighlight">\(y=1\)</span> if a point is on the positive side of the hyperplane, and the negative class otherwise.
+This way, we can define the inference of the SVM for the binary classification problem.</p>
 <div class="proof definition admonition" id="definition-1">
 <p class="admonition-title"><span class="caption-number">Definition 39 </span> (SVM for binary Classification)</p>
 <section class="definition-content" id="proof-content">
@@ -4163,27 +4164,10 @@ We can indentify the support vectors as those vectors <span class="math notransl
 
 <strong>Return</strong> the hyperplane defining parameters <span class="math notranslate nohighlight">\(\vvec{w},b\)</span></p>
 </div>
-<div class="proof example admonition" id="example-6">
-<p class="admonition-title"><span class="caption-number">Example 18 </span></p>
-<section class="example-content" id="proof-content">
-<p>The plot below shows the effect of the regularization weight <span class="math notranslate nohighlight">\(C\)</span> on the decision boundary. We state the decision boundaries for <span class="math notranslate nohighlight">\(C\in\{0.1,1,100\}\)</span>. Using large weights such as <span class="math notranslate nohighlight">\(C=100\)</span> is common for the SVM. The larger <span class="math notranslate nohighlight">\(C\)</span> is, the more does the decision boundary adapt to the points that are closest to it, which are the first to introduce a penalty on margin or decision boundary violations.</p>
-<figure class="align-left" id="effect-softmargin-sep-fig">
-<a class="reference internal image-reference" href="_images/effect_softmargin_sep.png"><img alt="_images/effect_softmargin_sep.png" src="_images/effect_softmargin_sep.png" style="height: 200px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Linearly separable dataset.</span><a class="headerlink" href="#effect-softmargin-sep-fig" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<figure class="align-left" id="effect-softmargin-nonsep-fig">
-<a class="reference internal image-reference" href="_images/effect_softmargin_nonsep.png"><img alt="_images/effect_softmargin_nonsep.png" src="_images/effect_softmargin_nonsep.png" style="height: 200px;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Linearly non-separable dataset.</span><a class="headerlink" href="#effect-softmargin-nonsep-fig" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-</section>
-</div><section id="id1">
+<section id="id1">
 <h3>Optimization<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <p>The optimization of the soft-margin SVM is similar to the hard-margin SVM. We define the dual objective and apply a quadratic solver.</p>
-<div class="proof theorem admonition" id="theorem-7">
+<div class="proof theorem admonition" id="theorem-6">
 <p class="admonition-title"><span class="caption-number">Theorem 24 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>The dual optimization objective to the <span class="xref std std-ref">Soft-Margin SVM</span> task is given as</p>
@@ -4212,7 +4196,7 @@ We can indentify the support vectors as those vectors <span class="math notransl
 </div>
 </div>
 <p>Likewise, we formulate the quadratic program of the soft-margin SVM.</p>
-<div class="proof corollary admonition" id="corollary-8">
+<div class="proof corollary admonition" id="corollary-7">
 <p class="admonition-title"><span class="caption-number">Corollary 3 </span> (Quadratic Program Soft-Margin)</p>
 <section class="corollary-content" id="proof-content">
 <p>The dual optimization objective of the <span class="xref std std-ref">Soft-Margin SVM</span> task is equivalent to the following convex quadratic program</p>
@@ -4223,6 +4207,23 @@ We can indentify the support vectors as those vectors <span class="math notransl
 &amp;  0 \leq \lambda_{i} \leq C, \text{ for }1\leq i\leq n,
 \end{align*}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(Q=\frac14 \diag(\vvec{y})DD^\top\diag(\vvec{y})\in\mathbb{R}^{n\times n}\)</span> is defined over the data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span>, gathering all data points over its rows <span class="math notranslate nohighlight">\(D_{i\cdot}=\vvec{x}_i\)</span> and <span class="math notranslate nohighlight">\(\mathbf{1}\in\{1\}^n\)</span> is the constant one vector.</p>
+</section>
+</div><div class="proof example admonition" id="example-8">
+<p class="admonition-title"><span class="caption-number">Example 18 </span></p>
+<section class="example-content" id="proof-content">
+<p>The plot below shows the effect of the results of the soft SVM with varying regularization weights <span class="math notranslate nohighlight">\(C\)</span>. We state the decision boundaries for <span class="math notranslate nohighlight">\(C\in\{0.1,1,100\}\)</span>. Using large weights such as <span class="math notranslate nohighlight">\(C=100\)</span> is common for the SVM. The larger <span class="math notranslate nohighlight">\(C\)</span> is, the more does the decision boundary adapt to the points that are closest to it, which are the first to introduce a penalty on margin or decision boundary violations.</p>
+<figure class="align-left" id="effect-softmargin-sep-fig">
+<a class="reference internal image-reference" href="_images/effect_softmargin_sep.png"><img alt="_images/effect_softmargin_sep.png" src="_images/effect_softmargin_sep.png" style="height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Linearly separable dataset.</span><a class="headerlink" href="#effect-softmargin-sep-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-left" id="effect-softmargin-nonsep-fig">
+<a class="reference internal image-reference" href="_images/effect_softmargin_nonsep.png"><img alt="_images/effect_softmargin_nonsep.png" src="_images/effect_softmargin_nonsep.png" style="height: 200px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Linearly non-separable dataset.</span><a class="headerlink" href="#effect-softmargin-nonsep-fig" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
 </div></section>
 </section>

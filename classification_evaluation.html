@@ -696,11 +696,15 @@ title="Print to PDF"
 <div class="proof theorem admonition" id="theorem-0">
 <p class="admonition-title"><span class="caption-number">Theorem 25 </span> (bias-variance tradeoff for classification)</p>
 <section class="theorem-content" id="proof-content">
-<p>The EPE for any observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>, having the label <span class="math notranslate nohighlight">\(y\)</span> and prediction <span class="math notranslate nohighlight">\(\hat{y}_\mathcal{D}\)</span> (depending on the training data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>) and most frequent prediction <span class="math notranslate nohighlight">\(\mathrm{mode}(\hat{y}_\mathcal{D})\)</span> can be deconstructed into three parts:</p>
+<p>Gievn an observation <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> with label <span class="math notranslate nohighlight">\(y\)</span> and ground truth label <span class="math notranslate nohighlight">\(y^*\)</span>. Let <span class="math notranslate nohighlight">\(\hat{y}_\mathcal{D}\)</span> denote the classifier of a given model class, that has been trained on the dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>, and denote with
+<div class="math notranslate nohighlight">
+\[\mathrm{mode}_\mathcal{D}(\hat{y}_\mathcal{D}(\vvec{x}_0)) = \argmax_y p_\mathcal{D}(\hat{y}_\mathcal{D}(\vvec{x}_0)=y)\]</div>
+
+the most frequently predicted class for all training datasets. The EPE for the classification <span class="math notranslate nohighlight">\(\hat{y}_\mathcal{D}(\vvec{x}_0)\)</span> can be deconstructed into three parts:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-    \mathbb{E}_{y,\mathcal{D}}[L_{01}(y,\hat{y}_\mathcal{D})]  
-    = c_1\underbrace{\mathbb{E}_y[L_{01}(y,y^*)]}_{noise} &amp;+\underbrace{L_{01}(y^*,\mathrm{mode}(\hat{y}_\mathcal{D}))]}_{bias}\\ &amp;+c_2\underbrace{\mathbb{E}_\mathcal{D}[L_{01}(\mathrm{mode}(\hat{y}_\mathcal{D}),\hat{y}_\mathcal{D})}_{variance}] 
+    \mathbb{E}_{y,\mathcal{D}}[L_{01}(y,\hat{y}_\mathcal{D}(\vvec{x}_0))]  
+    = c_1\underbrace{\mathbb{E}_y[L_{01}(y,y^*)]}_{noise} &amp;+\underbrace{L_{01}(y^*,\mathrm{mode}(\hat{y}_\mathcal{D}(\vvec{x}_0)))]}_{bias}\\ &amp;+c_2\underbrace{\mathbb{E}_\mathcal{D}[L_{01}(\mathrm{mode}(\hat{y}_\mathcal{D}(\vvec{x}_0)),\hat{y}_\mathcal{D}(\vvec{x}_0))}_{variance}] 
 \end{align*}\]</div>
 <p>where</p>
 <div class="amsmath math notranslate nohighlight">
@@ -739,7 +743,7 @@ we have</p>
 <figure class="align-center" id="bias-variance-tradeoff1b-fig">
 <a class="reference internal image-reference" href="_images/e2.png"><img alt="_images/e2.png" src="_images/e2.png" style="height: 320px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 7 </span><span class="caption-text">The prediction error as a function of model complexity (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id9" title="Trevor Hastie, Robert Tibshirani, and Jerome Friedman. The elements of statistical learning. Cited on, pages 33, 2009.">2</a>]</span>).</span><a class="headerlink" href="#bias-variance-tradeoff1b-fig" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">The prediction error as a function of model complexity (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id9" title="Trevor Hastie, Robert Tibshirani, and Jerome Friedman. The elements of statistical learning. Cited on, pages 33, 2009.">2</a>]</span>). Blue indicates performance on the training data and red indicates performance on the test data. Each thin line corresponds to one dataset.</span><a class="headerlink" href="#bias-variance-tradeoff1b-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Whether a classifier overfits or underfits depends on the model choice and their hyperparameters. For example, a linear classifier is not a good model choice for a nonlinear classification problem, or naive Bayes is not a good model choice if the features correlate. The table below lists the key parameters of our considered classifiers and how they influence over- and underfitting.</p>
@@ -775,7 +779,7 @@ we have</p>
 <tr class="row-even"><td><p><strong>Random Forest</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">n_estimators</span></code></p></td>
 <td><p>Number of trees in the ensemble</p></td>
-<td><p>Too few → underfitting; more trees → lower variance (not overfit easily)</p></td>
+<td><p>Too few → overfitting; more trees → lower variance</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">max_features</span></code></p></td>
@@ -785,7 +789,7 @@ we have</p>
 <tr class="row-even"><td><p><strong>SVM</strong></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">C</span></code></p></td>
 <td><p>Regularization strength: margin softness</p></td>
-<td><p>Large <code class="docutils literal notranslate"><span class="pre">C</span></code> → more regularization → less overfitting</p></td>
+<td><p>Large <code class="docutils literal notranslate"><span class="pre">C</span></code> → more adaption to training data → more overfitting</p></td>
 </tr>
 <tr class="row-odd"><td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">kernel</span></code></p></td>
