@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Welcome to the Data Mining and Machine Learning Book &#8212; Data Mining and Machine Learning Jupyter Book</title>
+    <title>Exercises &#8212; Data Mining and Machine Learning Jupyter Book</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -51,9 +51,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"diag": "\\mathrm{diag}", "tr": "\\mathrm{tr}", "argmin": "\\mathrm{arg\\,min}", "argmax": "\\mathrm{arg\\,max}", "sign": "\\mathrm{sign}", "softmax": "\\mathrm{softmax}", "vvec": ["\\mathbf{#1}", 1], "bm": ["{\\boldsymbol #1}", 1], "concat": "\\mathbin{{+}\\mspace{-8mu}{+}}"}, "preamble": "\\usepackage{arydshln}"}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Notation" href="notation.html" />
+    <link rel="next" title="Dimensionality Reduction Techniques" href="dim_reduction.html" />
+    <link rel="prev" title="Pooling" href="neuralnets_pooling.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -107,13 +110,13 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Welcome to the Data Mining and Machine Learning Book
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="notation.html">
    Notation
@@ -297,16 +300,16 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="neuralnets.html">
    Neural Networks
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="neuralnets_intro.html">
      From Linear Models to Neural Networks
@@ -337,8 +340,8 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="neuralnets_exercises.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Exercises
     </a>
    </li>
@@ -503,7 +506,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://sibylse.github.io/TUEML/intro.html/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."
+        <a href="https://sibylse.github.io/TUEML/intro.html/issues/new?title=Issue%20on%20page%20%2Fneuralnets_exercises.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -520,7 +523,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/TUEML/intro.html/edit/master/intro.md"
+        <a href="https://github.com/TUEML/intro.html/edit/master/neuralnets_exercises.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -548,7 +551,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/intro.md"
+        <a href="_sources/neuralnets_exercises.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -559,7 +562,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="headerbtn__text-container">.ipynb</span>
 </a>
 
       </li>
@@ -608,8 +611,13 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#acknowledgments">
-   Acknowledgments
+  <a class="reference internal nav-link" href="#vanishing-gradient">
+   Vanishing Gradient
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#backpropagation-implementation">
+   Backpropagation Implementation
   </a>
  </li>
 </ul>
@@ -621,7 +629,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Welcome to the Data Mining and Machine Learning Book</h1>
+                <h1>Exercises</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -632,8 +640,13 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#acknowledgments">
-   Acknowledgments
+  <a class="reference internal nav-link" href="#vanishing-gradient">
+   Vanishing Gradient
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#backpropagation-implementation">
+   Backpropagation Implementation
   </a>
  </li>
 </ul>
@@ -646,27 +659,41 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-the-data-mining-and-machine-learning-book">
-<h1>Welcome to the Data Mining and Machine Learning Book<a class="headerlink" href="#welcome-to-the-data-mining-and-machine-learning-book" title="Permalink to this headline">#</a></h1>
-<p>This book is a work in progress, that has been initiated as an accompanying source of material for a Bachelor course about data mining and machine learning at TU Eindhoven. The goal of this book is to provide comprehensive and interactive material, delving into the theoretical foundations and practical implementations that underpin the field. We will explore topics such as regression, classification, neural networks, clustering and more. Each concept will be introduced from a theoretical perspective, allowing you to follow the thoughts and considerations that go into designing a method for a given task. Further, we designed practical exercises and examples that hopefully encourage you to experiment with the algorithms discussed and foster a deeper understanding of their functioning.</p>
-<p>Transparency is a central theme of this book. By providing rudimentary implementations and step-by-step explanations, we aim to ensure that you have a clear view of the entire process, from theory to practical implementation. We believe that transparency not only facilitates learning but also cultivates the essential skills of critical thinking, problem-solving, and creativity in the realm of machine learning. Even the famous researchers of the field are only cooking with water, and we hope that this book will facilitate you recognizing the cooking mechanisms that are often used and to assess critically the choices made in this cooking process.</p>
-<p>Whether you are a novice in the field or possess some prior knowledge of machine learning, this book caters to learners at all levels. We provided the necessary mathematical background in the first chapters and we try to introduce all needed concepts in this book. We only require some basic background in calculus and statistics. The exercises at the end of each chapter offer an opportunity to apply what you have learned and reinforce your understanding.</p>
-<section id="acknowledgments">
-<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">#</a></h2>
-<p>Some sections of this book were inspired by material developed for earlier versions of the course, co-taught with Robert Peharz and Stiven S. Dias. I gratefully acknowledge their contributions to the development of the teaching approach and materials, parts of which I’ve integrated into this version. Thanks a bunch Robert and Stiven, I’d always teach a course with you again.🫶</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notation.html">Notation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="linalg.html">Linear Algebra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="regression.html">Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="classification.html">Classification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="neuralnets.html">Neural Networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dim_reduction.html">Dimensionality Reduction Techniques</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clustering.html">Clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="exercises">
+<h1>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">#</a></h1>
+<section id="vanishing-gradient">
+<h2>Vanishing Gradient<a class="headerlink" href="#vanishing-gradient" title="Permalink to this headline">#</a></h2>
+<p>In this exercise you will take the two-moons PyTorch example from the lecture, adapt the network into a deeper version and analyze the vanishing gradient effect. Specifically, compare the sigmoid and ReLU versions of the same network structure recording and visualizing gradients to determine magnitude of first layer updates.</p>
+<ol class="simple">
+<li><p>Take the training of a neural network in Pytorch from <a class="reference external" href="https://sibylse.github.io/TUEML/neuralnets_backprop.html">Backpropagation</a> topic. Execute it locally and verify the results are as expected.</p></li>
+<li><p>Replace the original network by a deeper network with at least 3 hidden layers. Create two versions, one with ReLU activation, one with Sigmoid, train a few times observing the loss and accuracy results. Is one architecture always performing better than the other? Why?</p></li>
+</ol>
+<div class="toggle docutils container">
+<p>Extend the class by adding more <code class="docutils literal notranslate"><span class="pre">nn.Linear(...)</span></code> hidden layers of the same width, add them in the forward pass and latent computation methods. Create one version with <code class="docutils literal notranslate"><span class="pre">torch.sigmoid(...)</span></code> and one with <code class="docutils literal notranslate"><span class="pre">torch.relu(...)</span></code></p>
 </div>
+<ol class="simple">
+<li><p>During training record the norm of the weight gradient in each hidden layer. Plot the gradients comparing the architectures and explain whether the sigmoid network shows vanishing gradient effect more clearly than the ReLU network.</p></li>
+</ol>
+<div class="toggle docutils container">
+<p>The gradients are computed with <code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code> step in the training, so they can be stored after it is performed. To extract the gradient norm at a e.g. <code class="docutils literal notranslate"><span class="pre">hidden1</span></code> layer you can use <code class="docutils literal notranslate"><span class="pre">hidden1grad</span> <span class="pre">=</span> <span class="pre">model.hidden1.weight.grad.norm().item()</span></code>.</p>
+</div>
+</section>
+<section id="backpropagation-implementation">
+<h2>Backpropagation Implementation<a class="headerlink" href="#backpropagation-implementation" title="Permalink to this headline">#</a></h2>
+<p>Design a simple model on paper consisting of linear and ReLU layers, manually calculating and implementing forward and backward passes. Afterward, the training is also implemented - single descent step and visualization of progress. For this exercise you may use PyTorch tensors and tensor operations, but <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">nn.Linear()</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>, or automated gradient computation.</p>
+<ol class="simple">
+<li><p>Using the course notation, for the network: <div class="math notranslate nohighlight">
+\[x \to Linear \to ReLU \to Linear \to SoftMax \to CE\]</div>
+ write out the forward pass and calculate the backward pass using backpropagation.</p></li>
+<li><p>Implement the forward pass function taking as input the weight matrices and bias vectors and outputing the logits and values of neurons at intermediate layers (these will be needed for the backward pass). Do so using matrix multiplication and the <code class="docutils literal notranslate"><span class="pre">torch.softmax()</span></code>.</p></li>
+<li><p>Implement the backward pass without the use of automatic differentiation like <code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code>.</p></li>
+</ol>
+<div class="toggle docutils container">
+<p>For the vectors <span class="math notranslate nohighlight">\(e_y\)</span>, you can use <code class="docutils literal notranslate"><span class="pre">F.one_hot(y,</span> <span class="pre">num_classes=a2.shape[1]).float()</span></code> from <code class="docutils literal notranslate"><span class="pre">torch.nn.functional</span> <span class="pre">as</span> <span class="pre">F</span></code>)</p>
+</div>
+<ol class="simple">
+<li><p>Take again the two moons dataset with the model visualization. Implement one gradient descent training step, with a configurable learning rate. Perform the training multiple times visualizing the progress in between - save the loss for the loss curve, and reuse the decision boundary visualization from lecture example.</p></li>
+</ol>
 </section>
 </section>
 
@@ -697,10 +724,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="notation.html" title="next page">
+    <a class='left-prev' id="prev-link" href="neuralnets_pooling.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Pooling</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="dim_reduction.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Notation</p>
+        <p class="prev-next-title">Dimensionality Reduction Techniques</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

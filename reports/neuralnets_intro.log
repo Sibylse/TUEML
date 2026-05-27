@@ -1,0 +1,91 @@
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/homebrew/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# make 3-class dataset for classification
+centers = [[-5, 0], [0, 1.5], [5, -1]]
+X, y = make_blobs(n_samples=1000, centers=centers, random_state=40)
+transformation = [[0.4, 0.2], [-0.4, 1.2]]
+X = np.dot(X, transformation)
+
+multi_class  = "multinomial"
+clf = LogisticRegression(
+    solver="sag", max_iter=100, random_state=42, multi_class=multi_class
+).fit(X, y)
+
+
+coef = clf.coef_
+intercept = clf.intercept_
+plot_conf(plt, clf.predict_proba, show_class_assignment=False, x_max =max(X[:,0])+1, y_max =max(X[:,1])+1, x_min =min(X[:,0])-1, y_min =min(X[:,1])-1)
+sc = plt.scatter(X[:, 0], X[:, 1], c=y, s=20, alpha=0.5, cmap="spring")
+xmin, xmax = plt.xlim()
+ymin, ymax = plt.ylim()
+def plot_hyperplane(c, color):
+    def line(x0):
+        return (-(x0 * coef[c, 0]) - intercept[c]) / coef[c, 1]
+
+    plt.plot([xmin, xmax], [line(xmin), line(xmax)],  color=color)
+
+#cmap = plt.cm.get_cmap("gist_rainbow")
+
+for k in clf.classes_:
+    plot_hyperplane(k, sc.to_rgba(k))
+plt.show()
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mAttributeError[0m                            Traceback (most recent call last)
+Input [0;32mIn [4][0m, in [0;36m<cell line: 15>[0;34m()[0m
+[1;32m     13[0m coef [38;5;241m=[39m clf[38;5;241m.[39mcoef_
+[1;32m     14[0m intercept [38;5;241m=[39m clf[38;5;241m.[39mintercept_
+[0;32m---> 15[0m [43mplot_conf[49m[43m([49m[43mplt[49m[43m,[49m[43m [49m[43mclf[49m[38;5;241;43m.[39;49m[43mpredict_proba[49m[43m,[49m[43m [49m[43mshow_class_assignment[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m,[49m[43m [49m[43mx_max[49m[43m [49m[38;5;241;43m=[39;49m[38;5;28;43mmax[39;49m[43m([49m[43mX[49m[43m[[49m[43m:[49m[43m,[49m[38;5;241;43m0[39;49m[43m][49m[43m)[49m[38;5;241;43m+[39;49m[38;5;241;43m1[39;49m[43m,[49m[43m [49m[43my_max[49m[43m [49m[38;5;241;43m=[39;49m[38;5;28;43mmax[39;49m[43m([49m[43mX[49m[43m[[49m[43m:[49m[43m,[49m[38;5;241;43m1[39;49m[43m][49m[43m)[49m[38;5;241;43m+[39;49m[38;5;241;43m1[39;49m[43m,[49m[43m [49m[43mx_min[49m[43m [49m[38;5;241;43m=[39;49m[38;5;28;43mmin[39;49m[43m([49m[43mX[49m[43m[[49m[43m:[49m[43m,[49m[38;5;241;43m0[39;49m[43m][49m[43m)[49m[38;5;241;43m-[39;49m[38;5;241;43m1[39;49m[43m,[49m[43m [49m[43my_min[49m[43m [49m[38;5;241;43m=[39;49m[38;5;28;43mmin[39;49m[43m([49m[43mX[49m[43m[[49m[43m:[49m[43m,[49m[38;5;241;43m1[39;49m[43m][49m[43m)[49m[38;5;241;43m-[39;49m[38;5;241;43m1[39;49m[43m)[49m
+[1;32m     16[0m sc [38;5;241m=[39m plt[38;5;241m.[39mscatter(X[:, [38;5;241m0[39m], X[:, [38;5;241m1[39m], c[38;5;241m=[39my, s[38;5;241m=[39m[38;5;241m20[39m, alpha[38;5;241m=[39m[38;5;241m0.5[39m, cmap[38;5;241m=[39m[38;5;124m"[39m[38;5;124mspring[39m[38;5;124m"[39m)
+[1;32m     17[0m xmin, xmax [38;5;241m=[39m plt[38;5;241m.[39mxlim()
+
+Input [0;32mIn [3][0m, in [0;36mplot_conf[0;34m(ax, classifier_prob, show_class_assignment, x_max, y_max, x_min, y_min)[0m
+[1;32m     42[0m h [38;5;241m=[39m ax[38;5;241m.[39mcontourf(x_,y_,Z[38;5;241m.[39mmax(axis[38;5;241m=[39m[38;5;241m0[39m), cmap[38;5;241m=[39mcm_0)
+[1;32m     44[0m h[38;5;241m.[39mset_clim([38;5;241m0[39m, [38;5;241m1[39m)   
+[0;32m---> 45[0m cb [38;5;241m=[39m [43mplt[49m[38;5;241;43m.[39;49m[43mcolorbar[49m[43m([49m[43mh[49m[43m,[49m[43max[49m[38;5;241;43m=[39;49m[43max[49m[43m)[49m
+[1;32m     46[0m cb[38;5;241m.[39mset_label([38;5;124m'[39m[38;5;124mConfidence[39m[38;5;124m'[39m)
+
+File [0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/pyplot.py:2109[0m, in [0;36mcolorbar[0;34m(mappable, cax, ax, **kw)[0m
+[1;32m   2104[0m     [38;5;28;01mif[39;00m mappable [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[1;32m   2105[0m         [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m([38;5;124m'[39m[38;5;124mNo mappable was found to use for colorbar [39m[38;5;124m'[39m
+[1;32m   2106[0m                            [38;5;124m'[39m[38;5;124mcreation. First define a mappable such as [39m[38;5;124m'[39m
+[1;32m   2107[0m                            [38;5;124m'[39m[38;5;124man image (with imshow) or a contour set ([39m[38;5;124m'[39m
+[1;32m   2108[0m                            [38;5;124m'[39m[38;5;124mwith contourf).[39m[38;5;124m'[39m)
+[0;32m-> 2109[0m ret [38;5;241m=[39m [43mgcf[49m[43m([49m[43m)[49m[38;5;241;43m.[39;49m[43mcolorbar[49m[43m([49m[43mmappable[49m[43m,[49m[43m [49m[43mcax[49m[38;5;241;43m=[39;49m[43mcax[49m[43m,[49m[43m [49m[43max[49m[38;5;241;43m=[39;49m[43max[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkw[49m[43m)[49m
+[1;32m   2110[0m [38;5;28;01mreturn[39;00m ret
+
+File [0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/figure.py:1201[0m, in [0;36mFigureBase.colorbar[0;34m(self, mappable, cax, ax, use_gridspec, **kw)[0m
+[1;32m   1199[0m         cax, kw [38;5;241m=[39m cbar[38;5;241m.[39mmake_axes_gridspec(ax, [38;5;241m*[39m[38;5;241m*[39mkw)
+[1;32m   1200[0m     [38;5;28;01melse[39;00m:
+[0;32m-> 1201[0m         cax, kw [38;5;241m=[39m [43mcbar[49m[38;5;241;43m.[39;49m[43mmake_axes[49m[43m([49m[43max[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkw[49m[43m)[49m
+[1;32m   1202[0m [38;5;28;01melse[39;00m:
+[1;32m   1203[0m     userax [38;5;241m=[39m [38;5;28;01mTrue[39;00m
+
+File [0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/colorbar.py:1446[0m, in [0;36mmake_axes[0;34m(parents, location, orientation, fraction, shrink, aspect, **kw)[0m
+[1;32m   1444[0m [38;5;28;01melif[39;00m [38;5;129;01mnot[39;00m [38;5;28misinstance[39m(parents, [38;5;28mlist[39m):
+[1;32m   1445[0m     parents [38;5;241m=[39m [parents]
+[0;32m-> 1446[0m fig [38;5;241m=[39m [43mparents[49m[43m[[49m[38;5;241;43m0[39;49m[43m][49m[38;5;241;43m.[39;49m[43mget_figure[49m()
+[1;32m   1448[0m pad0 [38;5;241m=[39m [38;5;241m0.05[39m [38;5;28;01mif[39;00m fig[38;5;241m.[39mget_constrained_layout() [38;5;28;01melse[39;00m loc_settings[[38;5;124m'[39m[38;5;124mpad[39m[38;5;124m'[39m]
+[1;32m   1449[0m pad [38;5;241m=[39m kw[38;5;241m.[39mpop([38;5;124m'[39m[38;5;124mpad[39m[38;5;124m'[39m, pad0)
+
+[0;31mAttributeError[0m: module 'matplotlib.pyplot' has no attribute 'get_figure'
+AttributeError: module 'matplotlib.pyplot' has no attribute 'get_figure'
+

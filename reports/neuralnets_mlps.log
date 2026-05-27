@@ -1,0 +1,107 @@
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/homebrew/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+# target function
+def f(x):
+    return (
+        np.sin(3 * x)
+        + 0.5 * np.sin(7 * x)
+        + 0.3 * x
+        + 0.15 * x**2
+    )
+
+# data
+rng = np.random.default_rng(42)
+
+#X = np.linspace(-3, 3, 120).reshape(-1, 1)
+#y = f(X[:, 0]) #+ rng.normal(0, 0.15, size=X.shape[0])
+
+X_plot = np.linspace(-3, 3, 500).reshape(-1, 1)
+y_true = f(X_plot[:, 0])
+
+# models: same width, increasing depth
+models = {
+    "linear model": None,
+    "1 hidden ReLU layer": (1,),
+    "2 hidden ReLU layers": (1, 1),
+    "4 hidden ReLU layers": (1, 1, 1, 1),
+}
+
+fig, axes = plt.subplots(1, 4, figsize=(18, 4), sharey=True)
+
+for ax, (title, hidden_layers) in zip(axes, models.items()):
+
+    if hidden_layers is None:
+        # MLP with no hidden layer is just a linear model
+        from sklearn.linear_model import LinearRegression
+        model = make_pipeline(StandardScaler(), LinearRegression())
+    else:
+        model = make_pipeline(
+            StandardScaler(),
+            MLPRegressor(
+                hidden_layer_sizes=hidden_layers,
+                activation="tanh",
+                max_iter=5000,
+                alpha=1e-6,
+                random_state=42,
+            )
+        )
+
+    model.fit(X, y)
+    y_pred = model.predict(X_plot)
+
+    #ax.scatter(X[:, 0], y, s=20, alpha=0.5, label="training data")
+    ax.plot(X_plot[:, 0], y_true, linewidth=2, label="target function")
+    ax.plot(X_plot[:, 0], y_pred, linewidth=2, linestyle="--", label="MLP fit")
+
+    ax.set_title(title)
+    ax.set_xlabel("$x$")
+    ax.grid(True, alpha=0.3)
+
+axes[0].set_ylabel("$y$")
+axes[-1].legend(loc="best")
+
+plt.tight_layout()
+plt.show()
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Input [0;32mIn [2][0m, in [0;36m<cell line: 36>[0;34m()[0m
+[1;32m     42[0m [38;5;28;01melse[39;00m:
+[1;32m     43[0m     model [38;5;241m=[39m make_pipeline(
+[1;32m     44[0m         StandardScaler(),
+[1;32m     45[0m         MLPRegressor(
+[0;32m   (...)[0m
+[1;32m     51[0m         )
+[1;32m     52[0m     )
+[0;32m---> 54[0m model[38;5;241m.[39mfit([43mX[49m, y)
+[1;32m     55[0m y_pred [38;5;241m=[39m model[38;5;241m.[39mpredict(X_plot)
+[1;32m     57[0m [38;5;66;03m#ax.scatter(X[:, 0], y, s=20, alpha=0.5, label="training data")[39;00m
+
+[0;31mNameError[0m: name 'X' is not defined
+NameError: name 'X' is not defined
+

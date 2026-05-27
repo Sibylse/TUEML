@@ -690,10 +690,10 @@ title="Print to PDF"
                 
   <section id="backpropagation">
 <h1>Backpropagation<a class="headerlink" href="#backpropagation" title="Permalink to this headline">#</a></h1>
-<p>Neural networks have <em>a lot</em> of parameters. Every layer introduces <span class="math notranslate nohighlight">\(d_j\cdot d_{j+1}\)</span> parameters for the weight matrix and <span class="math notranslate nohighlight">\(d_{j+1}\)</span> parameters for the bias term. The composition of affine functions and nonlinear activations make it impossible to compute the optimum analytically, or to compute the optimum subject to one weight, fixing all the others (the gradients of the nonlinear activations have no inverse function, which is needed to solve the equations given by FONC). The optimization method is crucial for the performance of the neural network and as a result there exist various optimizers that have been applied and developed for neural networks. Typically, neural networks are optimized with a version of gradient descent with momentum. To do so, we need to discuss how to get the gradient of neural networks.</p>
+<p>Neural networks have <em>a lot</em> of parameters. Every layer introduces <span class="math notranslate nohighlight">\(d_j\cdot d_{j+1}\)</span> parameters for the weight matrix and <span class="math notranslate nohighlight">\(d_{j+1}\)</span> parameters for the bias term. The composition of affine functions and nonlinear activations make it infeasible to compute the optimum analytically, also not if we fix all other weights. Hence, applying FONC or coordinate descent is out, and we resort to gradient descent, or one of its variants. To do so, we need to discuss how to get the gradient of neural networks.</p>
 <section id="computing-the-gradient-of-a-neural-network">
 <h2>Computing the Gradient of a Neural Network<a class="headerlink" href="#computing-the-gradient-of-a-neural-network" title="Permalink to this headline">#</a></h2>
-<p>We consider the optimization of our loss function</p>
+<p>We consider the optimization of our loss function, the average cross entropy</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \mathcal{L}(\mathcal{D},\theta) &amp;= \frac{1}{n} \sum_{i=1}^n CE(y_i,f_\theta(\vvec{x}_i))\\
@@ -709,7 +709,7 @@ f_\theta(\vvec{x}_i) &amp; = \softmax(W\vvec{h}^{(L)}+\vvec{b}),
 \[\begin{align*}
 \vvec{h}^{(\ell)} = \phi_{\ell}(W^{(\ell)}\vvec{h}^{(\ell-1)}+\vvec{b}^{(\ell)}).
 \end{align*}\]</div>
-<p>The layer-wise definition of a neural network is helpful to compute the gradient of the loss with the chain rule. This motivates the so-called <strong>backpropagation algorithm</strong> that is in essence an efficiently implementation of the chain rule. Let’s have a look how we would apply the chain rule to the loss function above. First, we notice that the gradient subject to <span class="math notranslate nohighlight">\(\theta\)</span> gathers all partial derivatives subject to all parameters, that is</p>
+<p>The layer-wise definition of a neural network is helpful to compute the gradient of the loss with the chain rule. This motivates the so-called <strong>backpropagation algorithm</strong> that is in essence an efficient implementation of the chain rule. Let’s have a look how we would apply the chain rule to the loss function above. First, we notice that the gradient subject to <span class="math notranslate nohighlight">\(\theta\)</span> gathers all partial derivatives subject to all parameters, that is</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \nabla_\theta \mathcal{L}(\mathcal{D},\theta) = \begin{pmatrix}\frac{\partial}{\partial W_{11}}\mathcal{L}(\mathcal{D},\theta)\\
@@ -757,7 +757,7 @@ are given by
 
 Hence, we have
 <div class="math notranslate nohighlight">
-\[\frac{\partial CE(y,f(\vvec{x}))}{\partial \vvec{h}} = f(\vvec{x}) -\vvec{e}_y\]</div>
+\[\frac{\partial CE(y,f(\vvec{x}))}{\partial \vvec{h}} = f(\vvec{x})^\top -\vvec{e}_y^\top\]</div>
 
 where <span class="math notranslate nohighlight">\(\vvec{e}_y\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th standard basis vector having a one at position <span class="math notranslate nohighlight">\(y\)</span> and being zero elsewhere.</p>
 </section>
@@ -878,22 +878,22 @@ In practice, this doesn’t affect performance and it makes the computation of g
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0 | Loss: 0.746 | Train Acc: 50.000%
-Iter 100 | Loss: 0.702 | Train Acc: 50.000%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0 | Loss: 0.686 | Train Acc: 50.000%
+Iter 100 | Loss: 0.253 | Train Acc: 89.250%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 200 | Loss: 0.693 | Train Acc: 50.000%
-Iter 300 | Loss: 0.694 | Train Acc: 50.000%
-Iter 400 | Loss: 0.694 | Train Acc: 50.000%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 200 | Loss: 0.102 | Train Acc: 96.875%
+Iter 300 | Loss: 0.068 | Train Acc: 97.875%
+Iter 400 | Loss: 0.061 | Train Acc: 97.750%
+Iter 500 | Loss: 0.057 | Train Acc: 97.750%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 500 | Loss: 0.693 | Train Acc: 50.000%
-Iter 600 | Loss: 0.693 | Train Acc: 50.000%
-Iter 700 | Loss: 0.693 | Train Acc: 50.000%
-Iter 800 | Loss: 0.693 | Train Acc: 50.000%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 600 | Loss: 0.054 | Train Acc: 97.750%
+Iter 700 | Loss: 0.052 | Train Acc: 97.750%
+Iter 800 | Loss: 0.050 | Train Acc: 97.750%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 900 | Loss: 0.693 | Train Acc: 50.000%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 900 | Loss: 0.049 | Train Acc: 98.000%
 </pre></div>
 </div>
 </div>

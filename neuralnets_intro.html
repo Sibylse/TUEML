@@ -606,8 +606,13 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#logistic-and-softmax-regression">
-   Logistic and Softmax Regression
+  <a class="reference internal nav-link" href="#logistic-regression">
+   Logistic Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#softmax-regression">
+   Softmax Regression
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -645,8 +650,13 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#logistic-and-softmax-regression">
-   Logistic and Softmax Regression
+  <a class="reference internal nav-link" href="#logistic-regression">
+   Logistic Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#softmax-regression">
+   Softmax Regression
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -674,78 +684,196 @@ title="Print to PDF"
                 
               <div>
                 
-  <section id="from-linear-models-to-neural-networks">
+  <section class="tex2jax_ignore mathjax_ignore" id="from-linear-models-to-neural-networks">
 <h1>From Linear Models to Neural Networks<a class="headerlink" href="#from-linear-models-to-neural-networks" title="Permalink to this headline">#</a></h1>
-<p>At their core, neural networks are function approximators composed of layers of interconnected nodes that transform input data through weighted connections and nonlinear activations. Originally proposed in the 1950s with the perceptron, neural networks saw early promise but soon hit limitations due to their inability to solve even simple non-linear tasks.</p>
-<p>The resurgence of interest began in the 1980s with the development of backpropagation, enabling multi-layer networks to be efficiently optimized. However, they were soon overshadowed by models like the kernel SVM, which were mathematically elegant, easier to train, and delivered strong performance on small to medium datasets.</p>
-<p>Kernel methods offer strong theoretical guarantees and closed-form training objectives, but scale poorly with large datasets and require careful kernel selection. Neural networks can be seen as models that learn the feature transformation, that is implicitly provided by the kernel, themselves. Adapting both the transformation and the decision boundary simultaneously makes neural networks exceptionally powerful in high-dimensional, unstructured domains like images, audio, and text. The breakthrough came in the 2010s, fueled by larger datasets, faster GPUs, and architectural innovations (e.g., convolutional layers, residual connections), enabling deep neural networks (DNNs) to surpass traditional models on a wide range of tasks.</p>
-<p>We start now with introducing another linear classifier, that is extended to a deep neural network classifier by a preceeding feature transformation.</p>
-<section id="logistic-and-softmax-regression">
-<h2>Logistic and Softmax Regression<a class="headerlink" href="#logistic-and-softmax-regression" title="Permalink to this headline">#</a></h2>
-<p>Logistic regression is a binary classification model, that finds a hyperplane separating the classes (like the SVM). In contrast to the SVM, logistic regression uses the distance of a point to the separating hperplane as a confidence measure: the further a point is away from the separating hyperplane,the more confidently it is assigned to the corresponding class. The plot below indicates a separating hyperplane and the confidence assigned by logistic regression. We see that the confidence is low at the decision boundary and getting pretty high quickly when moving away from the decision boundary.</p>
+<p>Linear models occupy a special place in machine learning because they are mathematically simple, computationally efficient, and geometrically interpretable. Linear models often provide a clear definition of what constitutes an optimal model. In regression, we could easily determine the globally optimal model. In the SVM, linearity helps to define and compute the most robust hyperplane that maximizes the margin. Importantly, linear models are not necessarily restricted to learning linear relationships in the original input space. We can transform the data to higher dimensional feature spaces where nonlinear relationships appear linear. This we have seen with the basis functions in regression and the kernel trick for the SVM.</p>
+<p>However, transforming into higher dimensional feature spaces via a kernel or basis functions scales poorly with large datasets and require an ad hoc selection of the feauture transformation. Neural networks address this issue by learning a feature transformation that fits to the data and task at hand. At their core, neural networks are function approximators composed of simple layers of interconnected nodes. Although neural networks have been originally proposed in the 1950s with the perceptron, the breakthrough came in the 2010s, fueled by larger datasets, faster GPUs, and architectural innovations.</p>
+<p>Although neural networks can be used in a versatile way to learn any kind of function, one of their most successful use cases is in classification. Neural network classifiers train a linear classifier together with the feature transformation, which makes them exceptionally powerful in high-dimensional, unstructured domains like images, audio, and text. The linear classifier they typically use is the logistic regression, which we introduce now.</p>
+<section id="logistic-regression">
+<h2>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">#</a></h2>
+<p>Logistic regression is a binary classification model, that finds a hyperplane separating the classes like the SVM. In contrast to the SVM, logistic regression uses the distance of a point to the separating hyperplane as a confidence measure: pushing a point away from the separating hyperplane increases the confidence with which it is assigned to the corresponding class. The plot below indicates a separating hyperplane and the confidence assigned by logistic regression. We see that the confidence is low near the decision boundary and increases rapidly away from it.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="_images/neuralnets_intro_1_0.png" src="_images/neuralnets_intro_1_0.png" />
 </div>
 </div>
-<p>The confidence in logistic regression is modeled by a probability measuring how likely a sample belongs to the positive class.</p>
+<p>Recall from what we discussed regarding the SVM that <span class="math notranslate nohighlight">\(\lvert\mathbf{w}^\top \mathbf{x} + b\rvert = dist(\mathbf{x},\mathcal{H}_{\vvec{w},b})\lVert\vvec{w}\rVert\)</span> is the scaled distance of point <span class="math notranslate nohighlight">\(\vvec{x}\)</span> to the hyperplane defined by <span class="math notranslate nohighlight">\(\vvec{w}\)</span> and <span class="math notranslate nohighlight">\(b\)</span>. Logistic regression turns the linear score <span class="math notranslate nohighlight">\(\mathbf{w}^\top \mathbf{x} + b\)</span> into a quantity that can be interpreted as probability of assigning the point <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to either class. Logistic regression achieves this by applying the sigmoid function
 <div class="math notranslate nohighlight">
-\[
-P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^\top \mathbf{x} + b).
-\]</div>
-<p>This probability is computed over the sigmoid function
-<div class="math notranslate nohighlight">
-\[\sigma(x) = \frac{1}{1 + \exp^{-x}}.\]</div>
+\[\sigma(x) = \frac{1}{1 + \exp^{-x}}\]</div>
 
-Recall from what we discussed regarding the SVM that <span class="math notranslate nohighlight">\(\lvert\mathbf{w}^\top \mathbf{x} + b\rvert = dist(\mathbf{x},\mathcal{H}_{\vvec{w},b})\lVert\vvec{w}\rVert\)</span> is the scaled distance of point <span class="math notranslate nohighlight">\(\vvec{x}\)</span> to the hyperplane defined by <span class="math notranslate nohighlight">\(\vvec{w}\)</span> and <span class="math notranslate nohighlight">\(b\)</span>. The sigmoid function maps this scaled distance onto a probability between 0 and 1.
-The plot below shows the sigmoid function.</p>
+to the linear score.</p>
+<p>The sigmoid maps large positive values close to <span class="math notranslate nohighlight">\(1\)</span>, large negative values close to <span class="math notranslate nohighlight">\(0\)</span>, and values near the decision boundary close to <span class="math notranslate nohighlight">\(0.5\)</span>. In addition, it is a smooth function that can be optimized with gradient descent. The plot below shows the sigmoid function.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="_images/neuralnets_intro_3_0.png" src="_images/neuralnets_intro_3_0.png" />
 </div>
 </div>
-<p>For multiclass classification, the softmax regression generalizes logistic regression to <span class="math notranslate nohighlight">\(c\)</span> classes by learning one hyperplane per class. The more a point lies on the positive side of a hyperplane, the more confidently it is assigned to that class. The confidence is again interpreted as a probability that a sample belongs to a class, which is now computed over the softmax function.</p>
-<div class="proof definition admonition" id="definition-0">
-<p class="admonition-title"><span class="caption-number">Definition 43 </span> (Softmax Regression)</p>
-<section class="definition-content" id="proof-content">
-<p>The <strong>softmax regression</strong> (a.k.a. multinomial logistic regression) classifier computes the probability that point <span class="math notranslate nohighlight">\(\vvec{x}\)</span> belongs to class <span class="math notranslate nohighlight">\(y\)</span> by means of <span class="math notranslate nohighlight">\(c\)</span> hyperplanes, defined by parameters <span class="math notranslate nohighlight">\(\vvec{w}_l\)</span> and <span class="math notranslate nohighlight">\(b_l\)</span>. Gathering the <span class="math notranslate nohighlight">\(c\)</span> hyperplane defining parameters in a matrix <span class="math notranslate nohighlight">\(W\)</span>, such that <span class="math notranslate nohighlight">\(W_{l\cdot} = \vvec{w}_l^\top\)</span>, and <span class="math notranslate nohighlight">\(\vvec{b}\)</span>, then the softmax regression classifier models the probability that point <span class="math notranslate nohighlight">\(\vvec{x}\)</span> belongs to class <span class="math notranslate nohighlight">\(l\)</span> over the parameters <span class="math notranslate nohighlight">\(W\)</span> and <span class="math notranslate nohighlight">\(\vvec{b}\)</span>
+<p>The resulting predicted probability with which a point <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is assigned to class 1, is then computed as
 <div class="math notranslate nohighlight">
 \[
-f_{sr}(\vvec{x})_l=p(y = l \mid \mathbf{x},W,\vvec{b}) =\mathrm{softmax}(W\vvec{x}+\vvec{b})_l= \frac{\exp(\vvec{w}_l^\top \mathbf{x} + b_l)}{\sum_{j=1}^{c} \exp(\mathbf{w}_j^\top \mathbf{x} + b_j)}
+P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^\top \mathbf{x} + b).
 \]</div>
 </p>
 </section>
-</div><p>The softmax function <span class="math notranslate nohighlight">\(\mathrm{softmax}:\mathbb{R}^d\rightarrow [0,1]^c\)</span>, <span class="math notranslate nohighlight">\(\mathrm{softmax}(\vvec{x})_y=\frac{\exp(x_y)}{\sum_{j=1}^c\exp{x_j}}\)</span> returns a vector reflecting the confidences for each class. We can easily show the confidences sum up to one. The plot below show the confidences and the hyperplanes learned for a 3-class classification problem.</p>
+<section id="softmax-regression">
+<h2>Softmax Regression<a class="headerlink" href="#softmax-regression" title="Permalink to this headline">#</a></h2>
+<p>For multiclass classification, the softmax regression generalizes logistic regression to <span class="math notranslate nohighlight">\(c\)</span> classes by learning one hyperplane per class. The confidence of a class increases the more we go in direction of the normal vector <span class="math notranslate nohighlight">\(\vvec{w}_l\)</span>. The confidence is again interpreted as probability that a sample belongs to a class, which is now computed over the softmax function. The plot below shows how softmax regression models decision boundaries based on three hyperplanes. Both plots indicate the confidence as a heatmap. You can see the decision boundaries are the white lines. On the left you see a plot of each hyperplane <span class="math notranslate nohighlight">\(\vvec{w}_l^\top \vvec{x}+b_l=0\)</span> as the thick solid lines together with the corresponding normal vector, indicated by the arrows. The dashed lines indicate the level sets where <span class="math notranslate nohighlight">\(\vvec{w}_l^\top \vvec{x}+b_l\in\{2,4,6\}\)</span>. On the right you see the confidence plot together with the training data.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># make 3-class dataset for classification</span>
+<span class="c1">#plt.figure(figsize=(8, 3),dpi=200)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span><span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span> <span class="n">axes</span>
+
 <span class="n">centers</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="n">centers</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
 <span class="n">transformation</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]]</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span>
 
-<span class="n">multi_class</span>  <span class="o">=</span> <span class="s2">&quot;multinomial&quot;</span>
-<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span>
-    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;sag&quot;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">multi_class</span><span class="o">=</span><span class="n">multi_class</span>
-<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">multi_class</span> <span class="o">=</span> <span class="s2">&quot;multinomial&quot;</span>
 
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span>
+    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;sag&quot;</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">multi_class</span><span class="o">=</span><span class="n">multi_class</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
 <span class="n">coef</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">coef_</span>
 <span class="n">intercept</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">intercept_</span>
-<span class="n">plot_conf</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span><span class="n">show_class_assignment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_min</span> <span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_min</span> <span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">sc</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;spring&quot;</span><span class="p">)</span>
-<span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">()</span>
-<span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">plot_hyperplane</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x0</span> <span class="o">*</span> <span class="n">coef</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">intercept</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="o">/</span> <span class="n">coef</span><span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">],</span> <span class="p">[</span><span class="n">line</span><span class="p">(</span><span class="n">xmin</span><span class="p">),</span> <span class="n">line</span><span class="p">(</span><span class="n">xmax</span><span class="p">)],</span>  <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>
 
-<span class="c1">#cmap = plt.cm.get_cmap(&quot;gist_rainbow&quot;)</span>
+<span class="k">def</span> <span class="nf">plot_conf</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">classifier_prob</span><span class="p">,</span> <span class="n">show_class_assignment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">y_max</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_min</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">d</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span>
+    <span class="c1">#plt.set_cmap(cm_0)</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">y_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
 
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+    <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">x_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">y_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">classifier_prob</span><span class="p">(</span><span class="n">XY</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">y_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span><span class="n">y_</span><span class="p">,</span><span class="n">Z</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm_0</span><span class="p">)</span>
+    
+    <span class="n">h</span><span class="o">.</span><span class="n">set_clim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>   
+    <span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;Confidence&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot confidence background</span>
+<span class="n">plot_conf</span><span class="p">(</span>
+    <span class="n">ax2</span><span class="p">,</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span>
+    <span class="n">show_class_assignment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">x_max</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span>
+    <span class="n">y_max</span><span class="o">=</span><span class="n">ymax</span><span class="p">,</span>
+    <span class="n">x_min</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span>
+    <span class="n">y_min</span><span class="o">=</span><span class="n">ymin</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># plot confidence background</span>
+<span class="n">plot_conf</span><span class="p">(</span>
+    <span class="n">ax1</span><span class="p">,</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">,</span>
+    <span class="n">show_class_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">x_max</span><span class="o">=</span><span class="n">xmax</span><span class="p">,</span>
+    <span class="n">y_max</span><span class="o">=</span><span class="n">ymax</span><span class="p">,</span>
+    <span class="n">x_min</span><span class="o">=</span><span class="n">xmin</span><span class="p">,</span>
+    <span class="n">y_min</span><span class="o">=</span><span class="n">ymin</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># scatter plot</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;spring&quot;</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">plot_hyperplanes</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">intercept</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">:</span>
+
+        <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x0</span> <span class="o">-</span> <span class="n">b</span> <span class="o">+</span> <span class="n">level</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># style for decision boundary</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
+            <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">linestyle</span> <span class="o">=</span> <span class="s2">&quot;--&quot;</span>
+            <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span>
+
+        <span class="c1"># draw line</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">line</span><span class="p">(</span><span class="n">xmin</span><span class="p">),</span> <span class="n">line</span><span class="p">(</span><span class="n">xmax</span><span class="p">)],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># label position</span>
+        <span class="n">x_text</span> <span class="o">=</span> <span class="n">xmax</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">y_text</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="n">x_text</span><span class="p">)</span>
+
+        <span class="c1"># avoid labels outside plot</span>
+        <span class="k">if</span> <span class="n">ymin</span> <span class="o">&lt;</span> <span class="n">y_text</span> <span class="o">&lt;</span> <span class="n">ymax</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">x_text</span><span class="p">,</span>
+                <span class="n">y_text</span><span class="p">,</span>
+                <span class="sa">rf</span><span class="s2">&quot;$w_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">^\top x + b_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+                <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plot_weight_vector</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">coef</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+    <span class="n">b</span><span class="o">=</span><span class="n">intercept</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+
+    <span class="c1"># normalize for visualization</span>
+    <span class="n">w_norm</span> <span class="o">=</span> <span class="n">w</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    
+    <span class="c1"># point on hyperplane closest to origin</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span> <span class="o">*</span> <span class="n">w</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="n">base</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">base</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>                 <span class="c1"># start at origin</span>
+        <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>           <span class="c1"># vector components</span>
+        <span class="n">angles</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span>
+        <span class="n">scale_units</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span>
+        <span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mf">0.008</span><span class="p">,</span>
+        <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span>
+    <span class="p">)</span>
+<span class="c1"># plot all classes</span>
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">clf</span><span class="o">.</span><span class="n">classes_</span><span class="p">:</span>
-    <span class="n">plot_hyperplane</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">sc</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+    <span class="n">plot_weight_vector</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">sc</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+    <span class="n">plot_hyperplanes</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">sc</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -754,9 +882,72 @@ f_{sr}(\vvec{x})_l=p(y = l \mid \mathbf{x},W,\vvec{b}) =\mathrm{softmax}(W\vvec{
 <img alt="_images/neuralnets_intro_5_0.png" src="_images/neuralnets_intro_5_0.png" />
 </div>
 </div>
+<p>We observe that the level sets for the orange class are more widely spaced than for the other classes. This is due to the smaller norm of the corresponding normal vector. Since</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\mathbf{w}^\top \mathbf{x} + b = z\\
+\Leftrightarrow \quad &amp; dist(\mathbf{x},\mathcal{H}_{\vvec{w},b})\lVert\vvec{w}\rVert = z\\
+\Leftrightarrow \quad &amp; dist(\mathbf{x},\mathcal{H}_{\vvec{w},b}) = \frac{z}{\lVert\vvec{w}\rVert}
+\end{align*}\]</div>
+<p>smaller values of <span class="math notranslate nohighlight">\(\lVert\vvec{w}\rVert\)</span> lead to larger distances between neighboring level sets.</p>
+<p>Softmax regression predicts the class with the highest level set, which is equivalent to selecting the class with the highest scaled distance to the corresponding hyperplane
+<div class="math notranslate nohighlight">
+\[
+ \hat{y} = \argmax_{1\leq l \leq c} \mathbf{w}_l^\top \mathbf{x} + b_l = \argmax_{1\leq l \leq c} dist(\mathbf{x},\mathcal{H}_{\vvec{w},b})\lVert\vvec{w}\rVert.
+\]</div>
+
+The plot above visualizes how the decision boundaries are generated over those points for which two competing level sets meet. For example, the decision boundary between the yellow and orange class contains those points where the first, second, and third depicted level sets for orange and yellow meet.</p>
+<p>In softmax regression, the level set quantities
+<div class="math notranslate nohighlight">
+\[z_l = \vvec{w}_l^\top \vvec{x}+b_l\]</div>
+
+are also called <strong>logits</strong>.
+Softmax Regression uses the softmax function to transform the logits into probabilities
+<div class="math notranslate nohighlight">
+\[\mathrm{softmax}:\mathbb{R}^d\rightarrow [0,1]^c, \ \mathrm{softmax}(\vvec{z})_y=\frac{\exp(z_y)}{\sum_{j=1}^c\exp(z_j)}.\]</div>
+
+Softmax gets its name from being a smooth version of the <span class="math notranslate nohighlight">\(\argmax\)</span> function. While <span class="math notranslate nohighlight">\(\argmax\)</span> selects only the class with the highest logit, softmax converts all logits into probabilities while still assigning exponentially larger probabilities to larger logits.</p>
+<div class="proof example admonition" id="example-0">
+<p class="admonition-title"><span class="caption-number">Example 19 </span></p>
+<section class="example-content" id="proof-content">
+<p>We compute the softmax confidence for point <span class="math notranslate nohighlight">\(\vvec{x}=(0,2)\)</span> and the hyperplanes from the plot above</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+z_{1} &amp;= -0.1 x_1 +0.7 x_2 +2.9 = 4.3 &amp; \text{(orange)}\\
+z_{2} &amp;= -4.5 x_1 -1.5 x_2 -1.7 = -4.7&amp; \text{(purple)}\\
+z_{3} &amp;= 4.6 x_1 + 0.8 x_2 -1.2 = 0.4 &amp; \text{(yellow)}
+\end{align*}\]</div>
+<p>We observe how the logits indicate whether the point is on the positive or negative side of the class hyperplane. The point <span class="math notranslate nohighlight">\((0,2)\)</span> is further away from the orange hyperplane in direction of the normal vector. Correspondingly, the logit for the orange class is high. The point is on the negative side of the purple hyperplane, resulting in a negative logit. And it is close to the yellow hyperplane, but on the positive side, indicated by a small, positive logit. Softmax converts these scores now into a probability vector:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+softmax(\vvec{z})_{1} &amp;= \frac{\exp( 4.3)}{\exp( 4.3) + \exp( -4.7) + \exp( 0.4)} \approx 0.98 \\
+softmax(\vvec{z})_{2} &amp;= \frac{\exp( -4.7)}{\exp( 4.3) + \exp( -4.7) + \exp( 0.4)} \approx 0.0001\\
+softmax(\vvec{z})_{3} &amp;= \frac{\exp( 0.4)}{\exp( 4.3) + \exp( -4.7) + \exp( 0.4)} \approx 0.02
+\end{align*}\]</div>
+<p>As a result, we have
+<div class="math notranslate nohighlight">
+\[\begin{split}
+softmax(\vvec{z}) \approx \begin{pmatrix}0.98\\ 0.0001\\ 0.02\end{pmatrix}.
+\end{split}\]</div>
+
+That is, the confidence for the point being assigned to the first (orange) class is very high. Larger logits receive exponentially larger probabilities due to the definition of softmax as the proportional exponential term.</p>
 </section>
+</div><p>We have now all the ingredients to define the inference of Softmax Regression.</p>
+<div class="proof definition admonition" id="definition-1">
+<p class="admonition-title"><span class="caption-number">Definition 43 </span> (Softmax Regression)</p>
+<section class="definition-content" id="proof-content">
+<p>The <strong>softmax regression</strong> (a.k.a. multinomial logistic regression) classifier computes the probability that point <span class="math notranslate nohighlight">\(\vvec{x}\)</span> belongs to class <span class="math notranslate nohighlight">\(y\)</span> by means of <span class="math notranslate nohighlight">\(c\)</span> hyperplanes, defined by parameters <span class="math notranslate nohighlight">\(\vvec{w}_l\)</span> and <span class="math notranslate nohighlight">\(b_l\)</span>. Gathering the <span class="math notranslate nohighlight">\(c\)</span> hyperplane defining parameters in a matrix <span class="math notranslate nohighlight">\(W\)</span>, such that <span class="math notranslate nohighlight">\(W_{l\cdot} = \vvec{w}_l^\top\)</span>, and <span class="math notranslate nohighlight">\(\vvec{b}\)</span>, then the softmax regression classifier models the probability that point <span class="math notranslate nohighlight">\(\vvec{x}\)</span> belongs to class <span class="math notranslate nohighlight">\(l\)</span> over the parameters <span class="math notranslate nohighlight">\(W\)</span> and <span class="math notranslate nohighlight">\(\vvec{b}\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f_{sr}(\vvec{x})_l&amp;=p(y = l \mid \mathbf{x},W,\vvec{b})\\ 
+&amp;=\mathrm{softmax}(W\vvec{x}+\vvec{b})_l\\
+&amp;= \frac{\exp(\vvec{w}_l^\top \mathbf{x} + b_l)}{\sum_{j=1}^{c} \exp(\mathbf{w}_j^\top \mathbf{x} + b_j)}
+\end{align*}\]</div>
+</section>
+</div></section>
 <section id="training">
 <h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">#</a></h2>
+<p>We define the objective of softmax regression as the task to maximize the prediction probabilities for the correct class.</p>
 <div class="tip admonition" id="softmax-regr-task">
 <p class="admonition-title">Task (softmax regression)</p>
 <p><strong>Given</strong> a classification training data set that is sampled i.i.d. <span class="math notranslate nohighlight">\(\mathcal{D}=\{(\vvec{x}_i,y_i)\mid 1\leq i\leq n, y_i\in\{1,\ldots,c\}\}\)</span>.</p>
@@ -781,26 +972,27 @@ are maximized</p>
 \min_{\theta} -\frac1n \sum_{i=1}^n\log p(y=y_i\mid \vvec{x}_i,\theta)=
 \min_{\theta} \frac1n \sum_{i=1}^nCE(y_i,p(y\mid \vvec{x}_i,\theta)).
 \end{align*}\]</div>
-<div class="proof definition admonition" id="definition-1">
+<div class="proof definition admonition" id="definition-2">
 <p class="admonition-title"><span class="caption-number">Definition 44 </span> (Cross-entropy)</p>
 <section class="definition-content" id="proof-content">
 <p>The cross entropy is a function <span class="math notranslate nohighlight">\(CE:\{1,\ldots,c\}\times [0,1]^c\rightarrow \mathbb{R}_+\)</span>,
-mapping a label <span class="math notranslate nohighlight">\(y\in\{1,\ldots,c\}\)</span> and a probability vector <span class="math notranslate nohighlight">\(\vvec{z}\in[0,1]^c\)</span> to the negative logarithm of the probability vector at position <span class="math notranslate nohighlight">\(y\)</span>:
+mapping a label <span class="math notranslate nohighlight">\(y\in\{1,\ldots,c\}\)</span> and a probability vector <span class="math notranslate nohighlight">\(\vvec{p}\in[0,1]^c\)</span> to the negative logarithm of the probability vector at position <span class="math notranslate nohighlight">\(y\)</span>:
 <div class="math notranslate nohighlight">
-\[CE(y,\vvec{z}) = -\log(z_y).\]</div>
+\[CE(y,\vvec{p}) = -\log(p_y).\]</div>
 </p>
 </section>
 </div><p>Cross entropy is a popular loss for classification tasks, since it penalizes heavily low probability predictions for the correct class. In addition, applying the logarithm to the softmax output dampenes the vanishing gradient effect that the sigmoid and softmax function are suffering from. Hence, applying Cross-Entropy as a loss helps to numerically optimize the softmax output of the softmax regression classifier.</p>
 </section>
 <section id="softmax-regression-as-a-computational-graph">
 <h2>Softmax Regression as a Computational Graph<a class="headerlink" href="#softmax-regression-as-a-computational-graph" title="Permalink to this headline">#</a></h2>
-<p>The plot below shows a visualization of the softmax regression model as it is common for neural networks. The affine function is visualized by the edges connecting the input layer on the left with the output layer. The output layer has <span class="math notranslate nohighlight">\(c\)</span> nodes, one for each class. Every edge has a weight that is given by the matrix <span class="math notranslate nohighlight">\(W\)</span>. For example, the edge from input node <span class="math notranslate nohighlight">\(x_i\)</span> to output class node <span class="math notranslate nohighlight">\(l\)</span> is <span class="math notranslate nohighlight">\(W_{il}\)</span>. At each output node, the weighted sum of the edge weights multiplied with the input is computed, the bias term is added and the softmax function is applied.</p>
+<p>Softmax regression can already be viewed as a very small neural network consisting of an input layer and an output layer without hidden units.
+The plot below shows a visualization of the softmax regression model as it is common for neural networks. The affine function is visualized by the edges connecting the input layer on the left with the output layer. The output layer has <span class="math notranslate nohighlight">\(c\)</span> nodes, one for each class. Every edge has a weight that is given by the matrix <span class="math notranslate nohighlight">\(W\)</span>. For example, the edge from input node <span class="math notranslate nohighlight">\(x_i\)</span> to output class node <span class="math notranslate nohighlight">\(l\)</span> is <span class="math notranslate nohighlight">\(W_{il}\)</span>. At each output node, the weighted sum of the edge weights multiplied with the input is computed, the bias term is added and the softmax function is applied.</p>
 <div class="figure" style="text-align: center"><p><img  src="_images/tikz-60f85c6b4ef63be8b3e131a4d29bd0fd495fba9c.svg" alt="Figure made with TikZ" /></p>
 </div><p>The output of the final layer before the application of the softmax function are also called the <strong>logits</strong>. For the simple softmax regression problem, the logits are hence given by the vector <span class="math notranslate nohighlight">\(\vvec{z} = W\vvec{x}+\vvec{b}\)</span>.</p>
 </section>
 <section id="representation-learning">
 <h2>Representation Learning<a class="headerlink" href="#representation-learning" title="Permalink to this headline">#</a></h2>
-<p>Logistic or Softmax regression rely on linear decision boundaries. In practice, data often lies on complex, nonlinear manifolds. Hence, we apply a similar trick as we have seen in linear regression and the SVM to use a linear model for nonlinear problems by appling a feature transformation first. In regression, the feature transformation is given by the basis functions and in the SVM it is implicitly defined over the kernel. Neural networks <strong>learn the feature transformation</strong> by stacking various simple functions after one another, whose parameters are optimized jointly with the classifier’s parameters. That is we get something that looks like that:</p>
+<p>Logistic or Softmax regression rely on linear decision boundaries. In practice, data often lies on complex, nonlinear manifolds. Hence, we apply a similar trick as we have seen in linear regression and the SVM to use a linear model for nonlinear problems by applying a feature transformation first. In regression, the feature transformation is given by the basis functions and in the SVM it is implicitly defined over the kernel. Neural networks <strong>learn the feature transformation</strong> by stacking various simple functions after one another, whose parameters are optimized jointly with the classifier’s parameters. That is we get something that looks like that:</p>
 <div class="figure" style="text-align: center"><p><img  src="_images/tikz-713fddd55a72d1485733a126a5cbb77e6e2492e8.svg" alt="Figure made with TikZ" /></p>
 </div><p>On the left we see the vector <span class="math notranslate nohighlight">\(\vvec{x}\)</span> being put as input to the graph, producing an intermediate output <span class="math notranslate nohighlight">\(\phi(\vvec{x})\)</span>, that is the feature transformation that is classified with a softmax regression, creating the output of the graph. We discuss in the following how we can interpret this graph and how the feature transformation <span class="math notranslate nohighlight">\(\phi\)</span> is computed.</p>
 </section>
