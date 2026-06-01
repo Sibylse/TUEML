@@ -340,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuralnets_exercises.html">
+     Exercises
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -355,11 +360,6 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toctree-l2">
     <a class="reference internal" href="dim_reduction_mf.html">
      Low Rank Matrix Factorization
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="dim_reduction_matrix_completion.html">
-     Matrix Completion
     </a>
    </li>
    <li class="toctree-l2">
@@ -625,17 +625,17 @@ title="Print to PDF"
      Training with SGD in Pytorch
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#weight-decay">
+     Weight Decay
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dropout">
+     Dropout
+    </a>
+   </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#weight-decay">
-   Weight Decay
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dropout">
-   Dropout
-  </a>
  </li>
 </ul>
 
@@ -671,17 +671,17 @@ title="Print to PDF"
      Training with SGD in Pytorch
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#weight-decay">
+     Weight Decay
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dropout">
+     Dropout
+    </a>
+   </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#weight-decay">
-   Weight Decay
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dropout">
-   Dropout
-  </a>
  </li>
 </ul>
 
@@ -693,17 +693,19 @@ title="Print to PDF"
                 
               <div>
                 
-  <section id="training">
+  <section class="tex2jax_ignore mathjax_ignore" id="training">
 <h1>Training<a class="headerlink" href="#training" title="Permalink to this headline">#</a></h1>
-<p>Neural networks are often highly overparameterized, meaning that they have enough capacity to perfectly memorize the training data — even when the labels are random. The surprising result of the training methods of neural networks is that this overparametrization is not a big issue if you use a <em>good</em> optimizer and some additional tricks to prevent overfitting. This is what we are going to discuss in this section.</p>
+<p>Neural networks are extremely expressive models. As suggested by the Universal Approximation Theorem, they can approximate highly complex functions if they are sufficiently big. This expressive power is their strength, but it also raises a concern about overfitting. Increasing the number of neurons in a layer or stacking more layers allows the network to learn increasingly complex functions. Yet, neural networks are often trained in a heavily overparameterized regime where classical statistical intuition would predict severe overfitting. Nevertheless, when combined with large datasets and appropriate optimization procedures, they often generalize remarkably well.</p>
+<p>This is one of the remarkable discoveries of deep learning, that we can make the training of overcomplex models work with a combination of optimization methods, regularization techniques, and large-scale training. We discuss now the most important tricks to gain high accuracy neural network classifiers.</p>
 <section id="sgd">
 <h2>SGD<a class="headerlink" href="#sgd" title="Permalink to this headline">#</a></h2>
-<p>We have now discussed how to derive the gradient of the cross-entropy loss, that we can use to optimize the weights of a neural network by gradient descent. The only problem is that neural networks typically require (comparably) vast amounts of data to learn a suitable feature transformation that is able to discriminate between the classes. The computation of the gradient, which requires to add the gradients of the cross-entropy for each data point is typically too costly if the dataset is big.</p>
+<p>Backpropagation allows us to efficiently derive the gradient of the cross-entropy loss for any network architecture. This way, we can optimize the weights of a neural network by gradient descent. However, due to the requirement of (comparably) vast amounts of data to train a neural network well, the computation of the gradient, which sums up the cross-entropy gradients for all data points, is typically too costly if the dataset is big.</p>
 <p><strong>Stochastic Gradient Descent (SGD)</strong> offers here a solution by updating the weights using only a small batch of training examples at a time. That is, in every update step, SGD performs a gradient descent step on the loss function
 <div class="math notranslate nohighlight">
 \[\mathcal{L}(\mathcal{B},\theta)=\frac{1}{\lvert\mathcal{B}\rvert} \sum_{(\vvec{x},y)\in\mathcal{B}} CE(y,f_\theta(\vvec{x})),\]</div>
 
 where <span class="math notranslate nohighlight">\(\mathcal{B}\subseteq \mathcal{D}\)</span> is a <strong>batch</strong>. Typically, the batches are chosen as disjunctive subsets of the dataset: <span class="math notranslate nohighlight">\(\mathcal{B}_1\cup\ldots\cup\mathcal{B}_m=\mathcal{D}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{B}_b\cap \mathcal{B}_j =\emptyset\)</span>. Performing the updates on all batches of this disjunctive decomposition is then called an <strong>epoch</strong>.</p>
+<p>The pseudocode below indicates the procedure of SGD. For a specified number of epochs, we divide the data into batches and perform a gradient descent update on each batch.</p>
 <div class="proof algorithm admonition" id="algorithm-0">
 <p class="admonition-title"><span class="caption-number">Algorithm 11 </span> (SGD)</p>
 <section class="algorithm-content" id="proof-content">
@@ -715,22 +717,22 @@ where <span class="math notranslate nohighlight">\(\mathcal{B}\subseteq \mathcal
 <li><p>Divide the data into mini-batches <span class="math notranslate nohighlight">\(\mathcal{B}_1\cup\ldots\cup\mathcal{B}_m=\mathcal{D}\)</span></p></li>
 <li><p><strong>for</strong> each batch <span class="math notranslate nohighlight">\(\mathcal{B}\)</span></p>
 <ol class="simple">
-<li><p><span class="math notranslate nohighlight">\(\theta\gets \theta -\eta\nabla \mathcal{L}(\mathcal{B},\theta)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta\gets \theta -\eta_t\nabla \mathcal{L}(\mathcal{B},\theta)\)</span></p></li>
 </ol>
 </li>
 </ol>
 </li>
 </ol>
 </section>
-</div><p>Likewise, we can integrate momentum in this optimization scheme, by performing the updates on a batch only.</p>
+</div><p>Likewise, we can integrate momentum in this optimization scheme, by performing the updates with momentum on a batch only.</p>
 <section id="properties-of-sgd">
 <h3>Properties of SGD<a class="headerlink" href="#properties-of-sgd" title="Permalink to this headline">#</a></h3>
-<p>SGD is not only more efficient in its computation of the gradients, it also has many theoretical advantages to gradient descent. The computation of the gradients on batches only introduces noise into the gradient descent updates, that are often useful in navigating complex loss landscapes and escaping local minima.</p>
-<p><a class="reference internal" href="#loss-ladscape-fig"><span class="std std-numref">Fig. 9</span></a> gives an impression of the landscape of a neural network with only two parameters. We see how there are multiple local optima and only one very narrow valley that forms the global optimum. SGD can help in these cases, because it’s randomness helps to survey the loss landscape without getting stuck in smaller local minima.</p>
+<p>SGD is not only more efficient in its computation of the gradients, it also has many theoretical advantages to gradient descent. The computation of the gradients on batches introduces noise into the gradient descent updates, that have been found to be useful in navigating complex loss landscapes and escaping local minima.</p>
+<p><a class="reference internal" href="#loss-ladscape-fig"><span class="std std-numref">Fig. 9</span></a> gives an impression of the landscape of a neural network with only two parameters. We see how there are multiple local optima and only one very narrow valley that forms the global optimum. SGD can help in these cases, because its randomness helps to survey the loss landscape without getting stuck in smaller local minima.</p>
 <figure class="align-center" id="loss-ladscape-fig">
 <a class="reference internal image-reference" href="_images/loss_landscape.png"><img alt="_images/loss_landscape.png" src="_images/loss_landscape.png" style="height: 320px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Loss landscape of neural networks for a bi-dimensional parameter space (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id20" title="Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, and Tom Goldstein. Visualizing the loss landscape of neural nets. arXiv preprint arXiv:1712.09913, 2017.">4</a>]</span>). There are several local minima and one global minimum.</span><a class="headerlink" href="#loss-ladscape-fig" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Loss landscape of neural networks for a bi-dimensional parameter space (borrowed from <span id="id1">[<a class="reference internal" href="bibliography.html#id20" title="Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, and Tom Goldstein. Visualizing the loss landscape of neural nets. arXiv preprint arXiv:1712.09913, 2017.">3</a>]</span>). There are several local minima and one global minimum.</span><a class="headerlink" href="#loss-ladscape-fig" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Generally, sharp minima are considered as less desirable since they are associated with poor generalization (overfitting). Flat minima often generalize better and there are some works that support that these are found with smaller batch sizes (more noisy SGD steps). Due to these properties, SGD is also considered to perform an <strong>implicit regularization</strong>. That is, although the global optimum of the loss would return a vastly overfitting model, SGD is capable to find a minimum that corresponds to a regularizing model.</p>
@@ -738,9 +740,8 @@ where <span class="math notranslate nohighlight">\(\mathcal{B}\subseteq \mathcal
 </section>
 <section id="training-with-sgd-in-pytorch">
 <h3>Training with SGD in Pytorch<a class="headerlink" href="#training-with-sgd-in-pytorch" title="Permalink to this headline">#</a></h3>
-<p>We have used the Pytorch SGD optimizer already in the previous example, but there we computed gradient descent because we didn’t split the data into batches. In order to perform SGD, we load the data into a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>. In this example, we set the <code class="docutils literal notranslate"><span class="pre">batch_size=32</span></code>, meaning that each update is performed on 32 randomly sampled examples. The parameter <code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> reshuffles the dataset in every epoch, such that we get a new split in every epoch.<br />
+<p>We use again the two moons dataset to demonstrate the training of a neural network. We define the function <code class="docutils literal notranslate"><span class="pre">train_test</span></code> that gets as input the model to optimize and a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> called <code class="docutils literal notranslate"><span class="pre">train_loader</span></code>. The <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> takes care of dividing the data in batches for every epoch. We evoke the <code class="docutils literal notranslate"><span class="pre">train_test</span></code> function with a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> of <code class="docutils literal notranslate"><span class="pre">batch_size=32</span></code>, meaning that each update is performed on 32 randomly sampled examples. The parameter <code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> reshuffles the dataset in every epoch, such that we get a new split in every epoch.<br />
 We train here a simple shallow network with a single hidden layer of 16 neurons and ReLU activation. When we perform the evaluation to track the loss and accuracy on the train and test-data, we use the command <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">torch.no_grad():</span></code> to perform the computations without simultaneous gradient tracking.</p>
-<p>Feel free to try playing with the parameters yourself. Note in particular how we need now only 100 epochs to train this simple model, while we needed 1000 gradient descent steps and a multiple-layer network to achieve a similar accuracy.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -764,55 +765,56 @@ We train here a simple shallow network with a single hidden layer of 16 neurons 
 
 <span class="c1"># Create DataLoader for mini-batch SGD</span>
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">train_test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">):</span>
+    <span class="c1"># Define loss and optimizer</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+    <span class="c1"># Store metrics</span>
+    <span class="n">train_accs</span><span class="p">,</span> <span class="n">test_accs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">train_losses</span><span class="p">,</span> <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+    <span class="c1"># Training loop</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">batch_X</span><span class="p">,</span> <span class="n">batch_y</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch_X</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">)</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Evaluate on full train/test sets</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">train_outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+            <span class="n">test_outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+            <span class="n">train_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">train_outputs</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">test_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">test_outputs</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
+            <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
+
+            <span class="n">train_preds</span> <span class="o">=</span> <span class="n">train_outputs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">test_preds</span> <span class="o">=</span> <span class="n">test_outputs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">train_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_preds</span> <span class="o">==</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">test_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_preds</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+            <span class="n">train_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+            <span class="n">test_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">train_accs</span><span class="p">,</span> <span class="n">test_accs</span><span class="p">,</span> <span class="n">train_losses</span><span class="p">,</span> <span class="n">test_losses</span>
 
 <span class="c1"># Define a simple neural network model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+<span class="n">model_sgd</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
     <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
     <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
     <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="p">)</span>
-
-<span class="c1"># Define loss and optimizer</span>
-<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-
-<span class="c1"># Store metrics</span>
-<span class="n">train_accs</span><span class="p">,</span> <span class="n">test_accs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-<span class="n">train_losses</span><span class="p">,</span> <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-
-<span class="c1"># Training loop</span>
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">batch_X</span><span class="p">,</span> <span class="n">batch_y</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch_X</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">)</span>
-        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-
-    <span class="c1"># Evaluate on full train/test sets</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">train_outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-        <span class="n">test_outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-
-        <span class="n">train_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">train_outputs</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="n">test_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">test_outputs</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
-        <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
-
-        <span class="n">train_preds</span> <span class="o">=</span> <span class="n">train_outputs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">test_preds</span> <span class="o">=</span> <span class="n">test_outputs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-        <span class="n">train_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_preds</span> <span class="o">==</span> <span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="n">test_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_preds</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-
-        <span class="n">train_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
-        <span class="n">test_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
-
-<span class="c1"># After this, train_accs and test_accs contain accuracy trajectories,</span>
-<span class="c1"># and train_losses and test_losses contain loss trajectories.</span>
+<span class="n">train_loader_batch</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">train_accs</span><span class="p">,</span> <span class="n">test_accs</span><span class="p">,</span> <span class="n">train_losses</span><span class="p">,</span> <span class="n">test_losses</span> <span class="o">=</span> <span class="n">train_test</span><span class="p">(</span><span class="n">model_sgd</span><span class="p">,</span><span class="n">train_loader_batch</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -852,25 +854,69 @@ We train here a simple shallow network with a single hidden layer of 16 neurons 
 <img alt="_images/neuralnets_sgd_3_0.png" src="_images/neuralnets_sgd_3_0.png" />
 </div>
 </div>
-</section>
+<p>For comparison, we also train the NN architecture with gradient descent by setting the batch size equal to the size of the training set. The resulting optimization trajectories show that SGD reaches high accuracies and low losses much more quickly than gradient descent. Strictly speaking, this comparison is not entirely fair, since SGD performs multiple parameter updates within each epoch, whereas gradient descent performs only a single update. Nevertheless, the comparison remains meaningful because, after each epoch, both methods have processed the entire training dataset once.</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a simple neural network model</span>
+<span class="n">model_gd</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">train_loader_whole</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">train_dataset</span><span class="o">.</span><span class="n">tensors</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">train_accs_gd</span><span class="p">,</span> <span class="n">test_accs_gd</span><span class="p">,</span> <span class="n">train_losses_gd</span><span class="p">,</span> <span class="n">test_losses_gd</span> <span class="o">=</span> <span class="n">train_test</span><span class="p">(</span><span class="n">model_gd</span><span class="p">,</span><span class="n">train_loader_whole</span><span class="p">)</span>
+<span class="c1"># Plot accuracy and loss side by side</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Accuracy plot</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_accs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Acc SGD&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_accs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Acc SGD&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_accs_gd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Acc GD&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_accs_gd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Acc GD&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Accuracy over Epochs&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Loss plot</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Loss SGD&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Loss SGD&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_losses_gd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Loss GD&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_losses_gd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Loss GD&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Loss over Epochs&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Cross-Entropy Loss&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/neuralnets_sgd_5_0.png" src="_images/neuralnets_sgd_5_0.png" />
+</div>
+</div>
 </section>
 <section id="weight-decay">
-<h2>Weight Decay<a class="headerlink" href="#weight-decay" title="Permalink to this headline">#</a></h2>
+<h3>Weight Decay<a class="headerlink" href="#weight-decay" title="Permalink to this headline">#</a></h3>
 <p>The integration of an <span class="math notranslate nohighlight">\(L2\)</span> regularization is integrated into Pytorch’s optimizer by the <code class="docutils literal notranslate"><span class="pre">weight_decay</span></code> parameter. Defining the optimizer as<br />
 <code class="docutils literal notranslate"><span class="pre">optimizer</span> <span class="pre">=</span> <span class="pre">optim.SGD(model.parameters(),</span> <span class="pre">lr=0.1,</span> <span class="pre">weight_decay=0.1)</span></code><br />
 adds an <span class="math notranslate nohighlight">\(L2\)</span> regularization with regularization weight <span class="math notranslate nohighlight">\(\lambda=0.1\)</span>. That is, the optimized loss is
 <div class="math notranslate nohighlight">
 \[\mathcal{L}(\mathcal{D},\theta)+\lambda\lVert\theta\rVert^2.\]</div>
 
-Integrating an <span class="math notranslate nohighlight">\(L2\)</span> penalization is useful in most applications, since it penalizes big weights and big weights are typically associated with overfitting. You can imagine that the model output is more sensitive to the model input if the weights differ a lot in magnitude. input values that are multiplied with big weights have a bigger variance than input values multiplied with smaller weights.</p>
+Integrating an <span class="math notranslate nohighlight">\(L2\)</span> penalization is useful in most applications, since it penalizes big weights and big weights are typically associated with overfitting. You can imagine that the model output is more sensitive to the model input if the weights differ a lot in magnitude. Input values that are multiplied with big weights have a bigger variance than input values multiplied with smaller weights.</p>
 <p>Usually, neural network are optimized with a small value of weight decay <span class="math notranslate nohighlight">\(\lambda \approx 0.0001\)</span></p>
 </section>
 <section id="dropout">
-<h2>Dropout<a class="headerlink" href="#dropout" title="Permalink to this headline">#</a></h2>
-<p>Dropout is a regularization technique that is also supposed to prevent overfitting in neural networks. During a forward pass, a dropout layer is <strong>dropping out</strong> (setting to zero) a random subset of the neurons. As a result, the network learns to perform well with a random subset of the nodes, hence reducing dependence on single nodes and being able to deal also with noisy input. The resulting network is supposed to be more robust to small changes in the input. Theoretical works on the effect of dropout suggest that it results in learning weight matrices of low rank. That is, the weight matrices <span class="math notranslate nohighlight">\(W=U\Sigma V^\top\)</span> after a dropout layer have an SVD where only few singular values are nonzero.</p>
+<h3>Dropout<a class="headerlink" href="#dropout" title="Permalink to this headline">#</a></h3>
+<p>Dropout is a regularization technique that is also supposed to prevent overfitting in neural networks. During a forward pass, a dropout layer is <strong>dropping out</strong> (setting to zero) a random subset of the neurons. As a result, the network learns to perform well with a random subset of the nodes, hence reducing dependence on single nodes and being able to deal with noisy input. The resulting network is supposed to be more robust to small changes in the input. Theoretical works on the effect of dropout suggest that it results in learning weight matrices of low rank. That is, the weight matrices after a dropout layer <span class="math notranslate nohighlight">\(W=U\Sigma V^\top\)</span>  have an SVD where only few singular values are nonzero.</p>
 <p>The image below visualizes the effect of a dropout layer: two neurons are dropped and their input is not used in the forward pass.</p>
 <div class="figure" style="text-align: center"><p><img  src="_images/tikz-28dc441a901b85b91c0e9fd7cfbe39a6a8e941e9.svg" alt="Figure made with TikZ" /></p>
-</div><p>The pseudocode below details how a dropout layer works.</p>
+</div><p>The pseudocode below illustrates the operation of a dropout layer. During inference, dropout is disabled and all neuron activations are passed through unchanged. During training, however, each neuron is independently dropped with probability p. The vector <span class="math notranslate nohighlight">\(1_u\)</span> in Step 3 is a binary mask whose entries are equal to one for neurons that are retained and zero for neurons that are dropped. The activations of the retained neurons are passed to the next layer and scaled by a factor of <span class="math notranslate nohighlight">\(\frac{1}{1-p}\)</span>, This scaling ensures that the expected activation remains unchanged between training and inference.</p>
 <div class="proof algorithm admonition" id="algorithm-1">
 <p class="admonition-title"><span class="caption-number">Algorithm 12 </span> (Dropout layer)</p>
 <section class="algorithm-content" id="proof-content">
@@ -886,12 +932,14 @@ Integrating an <span class="math notranslate nohighlight">\(L2\)</span> penaliza
 <li><p><strong>return</strong> <span class="math notranslate nohighlight">\(\frac{1}{1-p} 1_u\circ\vvec{h}^{(\ell)} \)</span> #element-wise product</p></li>
 </ol>
 </section>
-</div><p>Maybe a bit surprisingly, dropout doesn’t just deactivate neurons, but it also scales the output with <span class="math notranslate nohighlight">\(\frac{1}{1-p}\)</span>. The reason for that is to keep the expected value of the output of a neuron the same with dropout. Let <span class="math notranslate nohighlight">\(\mathrm{dropout}(x)\)</span> be the dropout output of hidden layer neuron <span class="math notranslate nohighlight">\(x\)</span>, then we drop the neuron with probability <span class="math notranslate nohighlight">\(p\)</span> and keep it with probability <span class="math notranslate nohighlight">\(1-p\)</span>. If we keep it, then the output is <span class="math notranslate nohighlight">\(\frac{x}{1-p}\)</span>. Hence, the expected value of this neuron after dropout is</p>
+</div><p>The scaling factor may seem surprising at first. Its purpose is to compensate for the fact that, during training, only a fraction of the neurons are active. Without scaling, the total signal flowing through the network would be smaller on average during training than during inference, when all neurons are active. More formally, the scaling ensures that the expected output of a neuron is the same during training and testing.</p>
+<p>Let <span class="math notranslate nohighlight">\(\mathrm{dropout}(x)\)</span> be the dropout output of hidden layer neuron <span class="math notranslate nohighlight">\(x\)</span>, then we drop the neuron with probability <span class="math notranslate nohighlight">\(p\)</span> and keep it with probability <span class="math notranslate nohighlight">\(1-p\)</span>. If we keep it, then the output is <span class="math notranslate nohighlight">\(\frac{x}{1-p}\)</span>. Hence, the expected value of this neuron after dropout is</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \mathbb{E}[\mathrm{dropout}(x)] = 0\cdot p + \frac{x}{1-p}\cdot (1-p) = x
 \end{align*}\]</div>
-<p>In Pytorch, we keep track of whether the model is trained or not by setting either <code class="docutils literal notranslate"><span class="pre">model.train()</span></code> or <code class="docutils literal notranslate"><span class="pre">model.eval()</span></code>. In evaluation mode, the dropout layer is letting through the input and the network acts deterministic. In training mode, the dropout layer is on and the model output is not deterministic.</p>
+<p>Thus, the expected activation remains unchanged by dropout. This allows the network to operate on approximately the same scale during both training and inference.</p>
+<p>In Pytorch, we keep track of whether the model is trained or not by setting either <code class="docutils literal notranslate"><span class="pre">model.train()</span></code> or <code class="docutils literal notranslate"><span class="pre">model.eval()</span></code>. In evaluation mode, the dropout layer is letting through the input and the network acts deterministic. In training mode, the dropout layer is on and the model output is not deterministic. Below we define a small network with two layers, where dropout is applied in between. We sample a random input vector and compare the output of the network when training and testing. We see how the output of the model is consistent in eval mode, but not in train mode.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -932,14 +980,15 @@ Integrating an <span class="math notranslate nohighlight">\(L2\)</span> penaliza
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output 1 with dropout (train mode): tensor([[-0.8045]])
-Output 2 with dropout (train mode): tensor([[-0.4288]])
-Output 1 without dropout (eval mode): tensor([[-0.4461]])
-Output 2 without dropout (eval mode): tensor([[-0.4461]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output 1 with dropout (train mode): tensor([[0.5979]])
+Output 2 with dropout (train mode): tensor([[0.5885]])
+Output 1 without dropout (eval mode): tensor([[0.4497]])
+Output 2 without dropout (eval mode): tensor([[0.4497]])
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 </section>
 
