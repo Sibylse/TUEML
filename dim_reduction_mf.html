@@ -340,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuralnets_exercises.html">
+     Exercises
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
@@ -606,14 +611,16 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#formal-problem-definition">
-   Formal Problem Definition
+  <a class="reference internal nav-link" href="#finding-patterns-in-data-via-low-rank-matrix-factorization">
+   Finding Patterns in Data via Low-Rank Matrix Factorization
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#optimization">
-   Optimization
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimization">
+     Optimization
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-simple-matrix-completion-recommender-system">
@@ -625,16 +632,16 @@ title="Print to PDF"
      Interpretation of the Factorization
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-happens-when-we-increase-the-rank">
+     What Happens When We Increase the Rank?
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-happens-when-we-increase-the-rank">
-   What Happens When We Increase the Rank?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#low-rank-mf-on-observed-entries">
-   Low-Rank MF on Observed Entries
+  <a class="reference internal nav-link" href="#a-more-advanced-recommender-system">
+   A More Advanced Recommender System
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -642,12 +649,12 @@ title="Print to PDF"
      Optimization
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#from-unsupervised-matrix-completion-to-supervised-behavioral-modeling">
-     From Unsupervised Matrix Completion to Supervised Behavioral Modeling
-    </a>
-   </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-unsupervised-matrix-completion-to-supervised-behavioral-modeling">
+   From Unsupervised Matrix Completion to Supervised Behavioral Modeling
+  </a>
  </li>
 </ul>
 
@@ -669,14 +676,16 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#formal-problem-definition">
-   Formal Problem Definition
+  <a class="reference internal nav-link" href="#finding-patterns-in-data-via-low-rank-matrix-factorization">
+   Finding Patterns in Data via Low-Rank Matrix Factorization
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#optimization">
-   Optimization
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimization">
+     Optimization
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#a-simple-matrix-completion-recommender-system">
@@ -688,16 +697,16 @@ title="Print to PDF"
      Interpretation of the Factorization
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-happens-when-we-increase-the-rank">
+     What Happens When We Increase the Rank?
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-happens-when-we-increase-the-rank">
-   What Happens When We Increase the Rank?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#low-rank-mf-on-observed-entries">
-   Low-Rank MF on Observed Entries
+  <a class="reference internal nav-link" href="#a-more-advanced-recommender-system">
+   A More Advanced Recommender System
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -705,12 +714,12 @@ title="Print to PDF"
      Optimization
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#from-unsupervised-matrix-completion-to-supervised-behavioral-modeling">
-     From Unsupervised Matrix Completion to Supervised Behavioral Modeling
-    </a>
-   </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-unsupervised-matrix-completion-to-supervised-behavioral-modeling">
+   From Unsupervised Matrix Completion to Supervised Behavioral Modeling
+  </a>
  </li>
 </ul>
 
@@ -858,9 +867,9 @@ title="Print to PDF"
 </tr>
 </tbody>
 </table>
-</div><p>We have six users and 14 movies, that are rated either as <em>I like it</em> (🤩) or <em>not for me</em> (🙈). If no emoji is indicated, then the corresponding user has not seen the movie yet. This example matrix of user-movie preferences exhibits two patterns of preferences. The first pattern consists of the movies <em>Star Wars, Interstellar, Blade Runner, Tron, 2001: Space Odyssey, Matrix, Solaris,</em> and <em>12 Monkeys</em>. This set of movies is popular in the user group of Carol, Alice and Chuck: every movie of the set is liked at least by two of the three users. Hence, we might consider to recommend each person of that group a movie from this set that the person has not watched yet. For example, we could recommend to Carol to watch <em>2001: Space Odyssey</em>.
-Likewise, we identify a second pattern of movies that is popular among the group of Grace, Bob, Eve and Chuck. This pattern encompasses the movies <em>Star Wars, Mars Attacks, Matrix, Robo Cop, Aliens, Terminator</em>, and <em>Avatar</em>.</p>
-<p>Let’s visualize the model that we are looking for as a matrix. Below you see the abstract representation of the groups of users and movies as a matrix. The first group of users (Carol, Alice and Chuck) and their corresponding set of (largely) liked movies is visualized in blue, and the second set of users (Grace, Bob, Eve and Chuck) and their set of movies are visualized in red.</p>
+</div><p>We have six users and 14 movies, that are rated either as <em>I like it</em> (🤩) or <em>not for me</em> (🙈). If no emoji is indicated, then the corresponding user has not seen the movie yet. This example matrix of user-movie preferences can be summarized by two latent (hidden) factors, the preference for cerebral science fiction and the preference for action science fiction. Carol, Alice and Chuck like cerebral science fiction. Each of the movies <em>Star Wars, Interstellar, Blade Runner, Tron, 2001: Space Odyssey, Matrix, Solaris,</em> and <em>12 Monkeys</em> is liked at least by two of the three users. Hence, we might consider to recommend people in that group a movie from this set that the person has not watched yet. For example, we could recommend to Carol to watch <em>2001: Space Odyssey</em>.
+Likewise, we identify the more action oriented sci-fi group of Grace, Bob, Eve and Chuck, where <em>Star Wars, Mars Attacks, Matrix, Robo Cop, Aliens, Terminator</em>, and <em>Avatar</em> score high.</p>
+<p>The example illustrates the idea of recommender systems to predict missing values based on the latent factors in the data. Those latent factors are here represented by a set of users that like a similar set of movies. Let’s explore how we can express this intuition mathematically. Below you see the abstract representation of the groups of users and movies as a matrix. The first group of users (Carol, Alice and Chuck) and their corresponding set of (largely) liked movies is visualized in blue, and the second set of users (Grace, Bob, Eve and Chuck) and their set of movies are visualized in red.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 sd-d-flex-row sd-align-major-center docutils">
 <div class="sd-row sd-g-1 sd-g-xs-1 sd-g-sm-1 sd-g-md-1 sd-g-lg-1 docutils">
 <div class="sd-col sd-d-flex-column sd-col-auto sd-col-xs-auto sd-col-sm-auto sd-col-md-auto sd-col-lg-auto sd-align-major-center docutils">
@@ -882,7 +891,7 @@ Likewise, we identify a second pattern of movies that is popular among the group
 </div></div>
 </div>
 </div>
-<p>Furthermore, each of the single user-group matrices can be represented by an outer product of a user- and a user-vector. And the sum of outer product matrices reflects a low-dimensional matrix product. In this casse, we have a product of two dimensionality two – one for each user-movie matrix.</p>
+<p>Furthermore, each of the single user-group matrices can be represented by an outer product of a user- and a movie-vector. And the sum of outer product matrices reflects a low-dimensional matrix product.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 sd-d-flex-row sd-align-major-center docutils">
 <div class="sd-row sd-g-0 sd-g-xs-0 sd-g-sm-0 sd-g-md-0 sd-g-lg-0 docutils">
 <div class="sd-col sd-d-flex-column sd-col-auto sd-col-xs-auto sd-col-sm-auto sd-col-md-auto sd-col-lg-auto sd-align-major-center docutils">
@@ -893,38 +902,42 @@ Likewise, we identify a second pattern of movies that is popular among the group
 </div></div>
 </div>
 </div>
-<p>The low-dimensional matrix product describing our user-movie preferences is now represented by two user-vectors (the columns of the left matrix) and two movie-vectors (the rows of the right matrix). Each pair of user- and movie-vectors indicates a group, exhibiting the same movie preferences. Note, that the original <span class="math notranslate nohighlight">\(6\times 14\)</span> matrix is now compressed into a <span class="math notranslate nohighlight">\(6\times 2\)</span>-matrix and a <span class="math notranslate nohighlight">\(2\times 14\)</span> matrix. While the original matrix contains <span class="math notranslate nohighlight">\(6\cdot 14 = 84\)</span> elements, the low-dimensional product needs only <span class="math notranslate nohighlight">\(2\cdot 6 + 2\cdot 14 = 40\)</span> elememts to be stored. That is roughly the idea of recommender systems: using reoccurences in the behaviour or similarities among users and movies to compress the data, and to use the compressed data representation to make recommendations.</p>
-<section id="formal-problem-definition">
-<h2>Formal Problem Definition<a class="headerlink" href="#formal-problem-definition" title="Permalink to this headline">#</a></h2>
-<p>We formalize the idea to obtain recommendations by compressing the data as the task to minimize the squared Frobenius-norm error of a low-rank matrix product and the data matrix.</p>
+<p>The original <span class="math notranslate nohighlight">\(6\times 14\)</span> matrix is now compressed into the product of a <span class="math notranslate nohighlight">\(6\times 2\)</span>-matrix and a <span class="math notranslate nohighlight">\(2\times 14\)</span> matrix. While the original matrix contains <span class="math notranslate nohighlight">\(6\cdot 14 = 84\)</span> elements, the low-dimensional product needs only <span class="math notranslate nohighlight">\(2\cdot 6 + 2\cdot 14 = 40\)</span> elememts to be stored.</p>
+<p>The example illustrates the rough idea of recommender systems: use reoccurences in the data to compress the data, and to use the compressed data representation to make recommendations.</p>
+<div class="seealso admonition">
+<p class="admonition-title">Goal (Recommender Systems)</p>
+<p><strong>Given</strong> partially observed data, represented by a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span>.</p>
+<p><strong>Find</strong> a low-dimensional representation that captures the dominant patterns in the data and use it to predict missing values.</p>
+</div>
+<section id="finding-patterns-in-data-via-low-rank-matrix-factorization">
+<h2>Finding Patterns in Data via Low-Rank Matrix Factorization<a class="headerlink" href="#finding-patterns-in-data-via-low-rank-matrix-factorization" title="Permalink to this headline">#</a></h2>
+<p>Before discussing how to fill in missing values, we discuss first how to find patterns in a fully observed dataset. Finding a low-dimensional representation of the data is formalized over the rank-r matrix factorization task. It compresses the data by identifying <span class="math notranslate nohighlight">\(r\)</span> row- and column-patterns that allow us to reconstruct the data.</p>
 <div class="tip admonition">
 <p class="admonition-title">Task (Rank-r Matrix Factorization)</p>
 <p><strong>Given</strong> a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> and a rank <span class="math notranslate nohighlight">\(r&lt;\min\{n,d\}\)</span>.</p>
 <p><strong>Find</strong> matrices <span class="math notranslate nohighlight">\(X\in \mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{n\times r}\)</span> whose product approximates the data matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a9ca050b-e461-4ba9-9abc-884a8b8fc33d">
-<span class="eqno">(50)<a class="headerlink" href="#equation-a9ca050b-e461-4ba9-9abc-884a8b8fc33d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-944a08b3-6935-43d7-becd-0a533ab0d7ee">
+<span class="eqno">(50)<a class="headerlink" href="#equation-944a08b3-6935-43d7-becd-0a533ab0d7ee" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_{X,Y}&amp;\lVert D- YX^\top\rVert^2 &amp; \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}
 \end{align}\]</div>
 <p><strong>Return</strong> the low-dimensional approximation of the data <span class="math notranslate nohighlight">\((X,Y)\)</span>.</p>
 </div>
-<p>Note that the Rank-r matrix factorization task is not directly suitable to return recommendations. It only describes the task to compress a given data matrix into a low-dimensional product. To provide recommendations, we need to fill in missing values. We will discuss later how we can do this with a low dimensional matrix factorization.<br />
-First, we analyze properties of the objective, as it turns out, the low-dimensional matrix factorization task is nonconvex.</p>
+<p>The objective seems to be not too difficult to optimize. The squared Frobenius norm is smooth and optimizing subject to the two factor matrices doesn’t seem overly complex. It’s a residual sum of squares objective, similar to the one we know from regression. In regression, the residuals were computed between predicted target and given target. Here, the residuals are computed between the approximated data entry and the given one. However, unlike in regression, the matrix factorization RSS is nonconvex. The proof follows from the fact that the set of global minimizers is not a convex set.</p>
 <div class="proof theorem admonition" id="theorem-0">
 <p class="admonition-title"><span class="caption-number">Theorem 27 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>The rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization problem, defined for a matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\neq\mathbf{0}\)</span> and a rank <span class="math notranslate nohighlight">\(1\leq r&lt;\min\{n,d\}\)</span> as</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-    \min_{X,Y}&amp; RSS(X,Y)=\lVert D- YX^\top\rVert^2 &amp; \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}
+    \min_{X,Y}\ &amp; RSS(X,Y)=\lVert D- YX^\top\rVert^2 &amp; \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}
 \end{align*}\]</div>
 <p>is a <strong>nonconvex optimization problem</strong>.</p>
 </section>
-</div><p>The proof follows from the fact that the set of global minimizers is not a convex set.</p>
-<div class="toggle docutils container">
+</div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
 <p>Proof. We show that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is not a convex function. Therefore we assume first that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function and show then that this assumption leads to a contradiction. Assuming that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function means that the following inequality has to hold for all matrices <span class="math notranslate nohighlight">\(X_1,X_2\in\mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y_1,Y_2\in\mathbb{R}^{n\times r}\)</span> and <span class="math notranslate nohighlight">\(\alpha\in[0,1]\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-405436e5-af31-4d77-9d85-5e98e340beea">
-<span class="eqno">(51)<a class="headerlink" href="#equation-405436e5-af31-4d77-9d85-5e98e340beea" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-82e1f87b-79b1-487c-ada1-d018634e2ae1">
+<span class="eqno">(51)<a class="headerlink" href="#equation-82e1f87b-79b1-487c-ada1-d018634e2ae1" title="Permalink to this equation">#</a></span>\[\begin{align}
         RSS(\alpha X_1+ (1-\alpha)X_2,\alpha Y_1 + (1-\alpha)Y_2) \leq \alpha RSS(X_1,Y_1) + (1-\alpha)RSS(X_2,Y_2).
 \end{align}\]</div>
 <p>For any global minimizer <span class="math notranslate nohighlight">\((X,Y)\)</span> of the rank-<span class="math notranslate nohighlight">\(r\)</span> MF problem, <span class="math notranslate nohighlight">\((\gamma X, \frac{1}{\gamma} Y)\)</span> is also a global minimizer for <span class="math notranslate nohighlight">\(\gamma\neq 0\)</span>.
@@ -938,29 +951,28 @@ However, for <span class="math notranslate nohighlight">\(\alpha=1/2\)</span> th
 <p>We observe that the approximation error in the last equation goes to infinity if <span class="math notranslate nohighlight">\(\gamma\rightarrow \infty\)</span>. Hence, there exists multiple <span class="math notranslate nohighlight">\(\gamma&gt;0\)</span> for which the <span class="math notranslate nohighlight">\(RSS\)</span> of the convex combination of two global minimizers is larger than zero. This contradicts the assumption that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is convex.</p>
 </div>
 </div>
-<p>We observe from the proof that there are infinitely many global minimizers for the low-dimensional matrix factorization task. Let’s explore this set of global minimizers by means of an example in one dimension.</p>
+<p>The proof implies that there are infinitely many global minimizers for the low-dimensional matrix factorization task. We explore the geometry of the matrix factorization loss function with an example.</p>
 <div class="proof example admonition" id="example-1">
 <p class="admonition-title"><span class="caption-number">Example 20 </span> (One-dimensional matrix factorization   )</p>
 <section class="example-content" id="proof-content">
-<p>The most <em>easy</em> case of a low-dimensional matrix factorization is the factorization of a single number. Let’s take for example the factorization of the number one into a product of two factors <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, having the objective function  <span class="math notranslate nohighlight">\(f(x_1,x_2) = (1-x_1x_2)^2\)</span>. We plot the graph of the objective function together with three solutions: <span class="math notranslate nohighlight">\((x_1,x_2)=(2,0.5)\)</span>, <span class="math notranslate nohighlight">\((1,1)\)</span>, and <span class="math notranslate nohighlight">\((0.5,2)\)</span>.</p>
+<p>The most <em>easy</em> case of a low-dimensional matrix factorization is the factorization of a single number. Let’s take for example the factorization of the number one into a product of two factors <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, having the objective function  <span class="math notranslate nohighlight">\(RSS(x_1,x_2) = (1-x_1x_2)^2\)</span>. We plot the graph of the objective function together with three solutions: <span class="math notranslate nohighlight">\((x_1,x_2)=(2,0.5)\)</span>, <span class="math notranslate nohighlight">\((1,1)\)</span>, and <span class="math notranslate nohighlight">\((0.5,2)\)</span>.</p>
 <div class="figure" style="text-align: center"><p><img  src="_images/tikz-8e5b26bf64acbe9c637716e4bc0ecf64fe70aafb.svg" alt="Figure made with TikZ" /></p>
-</div><p>We can observe the nonconvexity of this function by connecting the solution of <span class="math notranslate nohighlight">\((0.5,2)\)</span> with <span class="math notranslate nohighlight">\((2,0.5)\)</span> with a straight line. If the function would be convex, then the graph ofthe function would be under or on the line. Under the line is not possible in this case, since the solution points we picked are global minimizers. Hence, the graph should be flat (<span class="math notranslate nohighlight">\(y\)</span>-value equal to zero) on the line between the two solutions, but we see that the loss increases to the right. However, we also see that the loss function doesn’t look as if there is a multitude of valleys, that are local minima. That gives us hope, that the low-rank matrix factorization task is not that difficult to solve.</p>
+</div><p>We can observe the nonconvexity of this function by connecting the solution of <span class="math notranslate nohighlight">\((0.5,2)\)</span> with <span class="math notranslate nohighlight">\((2,0.5)\)</span> with a straight line. If the function would be convex, then the graph of the function would be under or on the line. Under the line is not possible in this case, since the solution points we picked are global minimizers. Hence, the graph should be flat (<span class="math notranslate nohighlight">\(y\)</span>-value equal to zero) on the line between the two solutions, but we see that the loss increases to the right. However, we also see that the loss function doesn’t look as if there is a multitude of valleys, that are local minima. That gives us hope, that the low-rank matrix factorization task is not that difficult to solve.</p>
 </section>
-</div></section>
-<section id="optimization">
-<h2>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">#</a></h2>
+</div><section id="optimization">
+<h3>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">#</a></h3>
 <p>In most cases, nonconvexity of an objective implies that we probably have to live with the fact that we can not determine the global minimum, and that we can only hope to get good local minima by numerical optimization methods such as gradient descent. The rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization problem is here an exemption to the rule, since we can derive one global minimum by SVD.</p>
 <div class="proof theorem admonition" id="theorem-2">
 <p class="admonition-title"><span class="caption-number">Theorem 28 </span> (Truncated SVD)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(D=U\Sigma V^\top\in\mathbb{R}^{n\times d}\)</span> be the singular decomposition of <span class="math notranslate nohighlight">\(D\)</span>. Then the global minimizers <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>  of the rank-<span class="math notranslate nohighlight">\(r\)</span> MF problem</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a0d70c36-d9db-4158-94d0-b9e622c8cbcc">
-<span class="eqno">(52)<a class="headerlink" href="#equation-a0d70c36-d9db-4158-94d0-b9e622c8cbcc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7a56c930-46e3-43b2-aca5-4e644e29fe11">
+<span class="eqno">(52)<a class="headerlink" href="#equation-7a56c930-46e3-43b2-aca5-4e644e29fe11" title="Permalink to this equation">#</a></span>\[\begin{align}
 \min_{X,Y}\lVert D-YX^\top\rVert^2 \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}.
 \end{align}\]</div>
 <p>satisfy</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a064f69c-001d-4955-abd9-5cb468dd59b6">
-<span class="eqno">(53)<a class="headerlink" href="#equation-a064f69c-001d-4955-abd9-5cb468dd59b6" title="Permalink to this equation">#</a></span>\[\begin{align} 
+<div class="amsmath math notranslate nohighlight" id="equation-b7d4e0e5-9ef0-412a-bfa0-080aa0633769">
+<span class="eqno">(53)<a class="headerlink" href="#equation-b7d4e0e5-9ef0-412a-bfa0-080aa0633769" title="Permalink to this equation">#</a></span>\[\begin{align} 
 YX^\top = U_{\cdot \mathcal{R}}\Sigma_{\mathcal{R}\mathcal{R}}V_{\cdot \mathcal{R}}^\top, \text{ where }\mathcal{R}=\{1,\ldots, r\}.
 \end{align}\]</div>
 </section>
@@ -972,6 +984,7 @@ the orthogonal invariance of the Frobenius norm, yielding:</p>
     \min_{X,Y}&amp;\lVert D-YX^\top\rVert^2 = \lVert \Sigma - U^\top YX^\top V\rVert^2 
 \end{align*}\]</div>
 </div>
+</section>
 </section>
 <section id="a-simple-matrix-completion-recommender-system">
 <h2>A Simple Matrix Completion Recommender System<a class="headerlink" href="#a-simple-matrix-completion-recommender-system" title="Permalink to this headline">#</a></h2>
@@ -1111,8 +1124,8 @@ The tri-factorization of SVD can be expressed as a factorization into two matric
 </div>
 </div>
 <p>If we compare the matrix above with the matrix having missing values, then we see that the low rank approximation gives some tendencies for recommendations, but often no very clear recommendation indications. This is not very surprising, since we had just a small dataset and comparatively many missing values. The rank-2 approximation is already a bit too well adapting to the missing values neutral rating.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4e2a9c18-8799-4691-b1da-64f0e83ef9a1">
-<span class="eqno">(54)<a class="headerlink" href="#equation-4e2a9c18-8799-4691-b1da-64f0e83ef9a1" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8f54b155-5d20-4929-9789-18aa3869f20b">
+<span class="eqno">(54)<a class="headerlink" href="#equation-8f54b155-5d20-4929-9789-18aa3869f20b" title="Permalink to this equation">#</a></span>\[\begin{align}
   \begin{pmatrix}
     5 &amp; \mu &amp; 1 &amp; 1 \\
     \mu &amp; 1 &amp; 5 &amp; \mu  \\\
@@ -1180,19 +1193,28 @@ The tri-factorization of SVD can be expressed as a factorization into two matric
         2.6 &amp; 3.3 &amp; -3.3 &amp; -2.2
     \end{pmatrix}    
 \end{align*}\]</div>
-<p>We visualize the sum of the two outer products with colored matrices. The more saturated the color, the  higher is the absolute value of the corresponding element in the matrix. Positive values are blue and negative values are pink.<br />
-The visualization makes the grid structure apparent which is induced by the outer product. The first movie pattern is <span class="math notranslate nohighlight">\(\begin{pmatrix}-9.0 &amp; -5.8 &amp; -9.5 &amp; -5.3\end{pmatrix}\)</span>, but because all values in the first user pattern are also negative, it would be more intuitive to consider the first movie pattern as <span class="math notranslate nohighlight">\(\begin{pmatrix}9 &amp; 5.8 &amp; 9.5 &amp; 5.3\end{pmatrix}\)</span>. We see this pattern in the first outer product <span class="math notranslate nohighlight">\(Y_{\cdot 1}X_{\cdot 1}^\top\)</span>: the first and third column have a higher intensity than the other columns, corresponding to the high values in the pattern matrix <span class="math notranslate nohighlight">\(9\)</span> and <span class="math notranslate nohighlight">\(9.5\)</span>. We can roughly say that the first outer product indicates how much the user likes movie 1 and movie 3 but not so much the other movies.<br />
-However, we cannot make general statements from the first outer product (e.g., user 2 likes movie 1 and movie 3 because their (sign-corrected) coefficient for the first movie pattern is 0.4, which is comparatively high). That is because the second outer product may correct what the first outer product indicates by subtracting and adding values. For evample, user 2 doesn’t particularly like movie 1 (in fact, it’s a missing value) and although the first outer product indicates a score of <span class="math notranslate nohighlight">\(0.4\cdot 9=3.6\)</span>. The second outer product corrects this by subtracting <span class="math notranslate nohighlight">\(-0.4\cdot2.6=-1.04\)</span>.</p>
-<p>Hence, we can’t make general statements based on one outer product alone. However, the significance of the outer products in the sense of how they influence the approximation, drops with the index of the outer product. That is because the singular values are decreasing in magnitude with the index. Visually, we can observe this with the fading colors making up the second outer product.</p>
+<p>We visualize the sum of the two outer products with colored matrices. The more saturated the color, the  higher is the absolute value of the corresponding element in the matrix. Positive values are blue and negative values are pink.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="_images/dim_reduction_mf_30_0.png" src="_images/dim_reduction_mf_30_0.png" />
 </div>
 </div>
-</section>
+<p>The visualization makes the grid structure induced by the outer product apparent. The first movie pattern is
+<span class="math notranslate nohighlight">\(\begin{pmatrix}
+-9.0 &amp; -5.8 &amp; -9.5 &amp; -5.3
+\end{pmatrix}.\)</span>
+However, since all entries of the corresponding user pattern are negative as well, it is more intuitive to flip the signs and consider the equivalent movie pattern
+<span class="math notranslate nohighlight">\(\begin{pmatrix}
+9 &amp; 5.8 &amp; 9.5 &amp; 5.3
+\end{pmatrix}.\)</span>
+This sign change does not affect the resulting outer product. It merely changes the interpretation: positive coefficients are easier to interpret, since they directly indicate how strongly a user adheres to the corresponding latent pattern.
+The pattern represented by the first outer product <span class="math notranslate nohighlight">\(Y_{\cdot 1}X_{\cdot 1}^{\top}\)</span> is visible in the higher intensity of the first and third columns, reflecting the large values <span class="math notranslate nohighlight">\(9\)</span> and <span class="math notranslate nohighlight">\(9.5\)</span> in the movie pattern. Roughly speaking, this outer product captures a preference for movies 1 and 3 relative to the other movies.</p>
+<p>However, we cannot draw conclusions from a single outer product in isolation. For example, user 2 has a comparatively large (sign-corrected) coefficient of <span class="math notranslate nohighlight">\(0.4\)</span> for the first pattern, suggesting a strong preference for movie 1 and movie 3. Based on the first outer product alone, movie 1 would receive a score of <span class="math notranslate nohighlight">\(0.4 \cdot 9 = 3.6.\)</span>
+Yet the final prediction is obtained from the sum of all outer products. In this case, the second outer product contributes <span class="math notranslate nohighlight">\(-0.4 \cdot 2.6 = -1.04,\)</span> thereby reducing the score substantially. Indeed, movie 1 is not known to be a particular preference of user 2, it is actually a missing entry in the original matrix.</p>
+<p>Hence, individual outer products should not be interpreted independently. Rather, they collectively form the approximation. Nevertheless, the importance of the outer products typically decreases with their index, since the singular values decrease in magnitude. Visually, this can be seen in the fading colors of the second outer product, whose contribution is noticeably weaker than that of the first.</p>
 </section>
 <section id="what-happens-when-we-increase-the-rank">
-<h2>What Happens When We Increase the Rank?<a class="headerlink" href="#what-happens-when-we-increase-the-rank" title="Permalink to this headline">#</a></h2>
+<h3>What Happens When We Increase the Rank?<a class="headerlink" href="#what-happens-when-we-increase-the-rank" title="Permalink to this headline">#</a></h3>
 <p>The rank of the matrix factorization is a hyperparameter. If we choose the rank too low, then the approximation might underfit and some of the patterns in the data remain undiscovered. If the rank is too high, then the model also approximates noise-effects from the data and overfits. Noise effects could be in the recommender setting fluctuations in the mood of the user at the time of the rating. In the setting of the matrix completion task, a too high rank also results in an approximation of the neutral rankings that are imputed for the missing values.</p>
 <p>We visualize the factorization with a rank of three below. We see that the third outer product does make some minor corrections for user 1 and 5. At this point, the information in the third outer product becomes neglectable and should not be included in the model.</p>
 <div class="cell docutils container">
@@ -1205,21 +1227,22 @@ However, we cannot make general statements from the first outer product (e.g., u
 </div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/dim_reduction_mf_33_0.png" src="_images/dim_reduction_mf_33_0.png" />
+<img alt="_images/dim_reduction_mf_34_0.png" src="_images/dim_reduction_mf_34_0.png" />
 </div>
 </div>
 </section>
-<section id="low-rank-mf-on-observed-entries">
-<h2>Low-Rank MF on Observed Entries<a class="headerlink" href="#low-rank-mf-on-observed-entries" title="Permalink to this headline">#</a></h2>
-<p>The SVD of the rating matrix with neutral rating imputations gave us some indications of possible recommendations, but an issue with this simple approach is that the imputed missing values are also approximated by the factorization. Especially when observations are sparse, which is usually the case for movie recommendations for example, then this method won’t work because the actual ratings will be perceived as outliers.</p>
+</section>
+<section id="a-more-advanced-recommender-system">
+<h2>A More Advanced Recommender System<a class="headerlink" href="#a-more-advanced-recommender-system" title="Permalink to this headline">#</a></h2>
+<p>The SVD of the rating matrix with neutral rating imputations gave us some indications of possible recommendations, but an issue with this simple approach is that the imputed missing values are also approximated by the factorization. Especially when observations are sparse, which is often the case as in movie recommendations, then this method won’t work because the actual ratings will be perceived as outliers.</p>
 <p>An idea to solve the matrix completion task more accurately is to compute a factorization that approximates only the values of observed entries.
 This approach has been used in the Netflix Price 2009 competition and made it to the top-3.</p>
 <div class="tip admonition">
 <p class="admonition-title">Task (Low-Rank Matrix Factorization with Missing Values)</p>
 <p><strong>Given</strong> a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> having observed entries <span class="math notranslate nohighlight">\(D_{ik}\)</span> for indices <span class="math notranslate nohighlight">\((i,k)\)</span> where the binary indicator matrix <span class="math notranslate nohighlight">\(O\in\{0,1\}^{n\times d}\)</span> has an entry of one <span class="math notranslate nohighlight">\(O_{ik}=1\)</span>, and a rank <span class="math notranslate nohighlight">\(r&lt;\min\{n,d\}\)</span>.</p>
 <p><strong>Find</strong> matrices <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{n\times r}\)</span> whose product approximates the data matrix only on observed entries:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f94ceb6b-bdf9-420a-99dd-4f3383265247">
-<span class="eqno">(55)<a class="headerlink" href="#equation-f94ceb6b-bdf9-420a-99dd-4f3383265247" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-762ab809-a30a-46e0-9fac-60717748171e">
+<span class="eqno">(55)<a class="headerlink" href="#equation-762ab809-a30a-46e0-9fac-60717748171e" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_{X,Y}&amp;\lVert O\circ(D- YX^\top)\rVert^2 +\lambda\lVert X\rVert^2+\lambda\lVert Y\rVert^2\\ 
     &amp;=\sum_{(i,k):O_{ik}=1}(D_{ik}-Y_{i\cdot}X_{k\cdot}^\top)^2+\lambda\lVert X\rVert^2+\lambda\lVert Y\rVert^2\\ 
     \text{s.t. }&amp; X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}
@@ -1297,8 +1320,9 @@ This approach has been used in the Netflix Price 2009 competition and made it to
 </ol>
 </section>
 </div></section>
+</section>
 <section id="from-unsupervised-matrix-completion-to-supervised-behavioral-modeling">
-<h3>From Unsupervised Matrix Completion to Supervised Behavioral Modeling<a class="headerlink" href="#from-unsupervised-matrix-completion-to-supervised-behavioral-modeling" title="Permalink to this headline">#</a></h3>
+<h2>From Unsupervised Matrix Completion to Supervised Behavioral Modeling<a class="headerlink" href="#from-unsupervised-matrix-completion-to-supervised-behavioral-modeling" title="Permalink to this headline">#</a></h2>
 <p>Early recommender systems, such as those based on matrix factorization, are traditionally framed as unsupervised learning problems. The central task is to complete a sparse user-item rating matrix by learning latent factors that explain the observed ratings. This process resembled dimensionality reduction (e.g., via SVD), and the goal was to estimate the missing entries as accurately as possible.</p>
 <p>However, this perspective has shifted in modern systems.
 Today, most recommendation systems rely not on explicit ratings, but on <strong>implicit feedback</strong>:</p>
@@ -1308,12 +1332,8 @@ Today, most recommendation systems rely not on explicit ratings, but on <strong>
 <li><p>Song plays, skips, replays</p></li>
 <li><p>Add-to-cart or wishlist events</p></li>
 </ul>
-<p>These behaviors are logged at scale, and treated as training signals for supervised learning. The recommendation problem becomes:</p>
-<blockquote>
-<div><p><em>Given past behavior, predict whether a user will interact with an item.</em></p>
-</div></blockquote>
-<p>This makes modern recommendation fundamentally a prediction task, rather than a pure matrix completion task. Reformulating the unsupervised recommender system task into a supervised one has the advantages that we can test the performance. In addition, it provides guidance to the model in terms of what makes a user hooked to the screen, which is generally easier to monetize than solving the more general task to provide good recommendations.</p>
-</section>
+<p>These behaviors are logged at scale, and treated as training signals for supervised learning. The recommendation problem becomes “<em>Given past behavior, predict whether a user will interact with an item.</em>”</p>
+<p>This makes modern recommendation fundamentally a prediction task, rather than a pure matrix completion task. Reformulating the unsupervised recommender system task into a supervised one has the advantages that we can test the performance and tune hyperparameters to maximize performance. In addition, it provides control over the purpose of the prediction, such as keeping users hooked to the screen, which is generally easier to monetize than solving the more general task of providing good recommendations.</p>
 </section>
 </section>
 
