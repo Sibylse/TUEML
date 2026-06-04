@@ -891,7 +891,7 @@ Likewise, we identify the more action oriented sci-fi group of Grace, Bob, Eve a
 </div></div>
 </div>
 </div>
-<p>Furthermore, each of the single user-group matrices can be represented by an outer product of a user- and a movie-vector. And the sum of outer product matrices reflects a low-dimensional matrix product.</p>
+<p>Furthermore, each of the single user-group matrices can be represented by an outer product of a user- and a movie-vector. The sum of outer product matrices can be efficiently represented by a matrix product.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 sd-d-flex-row sd-align-major-center docutils">
 <div class="sd-row sd-g-0 sd-g-xs-0 sd-g-sm-0 sd-g-md-0 sd-g-lg-0 docutils">
 <div class="sd-col sd-d-flex-column sd-col-auto sd-col-xs-auto sd-col-sm-auto sd-col-md-auto sd-col-lg-auto sd-align-major-center docutils">
@@ -907,20 +907,29 @@ Likewise, we identify the more action oriented sci-fi group of Grace, Bob, Eve a
 <div class="seealso admonition">
 <p class="admonition-title">Goal (Recommender Systems)</p>
 <p><strong>Given</strong> partially observed data, represented by a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span>.</p>
-<p><strong>Find</strong> a low-dimensional representation that captures the dominant patterns in the data and use it to predict missing values.</p>
+<p><strong>Find</strong> representation that captures the dominant patterns in the data and use it to predict missing values.</p>
 </div>
 <section id="finding-patterns-in-data-via-low-rank-matrix-factorization">
 <h2>Finding Patterns in Data via Low-Rank Matrix Factorization<a class="headerlink" href="#finding-patterns-in-data-via-low-rank-matrix-factorization" title="Permalink to this headline">#</a></h2>
-<p>Before discussing how to fill in missing values, we discuss first how to find patterns in a fully observed dataset. Finding a low-dimensional representation of the data is formalized over the rank-r matrix factorization task. It compresses the data by identifying <span class="math notranslate nohighlight">\(r\)</span> row- and column-patterns that allow us to reconstruct the data.</p>
+<p>Before discussing how to fill in missing values and thereby making recommendations, we discuss first how to find patterns in a fully observed dataset. Compressing the data via outer product matrices is formalized over the rank-r matrix factorization task. The example above decomposes the data into two outer products, corresponding to two user-movie patterns. More generally, we can approximate a matrix as the sum of <span class="math notranslate nohighlight">\(r\)</span> outer products,
+<div class="math notranslate nohighlight">
+\[D\approx \sum_{s=1}^r Y_{\cdot s}X_{\cdot s}^\top = YX^\top\]</div>
+
+represented by the product of matrices <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{n\times r}\)</span> and <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{d\times r}\)</span>. We say the approximating matrix
+<div class="math notranslate nohighlight">
+\[M=YX^\top\]</div>
+
+has <strong>rank</strong> <span class="math notranslate nohighlight">\(r\)</span>, because <span class="math notranslate nohighlight">\(r\)</span> outer products are needed to decompose it.
+The matrix <span class="math notranslate nohighlight">\(M\)</span> compresses the data <span class="math notranslate nohighlight">\(D\)</span> with a <strong>low-rank product</strong>, by identifying <span class="math notranslate nohighlight">\(r\)</span> (where <span class="math notranslate nohighlight">\(r\)</span> should be much smaller than <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(d\)</span>) row- and column-patterns that allow us to reconstruct the data.</p>
 <div class="tip admonition">
 <p class="admonition-title">Task (Rank-r Matrix Factorization)</p>
 <p><strong>Given</strong> a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> and a rank <span class="math notranslate nohighlight">\(r&lt;\min\{n,d\}\)</span>.</p>
 <p><strong>Find</strong> matrices <span class="math notranslate nohighlight">\(X\in \mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{n\times r}\)</span> whose product approximates the data matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-944a08b3-6935-43d7-becd-0a533ab0d7ee">
-<span class="eqno">(50)<a class="headerlink" href="#equation-944a08b3-6935-43d7-becd-0a533ab0d7ee" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6295c57d-a448-4b7e-907b-635aeea2dfb1">
+<span class="eqno">(50)<a class="headerlink" href="#equation-6295c57d-a448-4b7e-907b-635aeea2dfb1" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_{X,Y}&amp;\lVert D- YX^\top\rVert^2 &amp; \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}
 \end{align}\]</div>
-<p><strong>Return</strong> the low-dimensional approximation of the data <span class="math notranslate nohighlight">\((X,Y)\)</span>.</p>
+<p><strong>Return</strong> the low-rank approximation of the data <span class="math notranslate nohighlight">\((X,Y)\)</span>.</p>
 </div>
 <p>The objective seems to be not too difficult to optimize. The squared Frobenius norm is smooth and optimizing subject to the two factor matrices doesn’t seem overly complex. It’s a residual sum of squares objective, similar to the one we know from regression. In regression, the residuals were computed between predicted target and given target. Here, the residuals are computed between the approximated data entry and the given one. However, unlike in regression, the matrix factorization RSS is nonconvex. The proof follows from the fact that the set of global minimizers is not a convex set.</p>
 <div class="proof theorem admonition" id="theorem-0">
@@ -936,8 +945,8 @@ Likewise, we identify the more action oriented sci-fi group of Grace, Bob, Eve a
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
 <p>Proof. We show that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is not a convex function. Therefore we assume first that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function and show then that this assumption leads to a contradiction. Assuming that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function means that the following inequality has to hold for all matrices <span class="math notranslate nohighlight">\(X_1,X_2\in\mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y_1,Y_2\in\mathbb{R}^{n\times r}\)</span> and <span class="math notranslate nohighlight">\(\alpha\in[0,1]\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-82e1f87b-79b1-487c-ada1-d018634e2ae1">
-<span class="eqno">(51)<a class="headerlink" href="#equation-82e1f87b-79b1-487c-ada1-d018634e2ae1" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-174c7aa8-8e7b-4359-aa53-000b51385832">
+<span class="eqno">(51)<a class="headerlink" href="#equation-174c7aa8-8e7b-4359-aa53-000b51385832" title="Permalink to this equation">#</a></span>\[\begin{align}
         RSS(\alpha X_1+ (1-\alpha)X_2,\alpha Y_1 + (1-\alpha)Y_2) \leq \alpha RSS(X_1,Y_1) + (1-\alpha)RSS(X_2,Y_2).
 \end{align}\]</div>
 <p>For any global minimizer <span class="math notranslate nohighlight">\((X,Y)\)</span> of the rank-<span class="math notranslate nohighlight">\(r\)</span> MF problem, <span class="math notranslate nohighlight">\((\gamma X, \frac{1}{\gamma} Y)\)</span> is also a global minimizer for <span class="math notranslate nohighlight">\(\gamma\neq 0\)</span>.
@@ -951,28 +960,46 @@ However, for <span class="math notranslate nohighlight">\(\alpha=1/2\)</span> th
 <p>We observe that the approximation error in the last equation goes to infinity if <span class="math notranslate nohighlight">\(\gamma\rightarrow \infty\)</span>. Hence, there exists multiple <span class="math notranslate nohighlight">\(\gamma&gt;0\)</span> for which the <span class="math notranslate nohighlight">\(RSS\)</span> of the convex combination of two global minimizers is larger than zero. This contradicts the assumption that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is convex.</p>
 </div>
 </div>
-<p>The proof implies that there are infinitely many global minimizers for the low-dimensional matrix factorization task. We explore the geometry of the matrix factorization loss function with an example.</p>
+<p>The proof implies that there are infinitely many global minimizers for the low-dimensional matrix factorization task. Indeed, for any global minimizer to the rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization problem <span class="math notranslate nohighlight">\((X,Y)\)</span>, the matrices <span class="math notranslate nohighlight">\((\gamma X,\frac1\gamma Y)\)</span> are also global minimizers for any <span class="math notranslate nohighlight">\(\gamma\neq 0\)</span>. Does that mean that we have a highly irregular optimization landscape with many disconnected solutions? Surprisingly, this is not the case. Although the objective is nonconvex, its geometry is remarkably well-behaved. To gain some intuition, we explore the loss landscape in the simplest possible matrix factorization problem.</p>
 <div class="proof example admonition" id="example-1">
 <p class="admonition-title"><span class="caption-number">Example 20 </span> (One-dimensional matrix factorization   )</p>
 <section class="example-content" id="proof-content">
 <p>The most <em>easy</em> case of a low-dimensional matrix factorization is the factorization of a single number. Let’s take for example the factorization of the number one into a product of two factors <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>, having the objective function  <span class="math notranslate nohighlight">\(RSS(x_1,x_2) = (1-x_1x_2)^2\)</span>. We plot the graph of the objective function together with three solutions: <span class="math notranslate nohighlight">\((x_1,x_2)=(2,0.5)\)</span>, <span class="math notranslate nohighlight">\((1,1)\)</span>, and <span class="math notranslate nohighlight">\((0.5,2)\)</span>.</p>
 <div class="figure" style="text-align: center"><p><img  src="_images/tikz-8e5b26bf64acbe9c637716e4bc0ecf64fe70aafb.svg" alt="Figure made with TikZ" /></p>
-</div><p>We can observe the nonconvexity of this function by connecting the solution of <span class="math notranslate nohighlight">\((0.5,2)\)</span> with <span class="math notranslate nohighlight">\((2,0.5)\)</span> with a straight line. If the function would be convex, then the graph of the function would be under or on the line. Under the line is not possible in this case, since the solution points we picked are global minimizers. Hence, the graph should be flat (<span class="math notranslate nohighlight">\(y\)</span>-value equal to zero) on the line between the two solutions, but we see that the loss increases to the right. However, we also see that the loss function doesn’t look as if there is a multitude of valleys, that are local minima. That gives us hope, that the low-rank matrix factorization task is not that difficult to solve.</p>
+</div><p>We can observe the nonconvexity of this function by connecting the solution of <span class="math notranslate nohighlight">\((0.5,2)\)</span> with <span class="math notranslate nohighlight">\((2,0.5)\)</span> with a straight line. If the function were convex, then the graph of the function would be on or below this line. Since the two points are global minimizers, lying below the line is impossible. Hence, the graph would have to be flat (<span class="math notranslate nohighlight">\(y\)</span>-value equal to zero) between the two solutions. Instead, we see that the loss increases along the line segment connecting them, demonstrating that the objective is nonconvex.</p>
+<p>At the same time, the loss surface does not appear particularly complicated. Whenever we move away from the set of global minimizers, the loss increases. In this sense, the objective still exhibits some convex-like behavior.
+To understand this phenomenon, note that the nonconvexity arises from expressing the approximation as a product of two factors. If we optimize directly over the product <span class="math notranslate nohighlight">\(M=x_1x_2\)</span>, then the objective becomes
+<div class="math notranslate nohighlight">
+\[\min_M RSS(M) = (1-M)^2 \text{ s.t. }M=x_1x_2,\]</div>
+
+which is a convex function with the unique minimizer <span class="math notranslate nohighlight">\(M\)</span>=1. The infinitely many global minimizers of the factorized problem arise because many different pairs <span class="math notranslate nohighlight">\((x_1,x_2)\)</span> correspond to the same value of <span class="math notranslate nohighlight">\(M\)</span>.</p>
 </section>
 </div><section id="optimization">
 <h3>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">#</a></h3>
-<p>In most cases, nonconvexity of an objective implies that we probably have to live with the fact that we can not determine the global minimum, and that we can only hope to get good local minima by numerical optimization methods such as gradient descent. The rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization problem is here an exemption to the rule, since we can derive one global minimum by SVD.</p>
+<p>The rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization objective is nonconvex. Nevertheless, the previous example suggests that the nonconvexity originates largely from the factorized representation <span class="math notranslate nohighlight">\(M=YX^\top\)</span>, rather than from the underlying approximation task itself.
+Recall from the singular value decomposition <a class="reference internal" href="linalg_normed_vs.html#svd_thm">Theorem 3</a> that every matrix can be decomposed into a sum of outer products,
+<div class="math notranslate nohighlight">
+\[
+D = 
+\sigma_1\vvec{u}_1\vvec{v}_1^\top
++\sigma_2\vvec{u}_2\vvec{v}_2^\top
++\cdots
++\sigma_k \vvec{u}_k \vvec{v}_k^\top .
+\]</div>
+</p>
+<p>Each outer product <span class="math notranslate nohighlight">\(\vvec{u}_s \vvec{v}_s^\top\)</span> represents one pattern in the data, while the corresponding singular value <span class="math notranslate nohighlight">\(\sigma_s\)</span> quantifies its importance. Moreover, the singular values are ordered from largest to smallest, so that the first outer products capture the dominant structure of the data.</p>
+<p>Since the goal of rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization is to approximate the data using only <span class="math notranslate nohighlight">\(r\)</span> patterns, it is natural to expect that the optimal approximation is obtained by retaining the <span class="math notranslate nohighlight">\(r\)</span> most important singular-value components and discarding the remaining ones. The following theorem confirms that this intuition is correct.</p>
 <div class="proof theorem admonition" id="theorem-2">
 <p class="admonition-title"><span class="caption-number">Theorem 28 </span> (Truncated SVD)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(D=U\Sigma V^\top\in\mathbb{R}^{n\times d}\)</span> be the singular decomposition of <span class="math notranslate nohighlight">\(D\)</span>. Then the global minimizers <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>  of the rank-<span class="math notranslate nohighlight">\(r\)</span> MF problem</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7a56c930-46e3-43b2-aca5-4e644e29fe11">
-<span class="eqno">(52)<a class="headerlink" href="#equation-7a56c930-46e3-43b2-aca5-4e644e29fe11" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5d0d01e4-b0d1-46ab-aa60-8e2979d4efa4">
+<span class="eqno">(52)<a class="headerlink" href="#equation-5d0d01e4-b0d1-46ab-aa60-8e2979d4efa4" title="Permalink to this equation">#</a></span>\[\begin{align}
 \min_{X,Y}\lVert D-YX^\top\rVert^2 \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}.
 \end{align}\]</div>
 <p>satisfy</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b7d4e0e5-9ef0-412a-bfa0-080aa0633769">
-<span class="eqno">(53)<a class="headerlink" href="#equation-b7d4e0e5-9ef0-412a-bfa0-080aa0633769" title="Permalink to this equation">#</a></span>\[\begin{align} 
+<div class="amsmath math notranslate nohighlight" id="equation-a1bf270a-c9d2-4929-a313-2ae89549616d">
+<span class="eqno">(53)<a class="headerlink" href="#equation-a1bf270a-c9d2-4929-a313-2ae89549616d" title="Permalink to this equation">#</a></span>\[\begin{align} 
 YX^\top = U_{\cdot \mathcal{R}}\Sigma_{\mathcal{R}\mathcal{R}}V_{\cdot \mathcal{R}}^\top, \text{ where }\mathcal{R}=\{1,\ldots, r\}.
 \end{align}\]</div>
 </section>
@@ -1124,8 +1151,8 @@ The tri-factorization of SVD can be expressed as a factorization into two matric
 </div>
 </div>
 <p>If we compare the matrix above with the matrix having missing values, then we see that the low rank approximation gives some tendencies for recommendations, but often no very clear recommendation indications. This is not very surprising, since we had just a small dataset and comparatively many missing values. The rank-2 approximation is already a bit too well adapting to the missing values neutral rating.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8f54b155-5d20-4929-9789-18aa3869f20b">
-<span class="eqno">(54)<a class="headerlink" href="#equation-8f54b155-5d20-4929-9789-18aa3869f20b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3dae090a-05b2-45ca-b9ab-2c7d22447ffc">
+<span class="eqno">(54)<a class="headerlink" href="#equation-3dae090a-05b2-45ca-b9ab-2c7d22447ffc" title="Permalink to this equation">#</a></span>\[\begin{align}
   \begin{pmatrix}
     5 &amp; \mu &amp; 1 &amp; 1 \\
     \mu &amp; 1 &amp; 5 &amp; \mu  \\\
@@ -1241,8 +1268,8 @@ This approach has been used in the Netflix Price 2009 competition and made it to
 <p class="admonition-title">Task (Low-Rank Matrix Factorization with Missing Values)</p>
 <p><strong>Given</strong> a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> having observed entries <span class="math notranslate nohighlight">\(D_{ik}\)</span> for indices <span class="math notranslate nohighlight">\((i,k)\)</span> where the binary indicator matrix <span class="math notranslate nohighlight">\(O\in\{0,1\}^{n\times d}\)</span> has an entry of one <span class="math notranslate nohighlight">\(O_{ik}=1\)</span>, and a rank <span class="math notranslate nohighlight">\(r&lt;\min\{n,d\}\)</span>.</p>
 <p><strong>Find</strong> matrices <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{n\times r}\)</span> whose product approximates the data matrix only on observed entries:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-762ab809-a30a-46e0-9fac-60717748171e">
-<span class="eqno">(55)<a class="headerlink" href="#equation-762ab809-a30a-46e0-9fac-60717748171e" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ef6f2290-6b1d-4771-a3d2-75983d54f1df">
+<span class="eqno">(55)<a class="headerlink" href="#equation-ef6f2290-6b1d-4771-a3d2-75983d54f1df" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_{X,Y}&amp;\lVert O\circ(D- YX^\top)\rVert^2 +\lambda\lVert X\rVert^2+\lambda\lVert Y\rVert^2\\ 
     &amp;=\sum_{(i,k):O_{ik}=1}(D_{ik}-Y_{i\cdot}X_{k\cdot}^\top)^2+\lambda\lVert X\rVert^2+\lambda\lVert Y\rVert^2\\ 
     \text{s.t. }&amp; X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}
