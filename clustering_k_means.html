@@ -713,7 +713,7 @@ title="Print to PDF"
 </ol>
 <p>We denote our clustering as a series of indices-sets <span class="math notranslate nohighlight">\(\mathcal{C}_1,\ldots,\mathcal{C}_r\)</span>, where <span class="math notranslate nohighlight">\(\mathcal{C}_s\subseteq \{1,\ldots,n\}\)</span> indicates the indices of our <span class="math notranslate nohighlight">\(n\)</span> data points that belong to cluster <span class="math notranslate nohighlight">\(s\)</span>. The second assumption is then mathematically described by <span class="math notranslate nohighlight">\(\mathcal{C}_1,\ldots,\mathcal{C}_r\)</span> forming a partition of <span class="math notranslate nohighlight">\(\{1,\ldots,n\}\)</span>, that is
 <div class="math notranslate nohighlight">
-\[\{\mathcal{C}_s\cap\mathcal{C}_t=\emptyset,\  \mathcal{C}_1\cup\ldots\cup\mathcal{C}_r\}=\{1,\ldots, n\}.\]</div>
+\[\mathcal{C}_s\cap\mathcal{C}_t=\emptyset \text{ for all }s\neq t,\  \mathcal{C}_1\cup\ldots\cup\mathcal{C}_r=\{1,\ldots, n\}.\]</div>
 
 We denote the set of all partitions from <span class="math notranslate nohighlight">\(\{1,\ldots,n\}\)</span> with <span class="math notranslate nohighlight">\(\mathcal{P}_n\)</span>.</p>
 <p>Point 3 states that points within a cluster are similar. We can express this assumption mathematically by stating that points within a cluster have a small (squared) Euclidean distance in average:
@@ -749,8 +749,8 @@ This allows us to formalize our k-means clustering task as follows:</p>
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
 <p>Proof. The objective function in Eq. <a class="reference internal" href="#equation-eq-k-means">(63)</a> returning the average distance of points within one cluster can be transformed as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-92dc3d2a-63ef-4a99-8acd-5bbb6544640d">
-<span class="eqno">(65)<a class="headerlink" href="#equation-92dc3d2a-63ef-4a99-8acd-5bbb6544640d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b959e0d5-f13f-4d3e-8bd5-71f1433b5639">
+<span class="eqno">(65)<a class="headerlink" href="#equation-b959e0d5-f13f-4d3e-8bd5-71f1433b5639" title="Permalink to this equation">#</a></span>\[\begin{align}
    &amp;\sum_{s=1}^r\frac{1}{|\mathcal{C}_s|}\sum_{j\in\mathcal{C}_s}{\color{magenta}\sum_{i\in\mathcal{C}_s}}\lVert {\color{magenta}D_{i\cdot}}-D_{j\cdot}\rVert^2\\ 
     &amp;= \sum_{s=1}^r\frac{1}{|\mathcal{C}_s|}\sum_{j\in\mathcal{C}_s}{\color{magenta}\sum_{i\in\mathcal{C}_s}}\left(
     {\color{magenta}\lVert D_{i\cdot}\rVert^2} - 2{\color{magenta}D_{i\cdot}}D_{j\cdot}^\top +
@@ -766,15 +766,15 @@ This allows us to formalize our k-means clustering task as follows:</p>
     &amp;=\sum_{s=1}^r\left(2{\color{magenta}\sum_{i\in\mathcal{C}_s}\lVert D_{i\cdot}\rVert^2}-2{\color{magenta}\sum_{i\in\mathcal{C}_s} D_{i\cdot}} \frac{1}{|\mathcal{C}_s|}\sum_{j\in\mathcal{C}_s}D_{j\cdot}^\top\right) 
 \end{align}\]</div>
 <p>This transformation introduces the centroid to the objective, it is given by the term on the right:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3a3fa42d-6074-423f-a3ff-5e36b657540c">
-<span class="eqno">(66)<a class="headerlink" href="#equation-3a3fa42d-6074-423f-a3ff-5e36b657540c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6f23155a-6d8f-4b2a-ba0a-9a7e863a03ce">
+<span class="eqno">(66)<a class="headerlink" href="#equation-6f23155a-6d8f-4b2a-ba0a-9a7e863a03ce" title="Permalink to this equation">#</a></span>\[\begin{align}
     Dist(\mathcal{C}_1,\ldots,\mathcal{C}_r)
     &amp;=2\sum_{s=1}^r\Biggl(\sum_{i\in\mathcal{C}_s}\lVert D_{i\cdot}\rVert^2-\sum_{i\in\mathcal{C}_s} D_{i\cdot} \underbrace{\frac{1}{|\mathcal{C}_s|}\sum_{j\in\mathcal{C}_s}D_{j\cdot}^\top}_{X_{\cdot s}}\Biggr)
 \end{align}\]</div>
 <p><span class="math notranslate nohighlight">\(X_{\cdot s}\)</span> is the centroid (the arithmetic mean position) of all points assigned to cluster <span class="math notranslate nohighlight">\(\mathcal{C}_s\)</span>.
 We rearrange the terms now, such that we can again apply the binomial formula for norms, where the norm is used to measure  the distance of a point in a cluster to the corresponding centroid:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4dbaff62-709c-4b0d-8558-ff729e5390d8">
-<span class="eqno">(67)<a class="headerlink" href="#equation-4dbaff62-709c-4b0d-8558-ff729e5390d8" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-04e067fa-0ff7-40de-a7a1-897dcd364d55">
+<span class="eqno">(67)<a class="headerlink" href="#equation-04e067fa-0ff7-40de-a7a1-897dcd364d55" title="Permalink to this equation">#</a></span>\[\begin{align}
         Dist(\mathcal{C}_1,\ldots,\mathcal{C}_r)
     &amp;=2\sum_{s=1}^r\Biggl({\color{magenta}\sum_{i\in\mathcal{C}_s}\lVert D_{i\cdot}\rVert^2}-\underbrace{\underbrace{{\color{magenta}\sum_{i\in\mathcal{C}_s} D_{i\cdot}}}_{\lvert\mathcal{C}_s\rvert X_{\cdot s}^\top} \underbrace{\frac{1}{|\mathcal{C}_s|}\sum_{j\in\mathcal{C}_s}D_{j\cdot}^\top}_{X_{\cdot s}}}_{{\color{magenta}\sum_{i\in\mathcal{C}_s}}\lVert X_{\cdot s}\rVert^2}\Biggr)\\
     &amp;=2\sum_{s=1}^r{\color{magenta}\sum_{i\in\mathcal{C}_s}} \left({\color{magenta}\lVert D_{i\cdot}\rVert^2}- 2{\color{magenta}D_{i\cdot}}X_{\cdot s} +\lVert X_{\cdot s}\rVert^2\right)\\
@@ -991,42 +991,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_imgea77aa30228d451c9bd8c188142b34de">
+  <img id="_anim_imgb9219511ae74410f8f8f173fcceaba35">
   <div class="anim-controls">
-    <input id="_anim_sliderea77aa30228d451c9bd8c188142b34de" type="range" class="anim-slider"
+    <input id="_anim_sliderb9219511ae74410f8f8f173fcceaba35" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="animea77aa30228d451c9bd8c188142b34de.set_frame(parseInt(this.value));">
+           oninput="animb9219511ae74410f8f8f173fcceaba35.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="animea77aa30228d451c9bd8c188142b34de.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animb9219511ae74410f8f8f173fcceaba35.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="animea77aa30228d451c9bd8c188142b34de.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animb9219511ae74410f8f8f173fcceaba35.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="animea77aa30228d451c9bd8c188142b34de.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animb9219511ae74410f8f8f173fcceaba35.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="animea77aa30228d451c9bd8c188142b34de.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animb9219511ae74410f8f8f173fcceaba35.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="animea77aa30228d451c9bd8c188142b34de.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animb9219511ae74410f8f8f173fcceaba35.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="animea77aa30228d451c9bd8c188142b34de.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animb9219511ae74410f8f8f173fcceaba35.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="animea77aa30228d451c9bd8c188142b34de.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animb9219511ae74410f8f8f173fcceaba35.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="animea77aa30228d451c9bd8c188142b34de.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animb9219511ae74410f8f8f173fcceaba35.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="animea77aa30228d451c9bd8c188142b34de.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animb9219511ae74410f8f8f173fcceaba35.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectea77aa30228d451c9bd8c188142b34de"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectb9219511ae74410f8f8f173fcceaba35"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_ea77aa30228d451c9bd8c188142b34de"
+      <input type="radio" name="state" value="once" id="_anim_radio1_b9219511ae74410f8f8f173fcceaba35"
              >
-      <label for="_anim_radio1_ea77aa30228d451c9bd8c188142b34de">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_ea77aa30228d451c9bd8c188142b34de"
+      <label for="_anim_radio1_b9219511ae74410f8f8f173fcceaba35">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_b9219511ae74410f8f8f173fcceaba35"
              checked>
-      <label for="_anim_radio2_ea77aa30228d451c9bd8c188142b34de">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_ea77aa30228d451c9bd8c188142b34de"
+      <label for="_anim_radio2_b9219511ae74410f8f8f173fcceaba35">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_b9219511ae74410f8f8f173fcceaba35"
              >
-      <label for="_anim_radio3_ea77aa30228d451c9bd8c188142b34de">Reflect</label>
+      <label for="_anim_radio3_b9219511ae74410f8f8f173fcceaba35">Reflect</label>
     </form>
   </div>
 </div>
@@ -1036,9 +1036,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_imgea77aa30228d451c9bd8c188142b34de";
-    var slider_id = "_anim_sliderea77aa30228d451c9bd8c188142b34de";
-    var loop_select_id = "_anim_loop_selectea77aa30228d451c9bd8c188142b34de";
+    var img_id = "_anim_imgb9219511ae74410f8f8f173fcceaba35";
+    var slider_id = "_anim_sliderb9219511ae74410f8f8f173fcceaba35";
+    var loop_select_id = "_anim_loop_selectb9219511ae74410f8f8f173fcceaba35";
     var frames = new Array(9);
 
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbAAAAEgCAYAAADVKCZpAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -4929,7 +4929,7 @@ IkkAE0IIEZH+H0r0K76ieYXyAAAAAElFTkSuQmCC\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        animea77aa30228d451c9bd8c188142b34de = new Animation(frames, img_id, slider_id, 200.0,
+        animb9219511ae74410f8f8f173fcceaba35 = new Animation(frames, img_id, slider_id, 200.0,
                                  loop_select_id);
     }, 0);
   })()
