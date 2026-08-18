@@ -340,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuralnets_exercises.html">
+     Exercises
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -746,9 +751,12 @@ The general scheme of numerical optimization methods is typically</p>
 <li><p><strong>return</strong> <span class="math notranslate nohighlight">\(\vvec{x}_{t_{max}}\)</span></p></li>
 </ol>
 </section>
-</div><p>The figure below shows the level set of a function, where every ring indicates the points in the domain of the function that have a specified function value <span class="math notranslate nohighlight">\(\{\vvec{x}\mid f(\vvec{x})=c\}\)</span>. The plotted function has a minimum at the center of the ellipses. We start at <span class="math notranslate nohighlight">\(\vvec{x}_0\)</span> and then move to the minimum in direction of the vertical coordinate. That is, we move to the smallest ellipse (smallest diameter) we can touch in direction of the vertical coordinate. Then we move to the minimum in direction of the horizontal coordinate and we are already at our minimum where the method stops.</p>
-<div class="figure" style="text-align: center"><p><img  src="_images/tikz-2ffa0468edea151e341ce269697eefcfba9bfc7c.svg" alt="Figure made with TikZ" /></p>
-</div><p>Coordinate descent minimizes the function value in every step:
+</div><p>The figure below shows the level set of the function <span class="math notranslate nohighlight">\(f(x_1,x_2)=2x_1^2+2x_1x_2+2x_2^2\)</span> shown as ellipses. A level set consists of all points in the domain at which the function takes the same value <span class="math notranslate nohighlight">\(\{\vvec{x}\mid f(\vvec{x})=c\}.\)</span>
+Smaller ellipses correspond to smaller function values, and the minimum of the function lies at the center of the ellipses.</p>
+<p>Coordinate descent starts from an initial point <span class="math notranslate nohighlight">\(\vvec{x}_0\)</span> and minimizes the function with respect to one coordinate at a time. First, <span class="math notranslate nohighlight">\(x_2\)</span> is held fixed while <span class="math notranslate nohighlight">\(x_1\)</span> is varied. Geometrically, this corresponds to moving horizontally until the smallest possible level set is reached along that direction. Next, <span class="math notranslate nohighlight">\(x_1\)</span> is held fixed while <span class="math notranslate nohighlight">\(x_2\)</span> is varied, corresponding to a vertical move to the smallest possible level set in that direction. These alternating horizontal and vertical minimization steps are repeated until a stopping criterion is satisfied.</p>
+<p>For this example, coordinate descent approaches the minimum rapidly. However, the iterates do not reach the exact minimum in a finite number of steps, but they converge toward it.</p>
+<div class="figure" style="text-align: center"><p><img  src="_images/tikz-b8984da3fa2d317883310c31234ac9ad3b8ce8b2.svg" alt="Figure made with TikZ" /></p>
+</div><p>Coordinate descent chooses each update to make the function value as small as possible along one coordinate, so the function value cannot increase. Hence, with every update, coordinate descent goes downhill:
 <div class="math notranslate nohighlight">
 \[ f(\vvec{x}^{(0)})\geq f(\vvec{x}^{(1)})\geq f(\vvec{x}^{(2)})\geq\ldots\]</div>
 </p>
@@ -986,42 +994,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_imga50c95da1f5a4d0d8b80126f0f36e2df">
+  <img id="_anim_imgf659fac374fe4275a070dea103a8a423">
   <div class="anim-controls">
-    <input id="_anim_slidera50c95da1f5a4d0d8b80126f0f36e2df" type="range" class="anim-slider"
+    <input id="_anim_sliderf659fac374fe4275a070dea103a8a423" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anima50c95da1f5a4d0d8b80126f0f36e2df.set_frame(parseInt(this.value));">
+           oninput="animf659fac374fe4275a070dea103a8a423.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animf659fac374fe4275a070dea103a8a423.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animf659fac374fe4275a070dea103a8a423.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animf659fac374fe4275a070dea103a8a423.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animf659fac374fe4275a070dea103a8a423.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animf659fac374fe4275a070dea103a8a423.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animf659fac374fe4275a070dea103a8a423.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animf659fac374fe4275a070dea103a8a423.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animf659fac374fe4275a070dea103a8a423.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anima50c95da1f5a4d0d8b80126f0f36e2df.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animf659fac374fe4275a070dea103a8a423.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selecta50c95da1f5a4d0d8b80126f0f36e2df"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectf659fac374fe4275a070dea103a8a423"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_a50c95da1f5a4d0d8b80126f0f36e2df"
+      <input type="radio" name="state" value="once" id="_anim_radio1_f659fac374fe4275a070dea103a8a423"
              >
-      <label for="_anim_radio1_a50c95da1f5a4d0d8b80126f0f36e2df">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_a50c95da1f5a4d0d8b80126f0f36e2df"
+      <label for="_anim_radio1_f659fac374fe4275a070dea103a8a423">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_f659fac374fe4275a070dea103a8a423"
              checked>
-      <label for="_anim_radio2_a50c95da1f5a4d0d8b80126f0f36e2df">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_a50c95da1f5a4d0d8b80126f0f36e2df"
+      <label for="_anim_radio2_f659fac374fe4275a070dea103a8a423">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_f659fac374fe4275a070dea103a8a423"
              >
-      <label for="_anim_radio3_a50c95da1f5a4d0d8b80126f0f36e2df">Reflect</label>
+      <label for="_anim_radio3_f659fac374fe4275a070dea103a8a423">Reflect</label>
     </form>
   </div>
 </div>
@@ -1031,9 +1039,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_imga50c95da1f5a4d0d8b80126f0f36e2df";
-    var slider_id = "_anim_slidera50c95da1f5a4d0d8b80126f0f36e2df";
-    var loop_select_id = "_anim_loop_selecta50c95da1f5a4d0d8b80126f0f36e2df";
+    var img_id = "_anim_imgf659fac374fe4275a070dea103a8a423";
+    var slider_id = "_anim_sliderf659fac374fe4275a070dea103a8a423";
+    var loop_select_id = "_anim_loop_selectf659fac374fe4275a070dea103a8a423";
     var frames = new Array(100);
 
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA/AAAAGwCAYAAAAOmI5LAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -168012,7 +168020,7 @@ AAAAAEAH/D9um/XCbgxw5gAAAABJRU5ErkJggg==\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anima50c95da1f5a4d0d8b80126f0f36e2df = new Animation(frames, img_id, slider_id, 200.0,
+        animf659fac374fe4275a070dea103a8a423 = new Animation(frames, img_id, slider_id, 200.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -168105,7 +168113,7 @@ As a result we have</p>
 </ol>
 </section>
 </div><p>The parameter <span class="math notranslate nohighlight">\(\eta\)</span> doesn’t have to be a constant, it might also be a function that returns the <em>step size</em> depending on the amount of steps that have already performed. Setting the step size well is often a difficult task. The figure below shows how gradient descent makes the updates based on the local information.</p>
-<div class="figure" style="text-align: center"><p><img  src="_images/tikz-5972504c6df478ebb90fa0820a2c0184eb988125.svg" alt="Figure made with TikZ" /></p>
+<div class="figure" style="text-align: center"><p><img  src="_images/tikz-ce8e3e78dd670be5aaf8d6e24cce903aedc9bf9c.svg" alt="Figure made with TikZ" /></p>
 </div><p>Gradient descent decreases the function value in every step if the step size is small enough (because the negative gradient points in the direction of steepest descent)
 <div class="math notranslate nohighlight">
 \[f(\vvec{x}_0)\geq f(\vvec{x}_1)\geq f(\vvec{x}_2)\geq\ldots.\]</div>
@@ -168116,7 +168124,7 @@ However, decreasing the function value in every step is in practice not neccessa
 <p>We illustrate the effect of the step-size by means of the Rosenbrock function. We start at point <span class="math notranslate nohighlight">\((-1.5,1.5)\)</span> and choose a maximum number of 500 iterations. For our first run, we choose a small step-size <span class="math notranslate nohighlight">\(\eta =0.0015\)</span>. In the beginning, this step size seems too large, since we can see it zig-zagging, but then it lands in the valley where the gradient norm is small and we make only very tiny steps. In the 500 iterations, we do not reach the minimum at <span class="math notranslate nohighlight">\((1,1)\)</span>.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/optimization_numerical_11_0.png" src="_images/optimization_numerical_11_0.png" />
+<img alt="_images/optimization_numerical_12_0.png" src="_images/optimization_numerical_12_0.png" />
 </div>
 </div>
 <p>We increase now the step-size to <span class="math notranslate nohighlight">\(\eta=0.0035\)</span>. We see how in the beginning, the method makes big steps, which get smaller when the iterates land near the valley, but the zig-zagging is still strong and we don’t make good progress to the minimizer. For the Rosenbrock function, we need a lot of steps to converge to the minimizer, while the analytic method to compute the stationary points directly gives us the optimum.  The problem with the Rosenbrock function is that gradient descent</p>
@@ -168126,7 +168134,7 @@ However, decreasing the function value in every step is in practice not neccessa
 </ul>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/optimization_numerical_13_0.png" src="_images/optimization_numerical_13_0.png" />
+<img alt="_images/optimization_numerical_14_0.png" src="_images/optimization_numerical_14_0.png" />
 </div>
 </div>
 <p>In practice, encountering a convergence behaviour as from the Rosenbrock functions is problematic, since we apply numerical optimization if we can’t compute the optimum analytically. If we don’t know where the optimum is, we might give up after the 500 steps where not much is happening, because the function has not been decreasing by much.</p>
@@ -168154,12 +168162,16 @@ However, decreasing the function value in every step is in practice not neccessa
 </ol>
 </section>
 </div><p>Gradient descent with momentum is generally much faster than vanilla gradient descent. Setting the parameter <span class="math notranslate nohighlight">\(\gamma \)</span> in practice is not very challenging since <span class="math notranslate nohighlight">\(\gamma\in\{0.9,0.99\}\)</span> works usually well. If you are interested in a deeper dive into why momentum works, I recommend looking at this <a class="reference external" href="https://distill.pub/2017/momentum/">paper</a>.</p>
-<section id="id2">
+<p>The plot below shows the trajectory of gradient descent with momentum on our toy function, using a step size of <span class="math notranslate nohighlight">\(\eta=0.1\)</span> and a momentum parameter of <span class="math notranslate nohighlight">\(\beta=0.9\)</span>. Unlike vanilla gradient descent, the updates do not necessarily become smaller as we approach the minimum. Instead, the method builds up momentum while moving downhill. We can think of this as a ball rolling down a hill: even when it reaches the bottom, it still has some speed and therefore rolls past it. We observe here that gradient descent with momentum overshoots the minimum and has to correct its direction in the following iterations.</p>
+<p>The parameter <span class="math notranslate nohighlight">\(\beta\)</span> controls how much of the previous movement is carried over to the next iteration. If <span class="math notranslate nohighlight">\(\beta\)</span> is close to zero, there is little momentum and the method behaves more like ordinary gradient descent. A larger value of <span class="math notranslate nohighlight">\(\beta\)</span> gives more weight to the previous movement and creates stronger momentum. This can help the method move more quickly toward the minimum, but it can also cause larger overshoots.</p>
+<p>In this example, decreasing <span class="math notranslate nohighlight">\(\beta\)</span>, choosing a smaller step size, or both would reduce the overshooting and help the method settle near the minimum more quickly.</p>
+<div class="figure" style="text-align: center"><p><img  src="_images/tikz-37d66566625d7c131ef5f3e0b2f75a5b885b1394.svg" alt="Figure made with TikZ" /></p>
+</div><section id="id2">
 <h3>Example: Rosenbrock Function<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
 <p>We plot below the trajectory of the gradient descent method with momentum, using a step-size of <span class="math notranslate nohighlight">\(\eta = 0.0015\)</span> and a value of <span class="math notranslate nohighlight">\(\gamma=0.9\)</span>. We use 500 iteration steps, where we see that those are now sufficient to converge to the minimizer <span class="math notranslate nohighlight">\((1,1)\)</span>.</p>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<img alt="_images/optimization_numerical_15_0.png" src="_images/optimization_numerical_15_0.png" />
+<img alt="_images/optimization_numerical_17_0.png" src="_images/optimization_numerical_17_0.png" />
 </div>
 </div>
 </section>
