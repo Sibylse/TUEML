@@ -340,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuralnets_exercises.html">
+     Exercises
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -702,10 +707,10 @@ title="Print to PDF"
 <h1>The Bias-Variance Tradeoff<a class="headerlink" href="#the-bias-variance-tradeoff" title="Permalink to this headline">#</a></h1>
 <p>In the previous subsection we have seen that the regression objective of minimizing the RSS has some reallly nice properties: we can determine the global optimum in an analytic way (by means of a formula). However, the initial goal of regression was to find the true feature-target relationship from the data. We want to find the <em>true</em> regression function. The question is now how we can evaluate our regression model towards our goal, when we don’t know what the true regression function is.</p>
 <p>The regression task has some very well understood trade-off between bias and variance of a model. Bias and variance are here terms that are applied to a statistic estimator. To make these concepts more concrete, we have a look at a simple analogy.</p>
-<p>Imagine repeatedly throwing darts at a dartboard, where the center of the board represents the true regression function <span class="math notranslate nohighlight">\(f^*(x)\)</span>. Each throw corresponds to the prediction of a model <span class="math notranslate nohighlight">\(f_\mathcal{D}\)</span> trained on dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>.</p>
+<p>Imagine repeatedly throwing darts at a dartboard, where the bullseye of the board represents the true statistical quantity we would like to estimate. In regression, the bullseye represents the true regression function <span class="math notranslate nohighlight">\(f^*(x)\)</span>. Each dart represents an estimate obtained from a different random sample of data. In regression, a dart would then be a model <span class="math notranslate nohighlight">\(f_\mathcal{D}\)</span> trained on a random sample of a dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>.</p>
 <p>In this setting:</p>
 <ul class="simple">
-<li><p>the average location of the darts corresponds to the expected prediction <span class="math notranslate nohighlight">\(\mathbb{E}_\mathcal{D}[f_\mathcal{D}(x)]\)</span>,</p></li>
+<li><p>the average location of the darts represents the expected value of the estimator. In regression, this is the expected prediction <span class="math notranslate nohighlight">\(\mathbb{E}_\mathcal{D}[f_\mathcal{D}(x)]\)</span>,</p></li>
 <li><p>the distance of this average from the center represents the bias, and</p></li>
 <li><p>the spread of the darts around their average represents the variance.</p></li>
 </ul>
@@ -1057,16 +1062,16 @@ The second term in Eq. <a class="reference internal" href="#equation-eq-bias-var
 <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="c1"># sample n data points from a uniform distribution</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">f_true</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
-<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="s2">&quot; </span><span class="se">\t</span><span class="s2">test:&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train:[ 0  1  2  4  5  7  9 10 12 13 14 15 16]  	test:[ 3  6  8 11 17 18 19]
-train:[ 1  3  4  5  6  7  8 11 13 15 17 18 19]  	test:[ 0  2  9 10 12 14 16]
-train:[ 0  2  3  6  8  9 10 11 12 14 16 17 18 19]  	test:[ 1  4  5  7 13 15]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>train:[ 0  6  7  8  9 10 11 12 13 15 16 17 18]  	test:[ 1  2  3  4  5 14 19]
+train:[ 1  2  3  4  5  6  7 10 11 12 14 18 19]  	test:[ 0  8  9 13 15 16 17]
+train:[ 0  1  2  3  4  5  8  9 13 14 15 16 17 19]  	test:[ 6  7 10 11 12 18]
 </pre></div>
 </div>
 </div>
@@ -1100,7 +1105,7 @@ train:[ 0  2  3  6  8  9 10 11 12 14 16 17 18 19]  	test:[ 1  4  5  7 13 15]
 <img alt="_images/regression_bias_var_24_0.png" src="_images/regression_bias_var_24_0.png" />
 </div>
 </div>
-<p>We observe that the thrid fold has a split into train and test data which does not really show that the polynomial is overfitting. However, in average, the 3-fold CV-MSE is large, in particular due to the very high MSE of the second fold.</p>
+<p>We observe that the third fold has a split into train and test data that does not really show that the polynomial is overfitting. However, in average, the 3-fold CV-MSE is large, in particular due to the very high MSE of the first fold.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mse_array</span><span class="p">)</span>
@@ -1108,7 +1113,7 @@ train:[ 0  2  3  6  8  9 10 11 12 14 16 17 18 19]  	test:[ 1  4  5  7 13 15]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4081.77
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>127.11666666666667
 </pre></div>
 </div>
 </div>

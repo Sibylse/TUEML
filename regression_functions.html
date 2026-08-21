@@ -340,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuralnets_exercises.html">
+     Exercises
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -786,11 +791,11 @@ that is, they are defined by an inner product of the weights <span class="math n
     \beta_{kk}
     \end{pmatrix}= \bm{\phi}(\vvec{x})^\top\bm{\beta},
 \end{align*}\]</div>
-<p>where the feature transformation maps now to a <span class="math notranslate nohighlight">\((k+1)^2\)</span>-dimensional vector space, <span class="math notranslate nohighlight">\(\bm\phi(\vvec{x}),\bm\beta\in\mathbb{R}^{(k+1)^2}\)</span>. The basis functions are here the set of <span class="math notranslate nohighlight">\(\{x_1^{i_1}x_2^{i_2}\mid 1\leq i_1,i_2\leq k\}\)</span>.</p>
+<p>where the feature transformation maps now to a <span class="math notranslate nohighlight">\((k+1)^2\)</span>-dimensional vector space, <span class="math notranslate nohighlight">\(\bm\phi(\vvec{x}),\bm\beta\in\mathbb{R}^{(k+1)^2}\)</span>. The basis functions are here the set of <span class="math notranslate nohighlight">\(\{x_1^{i_1}x_2^{i_2}\mid 0\leq i_1,i_2\leq k\}\)</span>.</p>
 </section>
 </div><p>We generalize now the defintion of polynomials of degree <span class="math notranslate nohighlight">\(k\)</span> as a linear function by the multiplication of all possible one-dimensional basis functions:
 <div class="math notranslate nohighlight">
-\[\bm{\phi}_{pk}(\vvec{x}) = (x_1^{i_1}\cdot \ldots \cdot x_d^{i_d})_{1\leq i_1\ldots i_d\leq k} \in\mathbb{R}^{(k+1)^d}, \text{ for }\vvec{x}\in\mathbb{R}^d\]</div>
+\[\bm{\phi}_{pk}(\vvec{x}) = (x_1^{i_1}\cdot \ldots \cdot x_d^{i_d})_{0\leq i_1\ldots i_d\leq k} \in\mathbb{R}^{(k+1)^d}, \text{ for }\vvec{x}\in\mathbb{R}^d\]</div>
 
 Hence, our function class of polynomial functions in a <span class="math notranslate nohighlight">\(d\)</span>-dimensional vector space is given as:
 <div class="math notranslate nohighlight">

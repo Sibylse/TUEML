@@ -925,8 +925,8 @@ The matrix <span class="math notranslate nohighlight">\(M\)</span> compresses th
 <p class="admonition-title">Task (Rank-r Matrix Factorization)</p>
 <p><strong>Given</strong> a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> and a rank <span class="math notranslate nohighlight">\(r&lt;\min\{n,d\}\)</span>.</p>
 <p><strong>Find</strong> matrices <span class="math notranslate nohighlight">\(X\in \mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{n\times r}\)</span> whose product approximates the data matrix:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6295c57d-a448-4b7e-907b-635aeea2dfb1">
-<span class="eqno">(50)<a class="headerlink" href="#equation-6295c57d-a448-4b7e-907b-635aeea2dfb1" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5fcae917-700c-4f94-a6f4-2ae2431f2c79">
+<span class="eqno">(50)<a class="headerlink" href="#equation-5fcae917-700c-4f94-a6f4-2ae2431f2c79" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_{X,Y}&amp;\lVert D- YX^\top\rVert^2 &amp; \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}
 \end{align}\]</div>
 <p><strong>Return</strong> the low-rank approximation of the data <span class="math notranslate nohighlight">\((X,Y)\)</span>.</p>
@@ -944,20 +944,24 @@ The matrix <span class="math notranslate nohighlight">\(M\)</span> compresses th
 </section>
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
-<p>Proof. We show that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is not a convex function. Therefore we assume first that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function and show then that this assumption leads to a contradiction. Assuming that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function means that the following inequality has to hold for all matrices <span class="math notranslate nohighlight">\(X_1,X_2\in\mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y_1,Y_2\in\mathbb{R}^{n\times r}\)</span> and <span class="math notranslate nohighlight">\(\alpha\in[0,1]\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-174c7aa8-8e7b-4359-aa53-000b51385832">
-<span class="eqno">(51)<a class="headerlink" href="#equation-174c7aa8-8e7b-4359-aa53-000b51385832" title="Permalink to this equation">#</a></span>\[\begin{align}
-        RSS(\alpha X_1+ (1-\alpha)X_2,\alpha Y_1 + (1-\alpha)Y_2) \leq \alpha RSS(X_1,Y_1) + (1-\alpha)RSS(X_2,Y_2).
-\end{align}\]</div>
-<p>For any global minimizer <span class="math notranslate nohighlight">\((X,Y)\)</span> of the rank-<span class="math notranslate nohighlight">\(r\)</span> MF problem, <span class="math notranslate nohighlight">\((\gamma X, \frac{1}{\gamma} Y)\)</span> is also a global minimizer for <span class="math notranslate nohighlight">\(\gamma\neq 0\)</span>.
-However, for <span class="math notranslate nohighlight">\(\alpha=1/2\)</span> the convex combination attains a function value of</p>
+<p>Proof. We show that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is not a convex function. Therefore we assume first that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function and show then that this assumption leads to a contradiction. Let <span class="math notranslate nohighlight">\(X_1,X_2\in\mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y_1,Y_2\in\mathbb{R}^{n\times r}\)</span>, and define <span class="math notranslate nohighlight">\(\mathbf{z}_1= (X_1,Y_1)\)</span> and <span class="math notranslate nohighlight">\(\mathbf{z}_2=(X_2,Y_2)\)</span>. Assuming that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is a convex function means that the following inequality has to hold for all <span class="math notranslate nohighlight">\(\alpha\in[0,1]\)</span>:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-    RSS(\alpha X + (1-\alpha) (\gamma X), \alpha Y+(1-\alpha)(\tfrac1\gamma Y)) &amp;=RSS\left(\tfrac12 X + \tfrac12 (\gamma X), \tfrac12 Y+\tfrac12(\tfrac1\gamma Y)\right)\\
+        RSS(\alpha \mathbf{z}_1+ (1-\alpha)\mathbf{z}_2) \leq \alpha RSS(\mathbf{z}_1) + (1-\alpha)RSS(\mathbf{z}_2).
+\end{align*}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{z}^* = (X^*,Y^*)\)</span> be a global minimizer of the rank-<span class="math notranslate nohighlight">\(r\)</span> MF problem. Then, <span class="math notranslate nohighlight">\(\mathbf{z}^*\neq 0\)</span> because <span class="math notranslate nohighlight">\(D\neq 0\)</span>. In addition, <span class="math notranslate nohighlight">\(\mathbf{z}_\gamma = (\gamma X^*, \frac{1}{\gamma} Y^*)\)</span> is also a global minimizer for <span class="math notranslate nohighlight">\(\gamma\neq 0\)</span>, because the RSS attains the same global minimum function value for <span class="math notranslate nohighlight">\(\mathbf{z}_\gamma\)</span> as for <span class="math notranslate nohighlight">\(\mathbf{z}^*\)</span>, because <span class="math notranslate nohighlight">\(\frac{1}{\gamma} Y^*(\gamma {X^*}^\top)=Y^*{X^*}^\top\)</span>. If we assume that <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is convex, then we have</p>
+<div class="math notranslate nohighlight" id="equation-eq-rss-convex">
+<span class="eqno">(51)<a class="headerlink" href="#equation-eq-rss-convex" title="Permalink to this equation">#</a></span>\[\begin{align*}
+RSS(\alpha\mathbf{z}^* +(1-\alpha)\mathbf{z_\gamma}) \leq \alpha RSS(\mathbf{z}^*) + (1-\alpha) \underbrace{RSS(\mathbf{z}_\gamma}_{=RSS(\mathbf{z}^*)}) = RSS(\mathbf{z}^*)
+\end{align*}\]</div>
+<p>However, for <span class="math notranslate nohighlight">\(\alpha=1/2\)</span> the convex combination attains a function value of</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    RSS(\alpha \mathbf{z}^* + (1-\alpha) \mathbf{z}_\gamma) &amp;=RSS(\tfrac12 \mathbf{z}^* + \tfrac12\mathbf{z}_\gamma)\\
     &amp;= RSS\left(\tfrac12(1+\gamma) X, \tfrac12(1+ \tfrac1\gamma) Y\right)\\
     &amp;=\lVert D-\tfrac14(1+\gamma)(1+\tfrac1\gamma)YX^\top\rVert^2.
 \end{align*}\]</div>
-<p>We observe that the approximation error in the last equation goes to infinity if <span class="math notranslate nohighlight">\(\gamma\rightarrow \infty\)</span>. Hence, there exists multiple <span class="math notranslate nohighlight">\(\gamma&gt;0\)</span> for which the <span class="math notranslate nohighlight">\(RSS\)</span> of the convex combination of two global minimizers is larger than zero. This contradicts the assumption that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is convex.</p>
+<p>We observe that the approximation error in the last equation goes to infinity if <span class="math notranslate nohighlight">\(\gamma\rightarrow \infty\)</span>. Hence, there exists multiple <span class="math notranslate nohighlight">\(\gamma&gt;0\)</span> for which the <span class="math notranslate nohighlight">\(RSS\)</span> of the convex combination of two global minimizers is larger than the global minimum. This contradicts Eq. <a class="reference internal" href="#equation-eq-rss-convex">(51)</a> and therewith the assumption that the <span class="math notranslate nohighlight">\(RSS(X,Y)\)</span> is convex.</p>
 </div>
 </div>
 <p>The proof implies that there are infinitely many global minimizers for the low-dimensional matrix factorization task. Indeed, for any global minimizer to the rank-<span class="math notranslate nohighlight">\(r\)</span> matrix factorization problem <span class="math notranslate nohighlight">\((X,Y)\)</span>, the matrices <span class="math notranslate nohighlight">\((\gamma X,\frac1\gamma Y)\)</span> are also global minimizers for any <span class="math notranslate nohighlight">\(\gamma\neq 0\)</span>. Does that mean that we have a highly irregular optimization landscape with many disconnected solutions? Surprisingly, this is not the case. Although the objective is nonconvex, its geometry is remarkably well-behaved. To gain some intuition, we explore the loss landscape in the simplest possible matrix factorization problem.</p>
@@ -993,13 +997,13 @@ D =
 <p class="admonition-title"><span class="caption-number">Theorem 28 </span> (Truncated SVD)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(D=U\Sigma V^\top\in\mathbb{R}^{n\times d}\)</span> be the singular decomposition of <span class="math notranslate nohighlight">\(D\)</span>. Then the global minimizers <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>  of the rank-<span class="math notranslate nohighlight">\(r\)</span> MF problem</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5d0d01e4-b0d1-46ab-aa60-8e2979d4efa4">
-<span class="eqno">(52)<a class="headerlink" href="#equation-5d0d01e4-b0d1-46ab-aa60-8e2979d4efa4" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-815cd896-f9b8-4663-8101-df1400332aee">
+<span class="eqno">(52)<a class="headerlink" href="#equation-815cd896-f9b8-4663-8101-df1400332aee" title="Permalink to this equation">#</a></span>\[\begin{align}
 \min_{X,Y}\lVert D-YX^\top\rVert^2 \text{s.t. } X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}.
 \end{align}\]</div>
 <p>satisfy</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a1bf270a-c9d2-4929-a313-2ae89549616d">
-<span class="eqno">(53)<a class="headerlink" href="#equation-a1bf270a-c9d2-4929-a313-2ae89549616d" title="Permalink to this equation">#</a></span>\[\begin{align} 
+<div class="amsmath math notranslate nohighlight" id="equation-03cc0e3d-38f9-4e46-bb1a-22a6ce3d3420">
+<span class="eqno">(53)<a class="headerlink" href="#equation-03cc0e3d-38f9-4e46-bb1a-22a6ce3d3420" title="Permalink to this equation">#</a></span>\[\begin{align} 
 YX^\top = U_{\cdot \mathcal{R}}\Sigma_{\mathcal{R}\mathcal{R}}V_{\cdot \mathcal{R}}^\top, \text{ where }\mathcal{R}=\{1,\ldots, r\}.
 \end{align}\]</div>
 </section>
@@ -1151,8 +1155,8 @@ The tri-factorization of SVD can be expressed as a factorization into two matric
 </div>
 </div>
 <p>If we compare the matrix above with the matrix having missing values, then we see that the low rank approximation gives some tendencies for recommendations, but often no very clear recommendation indications. This is not very surprising, since we had just a small dataset and comparatively many missing values. The rank-2 approximation is already a bit too well adapting to the missing values neutral rating.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3dae090a-05b2-45ca-b9ab-2c7d22447ffc">
-<span class="eqno">(54)<a class="headerlink" href="#equation-3dae090a-05b2-45ca-b9ab-2c7d22447ffc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e7d1c02c-3cb9-48d0-8e27-1c578d4dceab">
+<span class="eqno">(54)<a class="headerlink" href="#equation-e7d1c02c-3cb9-48d0-8e27-1c578d4dceab" title="Permalink to this equation">#</a></span>\[\begin{align}
   \begin{pmatrix}
     5 &amp; \mu &amp; 1 &amp; 1 \\
     \mu &amp; 1 &amp; 5 &amp; \mu  \\\
@@ -1268,8 +1272,8 @@ This approach has been used in the Netflix Price 2009 competition and made it to
 <p class="admonition-title">Task (Low-Rank Matrix Factorization with Missing Values)</p>
 <p><strong>Given</strong> a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> having observed entries <span class="math notranslate nohighlight">\(D_{ik}\)</span> for indices <span class="math notranslate nohighlight">\((i,k)\)</span> where the binary indicator matrix <span class="math notranslate nohighlight">\(O\in\{0,1\}^{n\times d}\)</span> has an entry of one <span class="math notranslate nohighlight">\(O_{ik}=1\)</span>, and a rank <span class="math notranslate nohighlight">\(r&lt;\min\{n,d\}\)</span>.</p>
 <p><strong>Find</strong> matrices <span class="math notranslate nohighlight">\(X\in\mathbb{R}^{d\times r}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{n\times r}\)</span> whose product approximates the data matrix only on observed entries:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ef6f2290-6b1d-4771-a3d2-75983d54f1df">
-<span class="eqno">(55)<a class="headerlink" href="#equation-ef6f2290-6b1d-4771-a3d2-75983d54f1df" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-54eb329f-b602-41a9-8f64-c6c2458eb4fb">
+<span class="eqno">(55)<a class="headerlink" href="#equation-54eb329f-b602-41a9-8f64-c6c2458eb4fb" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_{X,Y}&amp;\lVert O\circ(D- YX^\top)\rVert^2 +\lambda\lVert X\rVert^2+\lambda\lVert Y\rVert^2\\ 
     &amp;=\sum_{(i,k):O_{ik}=1}(D_{ik}-Y_{i\cdot}X_{k\cdot}^\top)^2+\lambda\lVert X\rVert^2+\lambda\lVert Y\rVert^2\\ 
     \text{s.t. }&amp; X\in \mathbb{R}^{d\times r}, Y\in\mathbb{R}^{n\times r}

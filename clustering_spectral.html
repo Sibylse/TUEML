@@ -928,7 +928,7 @@ The <strong>degree matrix</strong> is the diagonal matrix having the sum of all 
 \[I_W = \mathrm{diag}\left(\sum_{i=1}^n W_{1i},\ldots,\sum_{i=1}^n W_{ni}\right).\]</div>
 <br />
 The <strong>unnormalized graph Laplacian</strong>, also called <strong>difference Laplacian</strong> is the matrix <div class="math notranslate nohighlight">
-\[L=W-I_W.\]</div>
+\[L=I_W-W.\]</div>
 </p>
 </section>
 </div><p>In practice, the weighted adjacency matrix is often normalized. The corresponding Graph Laplacian is often denoted by
@@ -989,8 +989,8 @@ v^\top Lv &amp;= v^\top I_W v - v^\top W v
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
 <p>Proof. For every connected component there exists an order of columns and rows such that <span class="math notranslate nohighlight">\(W\)</span> has a block-diagonal form:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-be62a5cf-b5ae-4604-915e-8788f4bf3f99">
-<span class="eqno">(73)<a class="headerlink" href="#equation-be62a5cf-b5ae-4604-915e-8788f4bf3f99" title="Permalink to this equation">#</a></span>\[\begin{align} 
+<div class="amsmath math notranslate nohighlight" id="equation-12d75627-6c59-4b49-8774-bd1d97fb6241">
+<span class="eqno">(73)<a class="headerlink" href="#equation-12d75627-6c59-4b49-8774-bd1d97fb6241" title="Permalink to this equation">#</a></span>\[\begin{align} 
 Wv = 
 \left(
 \begin{array}{c:r}

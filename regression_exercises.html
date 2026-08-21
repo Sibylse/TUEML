@@ -340,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuralnets_exercises.html">
+     Exercises
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -878,6 +883,43 @@ The plot below indicates the regression models for three values of <span class="
 </div></div>
 </li>
 </ol>
+</li>
+<li><p>Consider the following true regression function: <div class="math notranslate nohighlight">
+\[f^*(x) = \tan(\pi x).\]</div>
+ Imagine you fit three regression models on i.i.d. data samples <span class="math notranslate nohighlight">\(\mathcal{D}_1, \mathcal{D}_2, \mathcal{D}_3\)</span> and obtain the following models:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+        f_{\mathcal{D}_1}(x) &amp;= x -0.1\\
+        f_{\mathcal{D}_2}(x) &amp;= 3x + 0.1\\
+        f_{\mathcal{D}_3}(x) &amp;= 5x + 0.2
+    \end{align*}\]</div>
+<p>Compute for <span class="math notranslate nohighlight">\(x_0 = 0.1\)</span> the sample</p>
+<ul class="simple">
+<li><p>bias<span class="math notranslate nohighlight">\(^2\)</span> and</p></li>
+<li><p>variance.</p></li>
+</ul>
+<div class="toggle docutils container">
+<p>We have <span class="math notranslate nohighlight">\(f^*(x_0) = f^*(0) = \tan(0) = 0\)</span>. The regression models return</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f_{\mathcal{D}_1}(x_0) &amp;= f_{\mathcal{D}_1}(0) = 0.2 \\
+f_{\mathcal{D}_2}(x_0) &amp;= f_{\mathcal{D}_2}(0) = 0.3\\
+f_{\mathcal{D}_3}(x_0) &amp;= f_{\mathcal{D}_3}(0) = 0.1
+\end{align*}\]</div>
+<p>We estimate the mean model prediction as
+<div class="math notranslate nohighlight">
+\[\mathbb{E}_\mathcal{D}[f_{\mathcal{D}}(x_0)] \approx \frac{1}{3}(f_{\mathcal{D}_1}(x_0) + f_{\mathcal{D}_2}(x_0) + f_{\mathcal{D}_3}(x_0)) = 0.2.\]</div>
+
+From this we compute the bias and variance estimates:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\text{Bias}^2 &amp;= (f^*(x_0) - \mathbb{E}_\mathcal{D}[f_{\mathcal{D}}(x_0)])^2\\ 
+&amp;\approx (0 - 0.2)^2 = (0.2)^2 = 0.04\\
+\text{Variance} &amp;= \mathbb{E}_\mathcal{D}[(\mathbb{E}_\mathcal{D}[f_{\mathcal{D}}(x_0)] - f_{\mathcal{D}}(x_0))^2]\\ 
+&amp;\approx \frac{1}{3}((0.2 - 0.2)^2 + (0.2-0.3)^2 + (0.2-0.1)^2)\\
+&amp;= \frac{2}{3}(0.1)^2 = 0.0067
+\end{align*}\]</div>
+</div>
 </li>
 </ol>
 </section>
