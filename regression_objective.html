@@ -340,6 +340,11 @@ const thebe_selector_output = ".output, .cell_output"
      Pooling
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="neuralnets_exercises.html">
+     Exercises
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -896,9 +901,9 @@ The choice of <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> 
 <p>The squared approximation error of a function <span class="math notranslate nohighlight">\(f\)</span> to the target values <span class="math notranslate nohighlight">\(y\)</span> can be compactly written as follows for a regression function <span class="math notranslate nohighlight">\(f(\vvec{x})\)</span></p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-    RSS(\bm{\beta}) &amp;= \sum_{i=1}^n(y_i-f(\vvec{x}_i))^2
+    RSS(f) &amp;= \sum_{i=1}^n(y_i-f(\vvec{x}_i))^2
 \end{align*}\]</div>
-<p>The function <span class="math notranslate nohighlight">\(RSS(\bm{\beta})\)</span> is called the <strong>Residual Sum of Squares</strong>. As the name suggests, this objective function is a sum of squared values, and is therefore convex in the residuals <span class="math notranslate nohighlight">\(y_i-f(\vvec{x}_i)\)</span>. Now, it would be great if this objective function would also be convex in <span class="math notranslate nohighlight">\(f\)</span>, because then we have only one globally optimal model. As you might recall from the optimization lecture, this is the case if <span class="math notranslate nohighlight">\(f(x)\)</span> is an affine function, because convex functions composed with affine functions remain convex. Hence, we have in the next section a look at the functions that can be expressed as a linear (hence affine) function.</p>
+<p>The function <span class="math notranslate nohighlight">\(RSS(f)\)</span> is called the <strong>Residual Sum of Squares</strong>. As the name suggests, this objective function is a sum of squared values, and is therefore convex in the residuals <span class="math notranslate nohighlight">\(y_i-f(\vvec{x}_i)\)</span>. Now, it would be great if this objective function would also be convex in <span class="math notranslate nohighlight">\(f\)</span>, because then we have only one globally optimal model. As you might recall from the optimization lecture, this is the case if <span class="math notranslate nohighlight">\(f(x)\)</span> is an affine function, because convex functions composed with affine functions remain convex. Hence, we have in the next section a look at the functions that can be expressed as a linear (hence affine) function.</p>
 </section>
 </section>
 

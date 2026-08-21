@@ -906,7 +906,7 @@ that are also called <strong>logits</strong>. We predict the class with the maxi
 For example, in the plot above we can see how the decision boundary between the yellow and orange class contains those points where the first, second, and respectively third level sets for orange and yellow meet.</p>
 <p>Softmax Regression uses the softmax function to transform the logits into posterior probabilities
 <div class="math notranslate nohighlight">
-\[\mathrm{softmax}:\mathbb{R}^d\rightarrow [0,1]^c, \ \mathrm{softmax}(\vvec{z})_y=\frac{\exp(z_y)}{\sum_{j=1}^c\exp(z_j)}.\]</div>
+\[\mathrm{softmax}:\mathbb{R}^c\rightarrow [0,1]^c, \ \mathrm{softmax}(\vvec{z})_y=\frac{\exp(z_y)}{\sum_{j=1}^c\exp(z_j)}.\]</div>
 
 Softmax gets its name from being a smooth version of the <span class="math notranslate nohighlight">\(\argmax\)</span> function. While <span class="math notranslate nohighlight">\(\argmax\)</span> selects only the class with the highest logit, softmax converts all logits into probabilities, assigning exponentially larger probabilities to larger logits.</p>
 <div class="proof example admonition" id="example-0">
