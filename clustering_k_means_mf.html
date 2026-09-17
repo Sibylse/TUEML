@@ -784,7 +784,7 @@ X_{\cdot s} = \frac{1}{|\mathcal{C}_s|} \sum_{i \in \mathcal{C}_s} D_{i\cdot}^\t
 \]</div>
 <p>We can collect all <span class="math notranslate nohighlight">\(r\)</span> centroids into a single matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{d \times r}\)</span>, where each column <span class="math notranslate nohighlight">\( X_{\cdot s}\)</span> is the centroid of cluster <span class="math notranslate nohighlight">\(s\)</span>. In matrix form, this becomes:</p>
 <div class="math notranslate nohighlight" id="equation-eq-centroid">
-<span class="eqno">(68)<a class="headerlink" href="#equation-eq-centroid" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{align*}
+<span class="eqno">(69)<a class="headerlink" href="#equation-eq-centroid" title="Permalink to this equation">#</a></span>\[\begin{split}\begin{align*}
     X &amp;= D^\top Y 
     \begin{pmatrix}
     \frac{1}{\lvert Y_{\cdot 1}\rvert} &amp; &amp;\mathbf{0}\\
@@ -797,11 +797,11 @@ X_{\cdot s} = \frac{1}{|\mathcal{C}_s|} \sum_{i \in \mathcal{C}_s} D_{i\cdot}^\t
 </section>
 <section id="the-k-means-objective-as-mf">
 <h3>The k-means objective as MF<a class="headerlink" href="#the-k-means-objective-as-mf" title="Permalink to this headline">#</a></h3>
-<p>Given a cluster assignment matrix <span class="math notranslate nohighlight">\(Y\)</span> and a centroid matrix <span class="math notranslate nohighlight">\(X\)</span>, the product <span class="math notranslate nohighlight">\(Y_{i\cdot }X^\top\)</span> returns the centroid of the cluster to which data point <span class="math notranslate nohighlight">\(D_{i\cdot}\)</span> is assigned. Consequently, the matrix product <span class="math notranslate nohighlight">\(YX^\top\)</span> returns for every data point its assigned cluster centroid. This already suggests a connection to matrix factorization: the k-means objective in Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(64)</a> minimizes the reconstruction error between the data points and their assigned centroids.</p>
+<p>Given a cluster assignment matrix <span class="math notranslate nohighlight">\(Y\)</span> and a centroid matrix <span class="math notranslate nohighlight">\(X\)</span>, the product <span class="math notranslate nohighlight">\(Y_{i\cdot }X^\top\)</span> returns the centroid of the cluster to which data point <span class="math notranslate nohighlight">\(D_{i\cdot}\)</span> is assigned. Consequently, the matrix product <span class="math notranslate nohighlight">\(YX^\top\)</span> returns for every data point its assigned cluster centroid. This already suggests a connection to matrix factorization: the k-means objective in Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(65)</a> minimizes the reconstruction error between the data points and their assigned centroids.</p>
 <div class="proof theorem admonition" id="theorem-1">
 <p class="admonition-title"><span class="caption-number">Theorem 34 </span> (<span class="math notranslate nohighlight">\(k\)</span>-means MF objective)</p>
 <section class="theorem-content" id="proof-content">
-<p>The <span class="math notranslate nohighlight">\(k\)</span>- means objective in Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(64)</a> is equivalent to</p>
+<p>The <span class="math notranslate nohighlight">\(k\)</span>- means objective in Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(65)</a> is equivalent to</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
     \min_Y\ &amp; RSS(X,Y) = \lVert D-YX^\top\rVert^2
@@ -811,7 +811,7 @@ X_{\cdot s} = \frac{1}{|\mathcal{C}_s|} \sum_{i \in \mathcal{C}_s} D_{i\cdot}^\t
 </section>
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
-<p>Proof. The matrix <span class="math notranslate nohighlight">\(Y\)</span> is a cluster-indicator matrix, indicating a partition of the <span class="math notranslate nohighlight">\(n\)</span> data points into <span class="math notranslate nohighlight">\(r\)</span> sets. For every data point with index <span class="math notranslate nohighlight">\(i\in\{1,\ldots,n\}\)</span>, there exists one cluster index <span class="math notranslate nohighlight">\(s_i\)</span>, such that <span class="math notranslate nohighlight">\(Y_{i s_i}=1\)</span> and <span class="math notranslate nohighlight">\(Y_{i s}=0\)</span> for <span class="math notranslate nohighlight">\(s\neq s_i\)</span> (point <span class="math notranslate nohighlight">\(i\)</span> is assigned to cluster <span class="math notranslate nohighlight">\(s_i\)</span>). Using this notation, the objective function in Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(64)</a>, returning the distance of every point to its cluster centroid, is equal to</p>
+<p>Proof. The matrix <span class="math notranslate nohighlight">\(Y\)</span> is a cluster-indicator matrix, indicating a partition of the <span class="math notranslate nohighlight">\(n\)</span> data points into <span class="math notranslate nohighlight">\(r\)</span> sets. For every data point with index <span class="math notranslate nohighlight">\(i\in\{1,\ldots,n\}\)</span>, there exists one cluster index <span class="math notranslate nohighlight">\(s_i\)</span>, such that <span class="math notranslate nohighlight">\(Y_{i s_i}=1\)</span> and <span class="math notranslate nohighlight">\(Y_{i s}=0\)</span> for <span class="math notranslate nohighlight">\(s\neq s_i\)</span> (point <span class="math notranslate nohighlight">\(i\)</span> is assigned to cluster <span class="math notranslate nohighlight">\(s_i\)</span>). Using this notation, the objective function in Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(65)</a>, returning the distance of every point to its cluster centroid, is equal to</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
     {\color{magenta}\sum_{s=1}^r}\sum_{i\in{\color{magenta}\mathcal{C}_s}}\lVert D_{i\cdot}-{\color{magenta}X_{\cdot s}^\top}\rVert^2 
@@ -920,16 +920,16 @@ kmeans.fit(M)
 <section class="theorem-content" id="proof-content">
 <p>Given <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> and <span class="math notranslate nohighlight">\(Y\in\mathbb{1}^{n\times r}\)</span>, the minimizer of the optimization problem</p>
 <div class="math notranslate nohighlight" id="equation-eq-minx">
-<span class="eqno">(69)<a class="headerlink" href="#equation-eq-minx" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">(70)<a class="headerlink" href="#equation-eq-minx" title="Permalink to this equation">#</a></span>\[\begin{align}
     \min_X&amp; \lVert D-YX^\top \rVert^2 &amp; \text{s.t. } X\in\mathbb{R}^{d\times r}
 \end{align}\]</div>
 <p>is given by the centroid matrix <span class="math notranslate nohighlight">\(X=D^\top Y(Y^\top Y)^{-1}\)</span>.</p>
 </section>
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
-<p>Proof. The objective in Eq. <a class="reference internal" href="#equation-eq-minx">(69)</a> is smooth and convex. The minimizer is then given by the stationary point (FONC):</p>
+<p>Proof. The objective in Eq. <a class="reference internal" href="#equation-eq-minx">(70)</a> is smooth and convex. The minimizer is then given by the stationary point (FONC):</p>
 <div class="amsmath math notranslate nohighlight" id="equation-4343d533-92aa-409c-b905-18c348f61600">
-<span class="eqno">(70)<a class="headerlink" href="#equation-4343d533-92aa-409c-b905-18c348f61600" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">(71)<a class="headerlink" href="#equation-4343d533-92aa-409c-b905-18c348f61600" title="Permalink to this equation">#</a></span>\[\begin{align}
     \nabla_X \lVert D-YX^\top\rVert^2 = -2(D-YX^\top)^\top Y &amp;=0\\
     \Leftrightarrow D^\top Y(Y^\top Y)^{-1} &amp;= X 
 \end{align}\]</div>
@@ -955,7 +955,7 @@ kmeans.fit(M)
 </section>
 </div><div class="toggle docutils container">
 <div class="proof admonition" id="proof">
-<p>Proof. Consider the <span class="math notranslate nohighlight">\(k\)</span>-means centroid objective from Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(64)</a>:</p>
+<p>Proof. Consider the <span class="math notranslate nohighlight">\(k\)</span>-means centroid objective from Eq. <a class="reference internal" href="clustering_k_means.html#equation-eq-k-means-centr">(65)</a>:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
     \min_{\mathcal{C}_1,\ldots,\mathcal{C}_r}&amp;\ \sum_{s=1}^r\sum_{i\in\mathcal{C}_s} \lVert D_{i\cdot}-X_{\cdot s}^\top\rVert^2\\
@@ -990,7 +990,7 @@ Because the objective is bounded below by zero, the sequence of objective values
 <section class="theorem-content" id="proof-content">
 <p>The following objectives are equivalent</p>
 <div class="amsmath math notranslate nohighlight" id="equation-4492b20e-bdf4-4319-a6c7-3c19e35ad0a1">
-<span class="eqno">(71)<a class="headerlink" href="#equation-4492b20e-bdf4-4319-a6c7-3c19e35ad0a1" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">(72)<a class="headerlink" href="#equation-4492b20e-bdf4-4319-a6c7-3c19e35ad0a1" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;\min_{X,Y}\ \sum_{s=1}^r\sum_{i=1}^nY_{is}\|D_{i\cdot}-X_{\cdot s}^\top\|^2 &amp;\text{ s.t. } X\in\mathbb{R}^{d\times r}, Y\in\mathbb{1}^{n\times r}\\ 
 &amp;\min_{Y}\ \|D-YX^\top\|^2 &amp;\text{ s.t. } X= D^\top Y(Y^\top Y)^{-1}, Y\in\mathbb{1}^{n\times r} \\
 &amp;\min_{Y,X}\ \|D-YX^\top\|^2 &amp;\text{ s.t. }  X\in\mathbb{R}^{d\times r},Y\in\mathbb{1}^{n\times r} 
@@ -1014,7 +1014,7 @@ Because the objective is bounded below by zero, the sequence of objective values
 </div>
 </div>
 </div>
-<p>In the following, we implement the two steps. In the centroid update, we compute <span class="math notranslate nohighlight">\((Y^\top Y)^{-1}\)</span> by inverting the diagonal, returning the cluster sizes (cf. Eq. <a class="reference internal" href="#equation-eq-centroid">(68)</a>). If one cluster has no point assigned to it, we set the cluster size of that cluster to one, to avoid dividing by zero.<br />
+<p>In the following, we implement the two steps. In the centroid update, we compute <span class="math notranslate nohighlight">\((Y^\top Y)^{-1}\)</span> by inverting the diagonal, returning the cluster sizes (cf. Eq. <a class="reference internal" href="#equation-eq-centroid">(69)</a>). If one cluster has no point assigned to it, we set the cluster size of that cluster to one, to avoid dividing by zero.<br />
 The <code class="docutils literal notranslate"><span class="pre">update_assignment</span></code> function computes the distances of all points to all centroids in a <span class="math notranslate nohighlight">\(n\times r\)</span> matrix dist. The cluster assignment is then given by the cluster with the row-wise minimum distance.<br />
 The function <code class="docutils literal notranslate"><span class="pre">kmeans</span></code> has as input the data matrix <code class="docutils literal notranslate"><span class="pre">D</span></code>, the number of clusters <code class="docutils literal notranslate"><span class="pre">r</span></code>, the initial centroid matrix <code class="docutils literal notranslate"><span class="pre">X_init</span></code> and the maximum number of iterations. The clustering and centroid updates are performed until the clustering doesn’t change anymore.</p>
 <div class="cell docutils container">

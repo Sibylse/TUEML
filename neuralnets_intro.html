@@ -957,7 +957,7 @@ If we assume that the observations in the training dataset are sampled i.i.d., t
 <div class="math notranslate nohighlight">
 \[\max_\theta p(y_1\mid\vvec{x}_1,\theta)\cdot \ldots \cdot p(y_n\mid\vvec{x}_n,\theta) =\max_\theta \prod_{i=1}^n p(y_i\mid \vvec{x}_i,\theta).\]</div>
 
-As discussed in the scope of naive Bayes, computing the product of probabilities is generally not a good idea, because we might run into underflow. Hence, we apply again the log-probabilities trick and minimize the log-probabilities instead of the probabilities directly. We divide by the number of samples in the dataset and apply the logarithm to Eq. <a class="reference internal" href="#equation-eq-obj-smr">(47)</a> and obtain the equivalent objective</p>
+As discussed in the scope of naive Bayes, computing the product of probabilities is generally not a good idea, because we might run into underflow. Hence, we apply again the log-probabilities trick and minimize the log-probabilities instead of the probabilities directly. We divide by the number of samples in the dataset and apply the logarithm to Eq. <a class="reference internal" href="#equation-eq-obj-smr">(48)</a> and obtain the equivalent objective</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \max_{\theta} \frac1n \log\prod_{i=1}^n p(y=y_i\mid \vvec{x}_i,\theta) =
@@ -988,7 +988,7 @@ mapping a label <span class="math notranslate nohighlight">\(y\in\{1,\ldots,c\}\
 
 are maximized</p>
 <div class="math notranslate nohighlight" id="equation-eq-obj-smr">
-<span class="eqno">(47)<a class="headerlink" href="#equation-eq-obj-smr" title="Permalink to this equation">#</a></span>\[\begin{align*}\min_{\theta}\mathcal{L}(\theta,\mathcal{D}) = \min_\theta \frac{1}{n} \sum_{i=1}^n CE(y_i,p(y_i\mid \vvec{x}_i,\theta))
+<span class="eqno">(48)<a class="headerlink" href="#equation-eq-obj-smr" title="Permalink to this equation">#</a></span>\[\begin{align*}\min_{\theta}\mathcal{L}(\theta,\mathcal{D}) = \min_\theta \frac{1}{n} \sum_{i=1}^n CE(y_i,p(y_i\mid \vvec{x}_i,\theta))
 \end{align*}\]</div>
 <p><strong>Return</strong> the classifier defining parameters <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 </div>

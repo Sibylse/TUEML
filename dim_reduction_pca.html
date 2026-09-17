@@ -975,7 +975,7 @@ D_{n\cdot}\frac{\bm\alpha}{\lVert\bm\alpha\rVert}
 \end{align*}\]</div>
 <p>The vector <span class="math notranslate nohighlight">\(D \frac{\bm\alpha}{\lVert\bm\alpha\rVert}\)</span> can be interpreted as the values of a new feature, that is defined as the weighted sum of the existing features:</p>
 <div class="amsmath math notranslate nohighlight" id="equation-3c0174f8-7022-4a83-b8d7-506e1fb35056">
-<span class="eqno">(56)<a class="headerlink" href="#equation-3c0174f8-7022-4a83-b8d7-506e1fb35056" title="Permalink to this equation">#</a></span>\[\begin{align}\tilde{\mathtt{x}}= \sum_{k=1}^d \frac{\alpha_k}{\lVert\bm\alpha\rVert}\mathtt{x}_k.\end{align}\]</div>
+<span class="eqno">(57)<a class="headerlink" href="#equation-3c0174f8-7022-4a83-b8d7-506e1fb35056" title="Permalink to this equation">#</a></span>\[\begin{align}\tilde{\mathtt{x}}= \sum_{k=1}^d \frac{\alpha_k}{\lVert\bm\alpha\rVert}\mathtt{x}_k.\end{align}\]</div>
 <p>The newly defined feature could now represent the first feature in our low-dimensional representation. The original <span class="math notranslate nohighlight">\(d\)</span> features are transformed to <span class="math notranslate nohighlight">\(r\)</span> new features over the projections of the data onto directions.</p>
 <p>Let’s explore this by an example. We create an example dataset which has the shape of a multivariate Gaussian.</p>
 <div class="cell docutils container">
@@ -30847,7 +30847,7 @@ SUVORK5CYII=\
 <p><strong>Given</strong> a data matrix <span class="math notranslate nohighlight">\(D\in\mathbb{R}^{n\times d}\)</span> and a rank <span class="math notranslate nohighlight">\(r\)</span>, denoting the number of dimensions available for.</p>
 <p><strong>Find</strong> the <span class="math notranslate nohighlight">\(r\)</span> orthogonal direction of largest variance (called <strong>principal components</strong>), given by the columns <span class="math notranslate nohighlight">\(Z_{\cdot s}\in\mathbb{R}^d\)</span> which are the solution to the following series of optimization problems:</p>
 <div class="amsmath math notranslate nohighlight" id="equation-899cd564-7431-46eb-babb-8b84a2f905ac">
-<span class="eqno">(57)<a class="headerlink" href="#equation-899cd564-7431-46eb-babb-8b84a2f905ac" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">(58)<a class="headerlink" href="#equation-899cd564-7431-46eb-babb-8b84a2f905ac" title="Permalink to this equation">#</a></span>\[\begin{align}
     \max_{Z_{\cdot 1}}\ &amp; \mathrm{var}(DZ_{\cdot 1}) 
     \text{  s.t. } \lVert Z_{\cdot 1}\rVert^2=1\\
     \max_{Z_{\cdot 2}}\ &amp; \mathrm{var}(DZ_{\cdot 2}) 
@@ -31000,7 +31000,7 @@ We rewrite the objective now using vector <span class="math notranslate nohighli
 <section class="theorem-content" id="proof-content">
 <p>The matrix <span class="math notranslate nohighlight">\(Z\)</span> that solves the objective below spans the low-dimensional subspace that is also spanned by the first <span class="math notranslate nohighlight">\(r\)</span> principal components.</p>
 <div class="amsmath math notranslate nohighlight" id="equation-67f1dec0-059e-4382-86e5-34b26dec6b45">
-<span class="eqno">(58)<a class="headerlink" href="#equation-67f1dec0-059e-4382-86e5-34b26dec6b45" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">(59)<a class="headerlink" href="#equation-67f1dec0-059e-4382-86e5-34b26dec6b45" title="Permalink to this equation">#</a></span>\[\begin{align}
     \max_{Z}&amp;\ \tr(Z^\top C^\top C Z) &amp; \text{s.t. } Z\in\mathbb{R}^{d\times r},\ Z^\top Z =I
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(C\)</span> is the centered data matrix.</p>
